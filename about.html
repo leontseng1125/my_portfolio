@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" class="is-loading">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loader.css">
 <style>
   :root{
     color-scheme: light;
@@ -221,6 +222,14 @@
 </style>
 </head>
 <body class="antialiased">
+
+<!-- ============ 頁面載入動效 ============ -->
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-mark"></div>
+  <div class="loader-track"><div class="loader-bar"></div></div>
+  <span class="loader-label">Loading</span>
+</div>
+<script src="assets/js/loader.js"></script>
 
 <!-- ============ NAVIGATION ============ -->
 <header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
