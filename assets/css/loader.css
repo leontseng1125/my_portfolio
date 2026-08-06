@@ -1,0 +1,91 @@
+/* ============ 頁面載入動效（Page Loading Overlay） ============
+   使用方式：在每個頁面的 <head> 內、既有 <style> 區塊之後加入：
+   <link rel="stylesheet" href="assets/css/loader.css">
+   （若你目前是把所有 CSS 都寫在單一 <style> 內，也可以直接把以下內容貼進該 <style> 區塊）
+*/
+
+#page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: var(--bg);
+  transition: opacity .5s ease, visibility .5s ease;
+}
+
+#page-loader.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#page-loader .loader-mark {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  opacity: 0;
+  animation: loaderFadeIn .6s ease forwards;
+}
+
+#page-loader .loader-track {
+  position: relative;
+  width: 100px;
+  height: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+#page-loader .loader-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  animation: loaderFill 2s linear forwards;
+}
+
+#page-loader .loader-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: loaderFadeIn .6s ease .1s forwards;
+}
+
+@keyframes loaderFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loaderFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* 載入期間鎖住捲動，避免用戶在畫面淡入前就先滑動 */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* 尊重「減少動態效果」系統設定：直接顯示，不跑動畫 */
+@media (prefers-reduced-motion: reduce) {
+  #page-loader .loader-bar {
+    animation: none;
+    width: 100%;
+  }
+  #page-loader .loader-mark,
+  #page-loader .loader-label {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
