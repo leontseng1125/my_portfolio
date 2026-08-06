@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>所有案例 ｜ 曾翊凱 Leon Tseng</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#111113;
+    --ink-soft:#5b5b62;
+    --ink-faint:#9a9aa1;
+    --line:#e6e6e9;
+    --bg:#fafafa;
+    --surface:#ffffff;
+    --dark:#0b0b0c;
+    --dark-line:#2a2a2d;
+    --dark-soft:#9d9da3;
+    --accent:#0468AF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    font-family:'Noto Sans TC','Inter',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---- Eyebrow label (square bullet + bold text) ---- */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:14px;color:var(--ink);
+  }
+  .eyebrow-dot{width:8px;height:8px;background:var(--ink);flex-shrink:0;}
+
+  /* ---- Section title (large, matches reference scale) ---- */
+  .section-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:900;
+    font-size:clamp(2.5rem, 18vw, 15rem);
+    line-height:0.95;
+    letter-spacing:-0.02em;
+    white-space:nowrap;
+  }
+
+  /* ---- Nav ---- */
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease;}
+  #navbar:hover,
+  #navbar.menu-open{
+    background-color:rgba(250,250,250,0.75);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-link{position:relative; color:var(--ink-soft);}
+  .nav-link::after{
+    content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;
+    background:var(--accent);transition:width .3s ease;
+  }
+  .nav-link:hover{color:var(--ink);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.is-active{color:var(--accent);}
+  .nav-link.is-active::after{width:100%;}
+
+  /* ---- Grain overlay ---- */
+  .grain{
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+    opacity:0.5;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+  }
+
+  /* ---- Mesh gradient signature (light) ---- */
+  .mesh-light{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+  .mesh-light::before, .mesh-light::after{content:'';position:absolute;border-radius:50%;filter:blur(110px);}
+  .mesh-light::before{
+    width:720px;height:720px;top:-260px;right:-220px;
+    background:radial-gradient(circle at 30% 30%, #ffffff 0%, #dcdce0 45%, transparent 70%);
+  }
+  .mesh-light::after{
+    width:600px;height:600px;bottom:-300px;left:-240px;
+    background:radial-gradient(circle at 60% 40%, #ececef 0%, #cccbd2 40%, transparent 70%);
+  }
+
+  /* ---- Buttons ---- */
+  .btn-primary{
+    background:var(--ink);color:#fff;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, background-color .35s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
+  .btn-outline{
+    border:1px solid var(--ink);color:var(--ink);
+    transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+
+  /* ---- Scroll reveal system ---- */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .6s cubic-bezier(.16,.8,.24,1), transform .6s cubic-bezier(.16,.8,.24,1);
+    will-change:opacity, transform;
+  }
+  .reveal.is-visible{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none;opacity:1;transform:none;}
+  }
+
+  /* ---- Work cards ---- */
+  .work-card{
+    transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease, border-color .5s ease;
+  }
+  .work-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 24px 48px -20px rgba(17,17,19,.22);
+    border-color:#d4d4d9;
+  }
+  .work-thumb{overflow:hidden;position:relative;}
+  .work-thumb-inner{transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease;}
+  .work-card:hover .work-thumb-inner{transform:scale(1.06);filter:brightness(1.04);}
+  .work-thumb-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(to top, rgba(11,11,12,0.55) 0%, rgba(11,11,12,0) 45%);
+    opacity:0;transition:opacity .5s ease;
+  }
+  .work-card:hover .work-thumb-overlay{opacity:1;}
+  .work-arrow{
+    position:absolute;right:16px;bottom:16px;
+    width:36px;height:36px;border-radius:9999px;
+    background:rgba(255,255,255,0.92);
+    display:flex;align-items:center;justify-content:center;
+    transform:translate(6px,6px) scale(.8);opacity:0;
+    transition:transform .45s cubic-bezier(.2,.7,.2,1), opacity .45s ease;
+  }
+  .work-card:hover .work-arrow{transform:translate(0,0) scale(1);opacity:1;}
+  .work-year-badge{
+    position:absolute;right:16px;top:16px;
+    padding:4px 14px;border-radius:9999px;
+    background:rgba(255,255,255,0.92);
+    font-size:10pt;color:var(--ink-soft);
+  }
+  .tag-pill{border:1px solid var(--line);color:var(--ink-soft);transition:border-color .35s ease, color .35s ease;}
+  .work-card:hover .tag-pill{border-color:var(--accent);color:var(--accent);}
+
+  /* ---- Filter pills (works list only) ---- */
+  .filter-pill{
+    border:1px solid var(--line);color:var(--ink-soft);background:transparent;
+    transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .filter-pill:hover{border-color:var(--ink);color:var(--ink);}
+  .filter-pill.is-active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  /* ---- Mobile: 2-row horizontal scroll for filter tabs ---- */
+  .filter-scroll{
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    grid-auto-columns:max-content;
+  }
+  .filter-scroll::-webkit-scrollbar{display:none;}
+  .filter-scroll-wrap::after{
+    content:'';
+    position:absolute;
+    top:0; right:0; bottom:0;
+    width:32px;
+    background:linear-gradient(to right, transparent, var(--bg));
+    pointer-events:none;
+  }
+  @media (min-width:768px){
+    .filter-scroll-wrap::after{display:none;}
+  }
+
+  /* mobile menu */
+  #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
+
+  /* ---- Page top link ---- */
+  .page-top-link{transition:color .3s ease;}
+  .page-top-link:hover{color:#fff;}
+  .page-top-link:hover .vertical-text{color:#fff;}
+  .page-top-link:hover .page-top-line{background:#fff;}
+  .page-top-line{transition:background-color .3s ease;}
+  .vertical-text{writing-mode:vertical-rl;text-orientation:mixed;}
+
+  /* ---- Contact rows (footer parity, unused here but kept for consistency) ---- */
+  .contact-icon{
+    width:40px;height:40px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ---- Hero dot-grid（由上至下淡出，透明度 100% → 0%） ---- */
+  .dot-grid{
+    position:absolute;inset:0;pointer-events:none;z-index:-1;
+    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
+    background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+    mask-image:linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+  }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ NAVIGATION ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
+  <span id="top" class="absolute -top-1"></span>
+  <nav class="max-w-[1600px] mx-auto flex items-center justify-between px-8 md:px-16 py-8">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/images/works/logo-mark.png" alt="LT. logo" class="h-7 w-auto">
+    </a>
+
+    <div class="hidden md:flex items-center gap-16">
+      <a href="index.html" class="nav-link font-display text-sm tracking-wide">首頁</a>
+      <a href="works.html" class="nav-link is-active font-display text-sm tracking-wide">所有案例</a>
+      <a href="about.html" class="nav-link font-display text-sm tracking-wide">關於我</a>
+    </div>
+
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
+      <span class="block w-6 h-px bg-[var(--ink)]"></span>
+      <span class="block w-4 h-px bg-[var(--ink)]"></span>
+    </button>
+  </nav>
+
+  <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 opacity-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--line)]">
+    <div class="flex flex-col px-8 py-8 gap-8 font-display text-base">
+      <a href="index.html" class="nav-link">首頁</a>
+      <a href="works.html" class="nav-link is-active">所有案例</a>
+      <a href="about.html" class="nav-link">關於我</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 作品總覽 ============ -->
+<section id="work" class="relative pb-24 md:pb-64">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="relative pt-40 md:pt-56">
+      <div class="dot-grid"></div>
+      <div>
+        <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>案例列表</p>
+        <h1 class="reveal section-title mb-8 md:mb-16">所有案例</h1>
+        <p class="reveal text-[var(--ink-soft)] text-[12pt] max-w-md leading-loose mb-8 md:mb-16">
+          跨足共享移動、智慧醫療與多種企業級系統，<br>
+          我擅長在不同的專案限制下，<br>
+          快速釐清並重構複雜的核心工作流。
+        </p>
+      </div>
+    </div>
+
+    <!-- 分類篩選 -->
+    <div class="filter-scroll-wrap relative -mx-8 md:mx-0">
+      <div class="reveal filter-scroll grid grid-flow-col grid-rows-2 gap-2 overflow-x-auto pb-1 px-8 md:px-0 md:flex md:flex-wrap md:overflow-visible md:pb-0 mb-8 md:mb-16">
+        <button class="filter-pill is-active font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="all">全部</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="design-strategy">設計策略</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="ux-planning">UX規劃</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="ui-design">UI設計</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="visual-design">視覺設計</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="research-analysis">分析研究</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="information-architecture">資訊架構</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="project-management">專案管理</button>
+        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="design-system">Design system</button>
+      </div>
+    </div>
+
+    <div id="workGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 items-start">
+      <a href="work-detail_01.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-carshare-service-design-cover.jpg" alt="GoSmart-共享車 創新服務設計縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2026</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜在實務限制下完整執行服務設計流程，推動創新提案落地實際上線</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-共享車 創新服務設計</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">在既有業務與技術限制下執行完整設計流程。提出10大創新服務提案且過半實際上線，成功優化核心租借體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning design-system" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-membership-design-system-cover.jpg" alt="GoSmart-會員與視覺元件系統縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2025</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜建構高擴展性視覺規範，統一多端會員體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-會員與視覺元件系統</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">統一多端產品的視覺語言，為會員系統建構具高擴展性與一致性的設計系統。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-system">Design system</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy information-architecture ux-planning ui-design" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-2-0-homepage-redesign-cover.jpg" alt="GoSmart-2.0首頁改版縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2024</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜重構首頁資訊架構，創造高效且直覺的全新租車體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-2.0首頁改版</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">全面重構首頁資訊架構，為大眾用戶帶來直覺的操作體驗，大幅提升日常租車效率。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-mobility-brand-logo-cover.jpg" alt="GoSmart — 出行品牌 Logo 設計縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2024</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">Logo設計｜建構系統化品牌視覺語彙，傳達共享移動核心價值</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-Logo & 品牌設計</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">重塑品牌核心視覺識別，打造具一致性、高識別度與系統化的品牌視覺語言。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="visual-design">視覺設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="information-architecture ux-planning design-system" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/shenma-fleet-dispatch-app-cover.jpg" alt="神馬維運 — 企業級營業車輛調度管理 APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2024</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜導入任務導向調度邏輯，建構高擴充性的企業維運系統</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">神馬維運-企業級營業車輛調度管理 APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">針對營業同仁調度流程導入「任務化」邏輯，打造具備高度可擴充性的專業企業級管理工具。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-system">Design system</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ux-planning ui-design project-management" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/capital-wealth-management-website-cover.jpg" alt="群益證券-財富管理部 官方網站改版縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2024</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">金融科技｜在限制下兼顧管理與設計，重組功能架構以建立專業信任感</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">群益證券-財富管理部 官方網站改版</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">在既有框架限制下兼顧專案管理與設計，重構官方網站功能架構，建立專業且具信任感的品牌形象。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="project-management">專案管理</span>
+          </div>
+        </div>
+      </a>
+      <a href="work-detail_02.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning ui-design">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-news-redesign-cover.jpg" alt="TVBS-數位新聞媒體 改版提案縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2023</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">新聞媒體｜順應大眾數位閱聽習慣，在密集資訊中開創流暢動線</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">TVBS-數位新聞媒體 改版提案</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">順應大眾數位閱聽習慣，在密集的新聞資訊中開創流暢動線，規劃符合當前閱讀習慣的數位體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis ux-planning ui-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-health-ai-assistant-cover.jpg" alt="TVBS 健康2.0-AI助理人設與導入應用縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2023</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜打造具親和力的AI互動體驗，將智慧輔助無縫融入衛教服務</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">TVBS 健康2.0-AI助理人設與導入應用</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">定義AI助理角色定位與視覺風格，梳理用戶互動對話動線，成功將AI智慧輔助導入大眾健康服務。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ux-planning ui-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-health-website-redesign-cover.jpg" alt="TVBS 健康2.0-官方網站 改版提案縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2023</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜重構健康資訊檢索路徑，打造兼具權威與易讀性的衛教門戶</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">TVBS 健康2.0-官方網站 改版提案</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">針對大眾健康衛教需求重構資訊架構與視覺層級，提升內容搜尋效率，打造清晰流暢的閱讀體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-health-user-interview-report-cover.jpg" alt="TVBS 健康2.0-使用者訪談與成果報告縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2023</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜洞察大眾健康資訊痛點，以質性研究驗證產品改版方向</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">TVBS 健康2.0-使用者訪談與成果報告</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">透過使用者訪談與行為觀察，深入剖析用戶健康資訊搜尋痛點，為產品迭代提供嚴谨數據與設計建議。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ui-design" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gamania-einvoice-style-proposal-cover.jpg" alt="遊戲橘子— 發票載具 風格提案縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2022</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">生活服務｜突破嚴苛開發時程，高效完成工具介面風格重塑</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">遊戲橘子-發票載具 風格提案</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">突破嚴苛的開發時程限制，為發票載具工具進行高效的介面視覺重塑與風格提案。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="work-detail_03.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ui-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/biomedic-aiot-sports-app-cover.jpg" alt="博晶醫電-AIoT運動APP 風格提案縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2020</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜結合生理監測與初階跑者痛點，打造具引導感的運動習慣</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">博晶醫電-AIoT運動APP 風格提案</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">將生理監測結合初階跑者痛點，打造具引導感的介面，陪伴用戶建立運動習慣並看見自我進步。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/jialun-smart-medical-product-cover.jpg" alt="佳綸生技-智慧醫療相關產品縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2019-2020</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜跨越病患與醫護雙端範疇，在嚴謹語境下提煉多款產品設計最適解</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">佳綸生技-智慧醫療相關產品</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">精選多款醫療產品合集，涵蓋一般病患與專業醫護雙端用戶，完美平衡醫學嚴謹度與易用性。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis information-architecture project-management ui-design" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/dozze-sleep-tracking-app-cover.jpg" alt="Dozze — 智能睡眠監測 APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2019</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜跨界協作硬體團隊，獨立規劃線上產品核心功能與亮點</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">Dozze-軟硬整合智能睡眠 APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">與硬體團隊跨界協作，獨立承擔專案管理，自主規劃線上產品核心功能與亮點，展現獨立推進實力。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="project-management">專案管理</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/smart-hospital-app-cover.jpg" alt="Smart TV 智慧醫院APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2019</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜整合多端平台與智慧硬體控制，重塑全方位的智慧病房體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">睿能-SmartTV 智慧醫院APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">整合醫院介紹與醫病溝通平台，並無縫串接病房智慧電視控制功能，打造全方位智慧病房體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design information-architecture">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-bobee-tracker-app-cover.jpg" alt="遠傳 Bobee-隨身定位裝置與防丟 APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2018</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">IOT｜梳理實體定位裝置之複雜邏輯，以清晰架構重塑軟硬整合體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">遠傳 Bobee-隨身定位裝置與防丟 APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">配合大公司實體定位裝置規劃專屬App，梳理複雜的硬體運作邏輯，並以清晰架構呈現數位資訊。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design information-architecture" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/odo-heart-rate-band-app-cover.jpg" alt="歐豆 -心律手環智能監測 APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2017</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜協同新創敏捷推進，將專業醫療監測數據轉化為大眾直覺圖表體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">歐豆 -心律手環智能監測 APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">與新創團隊緊密協作，將晦澀的醫療監測數據轉化為大眾可理解的視覺化圖表與直覺操作體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis ux-planning ui-design design-strategy" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-friday-wallet-app-cover.jpg" alt="遠傳 friDay — 行動數位錢包 APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2017</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">金融科技｜立足行動支付未明時代，運用嚴謹設計方法引導客戶開創「擬物化數位錢包」體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">遠傳 friDay-行動數位錢包 APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">在行動支付概念尚不完整的初期，提出以實體錢包收納卡片的直覺意象，運用嚴謹設計方法引導客戶探索最適解。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/beauty-stylist-matching-app-cover.jpg" alt="Beauty-美容美髮設計師媒合APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2017</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">生活服務｜簡化雙端媒合資訊架構，優化預約細節以提升訂單轉換率</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">Beauty-美容美髮設計師媒合APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">重新規劃消費者與美髮設計師的雙端媒合預約橋樑，簡化資訊架構以提升訂單轉換率。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-friday-wallet-user-interview-report-cover.jpg" alt="遠傳 friDay錢包-使用者訪談與成果報告縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2017</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">金融科技｜挖掘早期使用者支付障礙，以數據與質性觀點收斂產品優化策略</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">遠傳 friDay錢包-使用者訪談與成果報告</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">針對早期行動支付使用者執行深度訪談，釐清卡片綁定與支付情境痛點，為後續產品迭代提供實證依據。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis ux-planning ui-design information-architecture">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-smart-home-iot-platform-cover.jpg" alt="遠傳 智慧家庭 — IoT 裝置控制平台縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2016</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">IOT｜建構異質裝置之一致性控制語彙，梳理跨設備自動化與群組聯動邏輯</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">遠傳 智慧家庭-IOT 裝置控制平台</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">為冷氣、開關等異質硬體設計一致性控制介面，並深度梳理排程與群組開關等跨裝置自動化互動邏輯。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ui-design" style="transition-delay:.1s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/cht-responsive-website-redesign-cover.jpg" alt="中華電信 — 官方網站響應式體驗改版縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2016</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">生活服務｜重塑官方網站視覺識別，打造跨數位介面之一致性體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">中華電信-官方網站響應式體驗改版</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">重塑官方網站視覺識別系統，打造跨數位介面、符合響應式規範的一致性數位體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/aimeike-ecommerce-app-cover.jpg" alt="愛魅客-電商APP縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2016</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">生活服務｜針對行動端使用者習慣重新規劃動線，移除多餘認知阻礙</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">愛魅客-電商APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">針對行動端使用者習慣，重新規劃購物車與結帳操作動線，有效移除多餘的認知阻礙。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/jieprint-logo-branding-cover.jpg" alt="捷可印-Logo & 品牌設計縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2016</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">Logo設計｜將快捷效率價值符號化，為印刷電商重塑系統化設計</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">捷可印-Logo & 品牌設計</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">將快捷、精準的核心價值符號化，為傳統印刷電商重塑清晰且系統化的視覺品牌語言。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="visual-design">視覺設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/aoge-design-logo-branding-cover.jpg" alt="奧革設計-Logo & 品牌設計縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2015</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">Logo設計｜運用理性空間幾何設計，為專業團隊打造前瞻性識別</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">奧革設計-Logo & 品牌設計</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">透過高度理性的幾何與空間感設計，為專業設計團隊打造具前瞻性與辨識度的品牌識別。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="visual-design">視覺設計</span>
+          </div>
+        </div>
+      </a>
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design" style="transition-delay:.05s;">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/dianzibao-logo-branding-cover.jpg" alt="電子豹-Logo & 品牌設計縮圖">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2015</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">Logo設計｜精準轉化郵件觸及效率，重塑高速度感的企業品牌語言</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">電子豹-Logo & 品牌設計</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">將郵件精準觸及的「速度感」與「高效率」融入標誌設計，協助完成企業品牌識別轉型。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="visual-design">視覺設計</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <p id="emptyState" class="hidden text-center text-[var(--ink-soft)] text-sm py-16">此分類目前尚無作品。</p>
+
+    <div class="flex justify-center mt-20 md:mt-40">
+      <a href="about.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        前往履歷
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative overflow-hidden bg-[var(--ink)] text-white">
+  <a href="#top" class="page-top-link hidden md:flex flex-col items-center gap-4 absolute right-8 md:right-16 top-16">
+    <span class="page-top-line w-px h-16 bg-white/20"></span>
+    <span class="vertical-text font-mono text-[10px] tracking-[0.3em] text-white/50">PAGE TOP</span>
+  </a>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 pt-12 pb-8">
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-24 mb-12 md:mb-24">
+
+      <div class="flex flex-col gap-1">
+        <img src="assets/images/works/logo-mark-white.png" alt="Logo" class="h-7 w-auto self-start" style="margin-bottom:4pt;">
+        <span class="font-display font-semibold text-white">
+          <span class="text-lg">曾翊凱</span>
+        </span>
+        <p class="font-display text-sm text-white/60">個人作品集</p>
+      </div>
+
+      <div class="flex flex-col gap-6 font-display text-sm">
+        <a href="index.html" class="text-white/70 hover:text-white transition-colors duration-300">首頁</a>
+        <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
+        <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
+
+        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          合作邀約
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
+      <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      navbar.classList.add('menu-open');
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    }
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    });
+  });
+
+  // Scroll reveal via IntersectionObserver
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -10px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // Category filter (client-side show/hide)
+  const filterButtons = document.querySelectorAll('.filter-pill');
+  const workCards = document.querySelectorAll('#workGrid .work-card');
+  const emptyState = document.getElementById('emptyState');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      const category = btn.dataset.filter;
+      let visibleCount = 0;
+
+      workCards.forEach(card => {
+        const match = category === 'all' || card.dataset.category.split(' ').includes(category);
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+
+      emptyState.classList.toggle('hidden', visibleCount !== 0);
+    });
+  });
+</script>
+
+<script>
+  document.querySelectorAll('.page-top-link').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

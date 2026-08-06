@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>曾翊凱 Leon Tseng ｜ Product Designer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;900&family=Noto+Sans+TC:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400&display=optional" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#111113;
+    --ink-soft:#5b5b62;
+    --ink-faint:#9a9aa1;
+    --line:#e6e6e9;
+    --bg:#fafafa;
+    --surface:#ffffff;
+    --dark:#0b0b0c;
+    --dark-line:#2a2a2d;
+    --dark-soft:#9d9da3;
+    --accent:#0468AF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    font-family:'Noto Sans TC',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---- Eyebrow label (square bullet + bold text) ---- */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:14px;color:var(--ink);
+  }
+  .eyebrow-dot{width:8px;height:8px;background:var(--ink);flex-shrink:0;}
+
+  /* ---- Section title (large, matches reference scale) ---- */
+  .section-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:900;
+    font-size:clamp(2.5rem, 18vw, 15rem);
+    line-height:0.95;
+    letter-spacing:-0.02em;
+    white-space:nowrap;
+  }
+
+  /* ---- Nav ---- */
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease;}
+  #navbar:hover,
+  #navbar.menu-open{
+    background-color:rgba(250,250,250,0.75);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-link{position:relative; color:var(--ink-soft);}
+  .nav-link::after{
+    content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;
+    background:var(--accent);transition:width .3s ease;
+  }
+  .nav-link:hover{color:var(--ink);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.is-active{color:var(--accent);}
+  .nav-link.is-active::after{width:100%;}
+
+  /* ---- Grain overlay ---- */
+  .grain{
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+    opacity:0.5;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+  }
+
+  /* ---- Mesh gradient signature (light) ---- */
+  .mesh-light{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+  .mesh-light::before, .mesh-light::after{content:'';position:absolute;border-radius:50%;filter:blur(110px);}
+  .mesh-light::before{
+    width:720px;height:720px;top:-260px;right:-220px;
+    background:radial-gradient(circle at 30% 30%, #ffffff 0%, #dcdce0 45%, transparent 70%);
+  }
+  .mesh-light::after{
+    width:600px;height:600px;bottom:-300px;left:-240px;
+    background:radial-gradient(circle at 60% 40%, #ececef 0%, #cccbd2 40%, transparent 70%);
+  }
+
+  /* ---- Mesh gradient signature (dark) ---- */
+  .mesh-dark{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+  .mesh-dark::before, .mesh-dark::after{content:'';position:absolute;border-radius:50%;filter:blur(120px);}
+  .mesh-dark::before{
+    width:640px;height:640px;top:-220px;left:-160px;
+    background:radial-gradient(circle at 40% 40%, #3a3a3f 0%, #1c1c1f 50%, transparent 75%);
+  }
+  .mesh-dark::after{
+    width:560px;height:560px;bottom:-240px;right:-180px;
+    background:radial-gradient(circle at 60% 60%, #2c2c30 0%, #151516 50%, transparent 75%);
+  }
+
+  /* ---- Buttons ---- */
+  .btn-primary{
+    background:var(--ink);color:#fff;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, background-color .35s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
+  .btn-outline{
+    border:1px solid var(--ink);color:var(--ink);
+    transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+
+  /* ---- Scroll cue ---- */
+  @keyframes scrollCue{
+    0%{transform:translateY(0);opacity:0;}
+    30%{opacity:1;}
+    100%{transform:translateY(10px);opacity:0;}
+  }
+  .scroll-cue-dot{animation:scrollCue 1.8s ease-in-out infinite;background:var(--accent) !important;}
+  #scrollCue{opacity:1;}
+  #scrollCue.scroll-cue-hidden{opacity:0;}
+
+  /* ---- Scroll system ---- */
+
+  /* ---- Work cards ---- */
+  .work-card{
+    transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease, border-color .5s ease;
+  }
+  .work-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 24px 48px -20px rgba(17,17,19,.22);
+    border-color:#d4d4d9;
+  }
+  .work-thumb{overflow:hidden;position:relative;}
+  .work-thumb-inner{transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease;}
+  .work-card:hover .work-thumb-inner{transform:scale(1.06);filter:brightness(1.04);}
+  .work-thumb-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(to top, rgba(11,11,12,0.55) 0%, rgba(11,11,12,0) 45%);
+    opacity:0;transition:opacity .5s ease;
+  }
+  .work-card:hover .work-thumb-overlay{opacity:1;}
+  .work-arrow{
+    position:absolute;right:16px;bottom:16px;
+    width:36px;height:36px;border-radius:9999px;
+    background:rgba(255,255,255,0.92);
+    display:flex;align-items:center;justify-content:center;
+    transform:translate(6px,6px) scale(.8);opacity:0;
+    transition:transform .45s cubic-bezier(.2,.7,.2,1), opacity .45s ease;
+  }
+  .work-card:hover .work-arrow{transform:translate(0,0) scale(1);opacity:1;}
+  .work-year-badge{
+    position:absolute;right:16px;top:16px;
+    padding:4px 14px;border-radius:9999px;
+    background:rgba(255,255,255,0.92);
+    font-size:10pt;color:var(--ink-soft);
+  }
+  .tag-pill{border:1px solid var(--line);color:var(--ink-soft);transition:border-color .35s ease, color .35s ease;}
+  .work-card:hover .tag-pill{border-color:var(--accent);color:var(--accent);}
+
+  /* ---- Process steps ---- */
+  .process-badge{
+    width:32px;height:32px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--ink);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);
+    position:relative;z-index:10;transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .process-badge.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .process-card h3{transition:color .3s ease;}
+  .process-card.active h3{color:var(--accent);}
+  #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
+
+  /* mobile menu */
+  #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
+
+  /* ---- Giant hero type ---- */
+  .hero-title{
+    font-size:clamp(2rem, 9vw, 10rem);
+    line-height:0.6;
+    letter-spacing:-0.02em;
+    white-space:normal;
+  }
+  .hero-title br{content:'';}
+  .manifesto-title{
+    font-size:clamp(2rem, 6vw, 4.5rem);
+    line-height:1.35;
+  }
+  .manifesto-line{
+    opacity:0;
+    transform:translateY(24px);
+    will-change:opacity, transform;
+    white-space:nowrap;
+  }
+  #manifestoLines{overflow:hidden;}
+
+  /* ---- Accent CTA button (footer) ---- */
+  .btn-accent{
+    background:var(--accent);color:#fff;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, background-color .35s ease;
+  }
+  .btn-accent:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);background:#03568f;}
+
+  /* ---- Skill pill (About section) ---- */
+  .pill-accent{
+    background:var(--accent);color:#fff;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
+  }
+  .pill-accent:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.25);}
+
+  /* ---- Page top link ---- */
+  .page-top-link{transition:color .3s ease;}
+  .page-top-link:hover{color:#fff;}
+  .page-top-link:hover .vertical-text{color:#fff;}
+  .page-top-link:hover .page-top-line{background:#fff;}
+  .page-top-line{transition:background-color .3s ease;}
+  .vertical-text{writing-mode:vertical-rl;text-orientation:mixed;}
+
+  /* ---- Hero dot-grid (option 1a) ---- */
+  .dot-grid{
+    position:absolute;inset:0;pointer-events:none;z-index:-1;
+    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
+    background-size:28px 28px;
+  }
+  .dot-grid-accent{
+    position:absolute;width:6px;height:6px;border-radius:50%;z-index:0;
+  }
+
+  /* ---- Contact rows ---- */
+  .contact-icon{
+    width:40px;height:40px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ NAVIGATION ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
+  <span id="top" class="absolute -top-1"></span>
+  <nav class="max-w-[1600px] mx-auto flex items-center justify-between px-8 md:px-16 py-8">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/images/index/logo-mark.png" alt="LT. logo" class="h-7 w-auto">
+    </a>
+
+    <div class="hidden md:flex items-center gap-16">
+      <a href="index.html" class="nav-link is-active font-display text-sm tracking-wide">首頁</a>
+      <a href="works.html" class="nav-link font-display text-sm tracking-wide">所有案例</a>
+      <a href="about.html" class="nav-link font-display text-sm tracking-wide">關於我</a>
+    </div>
+
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
+      <span class="block w-6 h-px bg-[var(--ink)]"></span>
+      <span class="block w-4 h-px bg-[var(--ink)]"></span>
+    </button>
+  </nav>
+
+  <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 opacity-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--line)]">
+    <div class="flex flex-col px-8 py-8 gap-8 font-display text-base">
+      <a href="index.html" class="nav-link is-active">首頁</a>
+      <a href="works.html" class="nav-link">所有案例</a>
+      <a href="about.html" class="nav-link">關於我</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO SECTION ============ -->
+<section class="relative">
+  <div class="mesh-light"></div>
+  <div class="grain"></div>
+  <div class="dot-grid"></div>
+  <div class="dot-grid-accent" style="background:var(--accent);top:18%;right:22%;"></div>
+  <div class="dot-grid-accent" style="background:var(--accent);top:42%;right:14%;"></div>
+  <div class="dot-grid-accent" style="background:var(--ink);top:58%;right:26%;"></div>
+
+  <!-- Scroll 提示:獨立 fixed 定位,不影響版面高度,滑動時立即淡出 -->
+  <div id="scrollCue" class="fixed bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 transition-opacity duration-500 z-40 pointer-events-none">
+    <span class="font-mono text-[10px] tracking-[0.2em] text-[var(--ink-faint)] uppercase">SCROLL</span>
+    <div class="w-px h-16 bg-[var(--line)] relative overflow-hidden">
+      <span class="scroll-cue-dot absolute top-0 left-0 w-px h-6 bg-[var(--ink)]"></span>
+    </div>
+  </div>
+
+  <!-- 標題區塊:sticky 固定在畫面中,直到下方內容捲動至距離16px時才一起滑出 -->
+  <div class="relative min-h-screen">
+    <div class="sticky top-1/2 -translate-y-1/2">
+      <div class="max-w-[1600px] w-full mx-auto px-8 md:px-16 pb-6 md:pb-8">
+        <h1 class="hero-title font-display font-black tracking-tight">
+          用設計思考，<br><span class="block" style="height:0.5em;"></span><span style="color:var(--accent);">探索更多可能性</span>
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下方內容:一般文件流,會自然向上捲動接近標題 -->
+  <div class="relative max-w-[1600px] w-full mx-auto px-8 md:px-16 pb-48">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-16">
+      <p class="text-[var(--ink)] leading-loose max-w-xl" style="font-size:12pt;">
+        我是曾翊凱，<br>專注於數位產品與設計思考的設計師。
+      </p>
+
+      <div class="flex flex-wrap items-center gap-6 flex-shrink-0">
+        <a href="#work" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+          看所有案例
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="about.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+          前往履歷
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 敘事 / 設計初衷 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1200px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>設計理念</p>
+
+    <div class="space-y-2 md:space-y-4" id="manifestoLines">
+      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
+        我相信，
+      </p>
+      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
+        好的設計不止於視覺的驚豔，
+      </p>
+      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--accent);">
+        而是用設計思考打破框架，
+      </p>
+      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
+        為產品探索更多可能性。
+      </p>
+    </div>
+
+    <div class="mt-16 max-w-2xl">
+      <p class="text-[var(--ink-soft)] leading-loose" style="font-size:12pt;">
+        走入真實情境，<br>從敏捷探索到跨團隊對齊。<br><br>我擅長以設計思維為核心，<br>在策略導向與落地執行之間，<br>用直覺且體貼的體驗，<br>為使用者與商業創造更多可能。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ About / 關於我 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="dot-grid"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="mb-8 md:mb-16">
+      <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>About</p>
+      <h2 class="section-title">關於我</h2>
+    </div>
+
+    <div class="stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-8 sm:gap-24 mb-8 md:mb-16">
+      <div class="flex items-end gap-4">
+        <span class="stat-number font-display font-black leading-none" data-target="11" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">年</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">數位產品設計經歷</p>
+        </div>
+      </div>
+
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+
+      <div class="flex items-end gap-4">
+        <span class="stat-number font-display font-black leading-none" data-target="80" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">檔</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">參與專案數</p>
+        </div>
+      </div>
+
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+
+      <div class="flex items-end gap-4">
+        <span class="stat-number font-display font-black leading-none" data-target="18" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">款</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">上線產品</p>
+        </div>
+      </div>
+
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+
+      <div class="flex items-end gap-4">
+        <span class="font-display font-black leading-none" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">∞</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">無限量</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">探索好奇心</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3 md:mb-6 border-t border-[var(--line)]">
+      <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+        <p class="font-display font-bold text-base text-[var(--ink)]">五專</p>
+        <p class="text-[var(--ink-soft)]">明志科技大學 工業設計系</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+        <p class="font-display font-bold text-base text-[var(--ink)]">大學</p>
+        <p class="text-[var(--ink-soft)]">輔仁大學 應用美術系 視覺傳達組</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+        <p class="font-display font-bold text-base text-[var(--ink)]">研究所</p>
+        <p class="text-[var(--ink-soft)]">政治大學 大眾傳播所</p>
+      </div>
+    </div>
+
+    <div>
+      <a href="about.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        前往履歷
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 設計脈絡 / 工作流程 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="dot-grid"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="relative md:min-h-[200vh]" id="processPinWrapper">
+    <div class="md:sticky md:top-0 md:h-screen md:flex md:flex-col md:justify-center">
+    <div class="mb-20 md:mb-16">
+      <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>設計脈絡</p>
+      <h2 class="section-title mb-8 md:mb-16">工作流程</h2>
+      <p class="text-[var(--ink-soft)] max-w-md leading-loose" style="font-size:12pt;">
+        我能因應時間與專案需求，<br>靈活彈性調整自己的設計流程。<br><br>以下流程為條件允許時的完整實踐：
+      </p>
+    </div>
+
+    <div class="relative" id="processTrack">
+      <!-- 手機版：灰色垂直連接線 -->
+      <div id="processLineGrayMobile" class="md:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <!-- 手機版：藍色垂直連接線(隨滾動延伸) -->
+      <div id="processLineBlueMobile" class="md:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+
+      <!-- 桌機版：灰色水平連接線 -->
+      <div id="processLineGrayDesktop" class="hidden md:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <!-- 桌機版：藍色水平連接線(隨滾動延伸) -->
+      <div id="processLineBlueDesktop" class="hidden md:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+
+      <div class="flex flex-col gap-8 md:grid md:grid-cols-5 md:gap-x-8 md:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">01</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-lg mb-4">探索</h3>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">評估專案限制並靈活導入適切的研究方法（如用戶訪談、數據分析、易用性測試或市場文獻調研），在執行前精準挖掘問題本質，以利錨定核心方向。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">02</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-lg mb-4">定義</h3>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">收斂質化與量化洞察，釐清核心問題與設計原則，先定義出產品的成功指標再聚焦目標。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">03</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-lg mb-4">發展</h3>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">運用線框稿與互動原型，快速探索多種體驗解法，以利在概念階段驗證可行性。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">04</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-lg mb-4">產出</h3>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">完成高保真視覺與微互動細節，交付完整設計系統與開發規格，確保設計能被工程端精準落地。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">05</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-lg mb-4">驗證</h3>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">導入易用性測試與實際數據回饋，持續迭代優化產品細節，先解決當前體驗中斷點再規劃後續功能拉新。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 精選作品 ============ -->
+<section id="work" class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="mb-20 md:mb-40">
+      <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>精選作品</p>
+      <h2 class="section-title mb-8 md:mb-16">案例分享</h2>
+      <p class="text-[var(--ink-soft)] max-w-md leading-loose" style="font-size:12pt;">
+        以數據與研究為基石，<br>以技術落地為邊界。<br><br>我專注於在洞察與實務間找到最佳平衡，<br>將複雜需求轉化為用戶有感、商業可行的產品體驗。
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 items-start">
+
+      <a href="work-detail_01.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-carshare-service-design-cover.jpg" alt="GoSmart-共享車 創新服務設計縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2026</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜在實務限制下完整執行服務設計流程，推動創新提案落地實際上線</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-共享車 創新服務設計</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">在既有業務與技術限制下執行完整設計流程。提出10大創新服務提案且過半實際上線，成功優化核心租借體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning design-system">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-membership-design-system-cover.jpg" alt="GoSmart-會員與視覺元件系統縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2025</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜建構高擴展性視覺規範，統一多端會員體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-會員與視覺元件系統</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">統一多端產品的視覺語言，為會員系統建構具高擴展性與一致性的設計系統。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-system">Design system</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy information-architecture ux-planning ui-design">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-2-0-homepage-redesign-cover.jpg" alt="GoSmart-2.0首頁改版縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2024</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜重構首頁資訊架構，創造高效且直覺的全新租車體驗</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-2.0首頁改版</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">全面重構首頁資訊架構，為大眾用戶帶來直覺的操作體驗，大幅提升日常租車效率。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="information-architecture ux-planning design-system">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/shenma-fleet-dispatch-app-cover.jpg" alt="神馬維運 — 企業級營業車輛調度管理 APP縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2024</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜導入任務導向調度邏輯，建構高擴充性的企業維運系統</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">神馬維運-企業級營業車輛調度管理 APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">針對營業同仁調度流程導入「任務化」邏輯，打造具備高度可擴充性的專業企業級管理工具。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-system">Design system</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="work-detail_02.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning ui-design">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/tvbs-news-redesign-cover.jpg" alt="TVBS-數位新聞媒體 改版提案縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2023</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">新聞媒體｜順應大眾數位閱聽習慣，在密集資訊中開創流暢動線</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">TVBS-數位新聞媒體 改版提案</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">順應大眾數位閱聽習慣，在密集的新聞資訊中開創流暢動線，規劃符合當前閱讀習慣的數位體驗。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="work-detail_03.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ui-design">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/biomedic-aiot-sports-app-cover.jpg" alt="博晶醫電-AIoT運動APP 風格提案縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2020</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜結合生理監測與初階跑者痛點，打造具引導感的運動習慣</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">博晶醫電-AIoT運動APP 風格提案</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">將生理監測結合初階跑者痛點，打造具引導感的介面，陪伴用戶建立運動習慣並看見自我進步。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis information-architecture project-management ui-design">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/dozze-sleep-tracking-app-cover.jpg" alt="Dozze — 智能睡眠監測 APP縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2019</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜跨界協作硬體團隊，獨立規劃線上產品核心功能與亮點</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">Dozze-軟硬整合智能睡眠 APP</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">與硬體團隊跨界協作，獨立承擔專案管理，自主規劃線上產品核心功能與亮點，展現獨立推進實力。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="research-analysis">分析研究</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="project-management">專案管理</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ux-planning ui-design project-management">
+        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+          <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/capital-wealth-management-website-cover.jpg" alt="群益證券-財富管理部 官方網站改版縮圖" loading="lazy" decoding="async" width="800" height="450">
+          <div class="work-thumb-overlay"></div>
+          <div class="work-year-badge">2024</div>
+          <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="p-6">
+          <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">金融科技｜在限制下兼顧管理與設計，重組功能架構以建立專業信任感</p>
+          <h3 class="font-display font-semibold text-lg mb-2 break-words">群益證券-財富管理部 官方網站改版</h3>
+          <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">在既有框架限制下兼顧專案管理與設計，重構官方網站功能架構，建立專業且具信任感的品牌形象。</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-strategy">設計策略</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ui-design">UI設計</span>
+            <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="project-management">專案管理</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="flex justify-center mt-20 md:mt-40">
+      <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        看所有案例
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 合作資訊 ============ -->
+<section id="about" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="dot-grid"></div>
+
+  <div class="relative max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>合作邀約</p>
+    <h2 class="section-title mb-12 md:mb-24">聯繫我</h2>
+
+    <div class="max-w-lg mb-20 md:mb-40">
+      <p class="text-[var(--ink-soft)] leading-loose" style="font-size:12pt;">
+        無論是合作想法或單純聊聊<br>
+        都歡迎與我聯繫。
+      </p>
+    </div>
+
+    <div class="flex flex-col gap-8 max-w-lg">
+      <div class="flex items-center gap-2">
+        <a href="mailto:rekaileon1125@gmail.com" class="font-display font-medium text-xl md:text-2xl text-[var(--ink)] hover:text-[var(--accent)] pb-2 transition-colors duration-300">
+          rekaileon1125@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative overflow-hidden bg-[var(--ink)] text-white">
+  <a href="#top" class="page-top-link hidden md:flex flex-col items-center gap-4 absolute right-8 md:right-16 top-16">
+    <span class="page-top-line w-px h-16 bg-white/20"></span>
+    <span class="vertical-text font-mono text-[10px] tracking-[0.3em] text-white/50">PAGE TOP</span>
+  </a>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 pt-12 pb-8">
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-24 mb-12 md:mb-24">
+
+      <div class="flex flex-col gap-1">
+        <img src="assets/images/index/logo-mark-white.png" alt="Logo" class="h-7 w-auto self-start" style="margin-bottom:4pt;" loading="lazy" decoding="async">
+        <span class="font-display font-semibold text-white">
+          <span class="text-lg">曾翊凱</span>
+        </span>
+        <p class="font-display text-sm text-white/60">個人作品集</p>
+      </div>
+
+      <div class="flex flex-col gap-6 font-display text-sm">
+        <a href="index.html" class="text-white/70 hover:text-white transition-colors duration-300">首頁</a>
+        <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
+        <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
+
+        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          合作邀約
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
+      <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  const navbar = document.getElementById('navbar');
+
+  // Scroll cue: fade out as soon as the user starts scrolling
+  const scrollCue = document.getElementById('scrollCue');
+  if (scrollCue) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        scrollCue.classList.add('scroll-cue-hidden');
+      } else {
+        scrollCue.classList.remove('scroll-cue-hidden');
+      }
+    });
+  }
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      navbar.classList.add('menu-open');
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    }
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    });
+  });
+
+  // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
+  // Desktop: track is pinned (sticky, centered) while progress is driven by the outer buffer wrapper,
+  // so the fill/highlight animation finishes before the section is allowed to scroll away.
+  (function () {
+    const track = document.getElementById('processTrack');
+    const pinWrapper = document.getElementById('processPinWrapper');
+    if (!track) return;
+
+    const grayDesktop = document.getElementById('processLineGrayDesktop');
+    const blueDesktop = document.getElementById('processLineBlueDesktop');
+    const grayMobile = document.getElementById('processLineGrayMobile');
+    const blueMobile = document.getElementById('processLineBlueMobile');
+    const badges = track.querySelectorAll('.process-badge');
+
+    let badgeThresholds = [];
+
+    // 量測每個數字標號在線段上的實際位置(而非用索引平均估算),
+    // 確保「線碰到標號」與「標號變色」的時機完全同步。
+    function measureBadgeThresholds() {
+      const trackRect = track.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 768;
+      badgeThresholds = Array.from(badges).map(badge => {
+        const badgeRect = badge.getBoundingClientRect();
+        if (isDesktop) {
+          const lineWidth = grayDesktop ? grayDesktop.offsetWidth : trackRect.width;
+          return lineWidth > 0 ? (badgeRect.left - trackRect.left) / lineWidth : 0;
+        } else {
+          const lineHeight = grayMobile ? grayMobile.offsetHeight : trackRect.height;
+          return lineHeight > 0 ? (badgeRect.top - trackRect.top) / lineHeight : 0;
+        }
+      });
+    }
+
+    function updateProcessLine() {
+      const isDesktop = window.innerWidth >= 768;
+      const vh = window.innerHeight;
+      let progress;
+
+      if (isDesktop && pinWrapper) {
+        const wrapRect = pinWrapper.getBoundingClientRect();
+        const scrollable = wrapRect.height - vh;
+        progress = scrollable > 0 ? (-wrapRect.top) / scrollable : 1;
+      } else {
+        const rect = track.getBoundingClientRect();
+        progress = (vh / 2 - rect.top) / rect.height;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+
+      if (grayDesktop && blueDesktop) {
+        blueDesktop.style.width = (grayDesktop.offsetWidth * progress) + 'px';
+      }
+      if (grayMobile && blueMobile) {
+        blueMobile.style.height = (grayMobile.offsetHeight * progress) + 'px';
+      }
+
+      badges.forEach((badge, i) => {
+        const threshold = badgeThresholds[i] !== undefined ? badgeThresholds[i] : i / (badges.length - 1);
+        const card = badge.closest('.process-card');
+        if (progress >= threshold - 0.002) {
+          badge.classList.add('active');
+          if (card) card.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+          if (card) card.classList.remove('active');
+        }
+      });
+    }
+
+    function handleResize() {
+      measureBadgeThresholds();
+      updateProcessLine();
+    }
+
+    let processScrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!processScrollTicking) {
+        processScrollTicking = true;
+        requestAnimationFrame(function () {
+          updateProcessLine();
+          processScrollTicking = false;
+        });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', handleResize);
+    measureBadgeThresholds();
+    updateProcessLine();
+  })();
+
+  // Manifesto lines: shrink-to-fit font-size so each line never wraps,
+  // while staying as large as the CSS clamp() allows for that viewport.
+  (function () {
+    const container = document.getElementById('manifestoLines');
+    if (!container) return;
+    const lines = container.querySelectorAll('.manifesto-line');
+
+    function fitLines() {
+      const containerWidth = container.clientWidth;
+      if (!containerWidth) return;
+
+      // 先重置回 CSS clamp() 的基準字級,用同一個基準測量每一行
+      lines.forEach(line => { line.style.fontSize = ''; });
+
+      let baseSize = null;
+      let minScale = 1;
+      lines.forEach(line => {
+        if (baseSize === null) baseSize = parseFloat(getComputedStyle(line).fontSize);
+        const naturalWidth = line.scrollWidth;
+        if (naturalWidth > containerWidth) {
+          const scale = (containerWidth / naturalWidth) * 0.98; // 安全邊界
+          if (scale < minScale) minScale = scale;
+        }
+      });
+
+      // 取「最長/最需要縮小」那一行的比例,統一套用到全部行,確保 4 行字級一致
+      if (minScale < 1 && baseSize) {
+        const finalSize = baseSize * minScale;
+        lines.forEach(line => { line.style.fontSize = finalSize + 'px'; });
+      }
+    }
+
+    let resizeTicking = false;
+    function onResize() {
+      if (!resizeTicking) {
+        resizeTicking = true;
+        requestAnimationFrame(function () {
+          fitLines();
+          resizeTicking = false;
+        });
+      }
+    }
+
+    window.addEventListener('resize', onResize);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitLines);
+    }
+    fitLines();
+  })();
+
+  // Scroll via IntersectionObserver
+  (function () {
+    const container = document.getElementById('manifestoLines');
+    if (!container) return;
+    const lines = Array.from(container.querySelectorAll('.manifesto-line'));
+    if (!lines.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      lines.forEach(line => { line.style.opacity = '1'; line.style.transform = 'none'; });
+      return;
+    }
+
+    const done = new Array(lines.length).fill(false);
+
+    // 每一行各自的顯示進度:從「進入視窗下緣」(0) 到「捲到視窗中偏上處」(1)
+    function progressFor(line) {
+      const rect = line.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const start = vh * 0.92;
+      const end = vh * 0.55;
+      const raw = (start - rect.top) / (start - end);
+      return Math.min(1, Math.max(0, raw));
+    }
+
+    function update() {
+      let allDone = true;
+      lines.forEach((line, i) => {
+        if (done[i]) return;
+        const p = progressFor(line);
+        if (p >= 1) {
+          done[i] = true;
+          line.style.opacity = '1';
+          line.style.transform = 'translateY(0)';
+        } else {
+          allDone = false;
+          line.style.opacity = String(p);
+          line.style.transform = `translateY(${(1 - p) * 24}px)`;
+        }
+      });
+      if (allDone) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+    }
+
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => { update(); ticking = false; });
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+
+  // Count-up animation for stat numbers
+  function animateCount(el, target, duration = 700) {
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = target;
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  const statsRow = document.querySelector('.stats-row');
+  if (statsRow) {
+    const statNumbers = statsRow.querySelectorAll('.stat-number');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          statNumbers.forEach(el => {
+            const target = parseInt(el.dataset.target, 10);
+            animateCount(el, target);
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
+    statsObserver.observe(statsRow);
+  }
+</script>
+
+<script>
+  document.querySelectorAll('.page-top-link').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

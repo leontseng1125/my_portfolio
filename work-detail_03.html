@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>博晶醫電-AIoT運動APP 風格提案 ｜ 曾翊凱 Leon Tseng</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#111113;
+    --ink-soft:#5b5b62;
+    --ink-faint:#9a9aa1;
+    --line:#e6e6e9;
+    --bg:#fafafa;
+    --surface:#ffffff;
+    --dark:#0b0b0c;
+    --dark-line:#2a2a2d;
+    --dark-soft:#9d9da3;
+    --accent:#0468AF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    font-family:'Noto Sans TC','Inter',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---- Eyebrow ---- */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:14px;color:var(--ink);
+  }
+  .eyebrow-dot{width:8px;height:8px;background:var(--ink);flex-shrink:0;}
+  .eyebrow-accent{color:var(--accent);}
+
+  /* ---- Titles ---- */
+  .project-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:900;font-size:clamp(2rem, 6.5vw, 5.5rem);
+    line-height:1.05;letter-spacing:-0.02em;
+  }
+  .subsection-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:clamp(1.75rem, 4vw, 3rem);
+    line-height:1.15;letter-spacing:-0.01em;
+  }
+  .statement-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:clamp(1.5rem, 4.5vw, 3rem);
+    line-height:1.4;letter-spacing:-0.01em;color:var(--accent);
+  }
+  .governing-line{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);
+    line-height:1.5;letter-spacing:-0.01em;
+  }
+
+  /* ---- Nav ---- */
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease;}
+  #navbar:hover, #navbar.menu-open{
+    background-color:rgba(250,250,250,0.75);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-link{position:relative; color:var(--ink-soft);}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent);transition:width .3s ease;}
+  .nav-link:hover{color:var(--ink);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.is-active{color:var(--accent);}
+  .nav-link.is-active::after{width:100%;}
+  #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
+
+  /* ---- Buttons ---- */
+  .btn-primary{background:var(--ink);color:#fff;transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
+  .btn-outline{border:1px solid var(--ink);color:var(--ink);transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
+  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+
+  /* ---- Reveal ---- */
+  .reveal{opacity:1;transform:none;}
+
+  /* ---- 圖片容器 ---- */
+  .case-thumb{overflow:hidden;border-radius:16px;background:#3a3a3d;}
+  .case-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+
+  /* ---- 資料表格 ---- */
+  .info-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .info-table th{
+    text-align:left;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;
+    color:var(--ink);border-bottom:1px solid var(--ink);padding:8px 12px;white-space:nowrap;
+  }
+  .info-table td{border-bottom:1px solid var(--line);padding:8px 12px;color:var(--ink-soft);vertical-align:top;}
+  .info-table td.num{font-family:'IBM Plex Mono',monospace;color:var(--ink);white-space:nowrap;}
+
+  /* ---- 編號重點(藍色圓形數字) ---- */
+  .numbered-item{display:flex;gap:20px;align-items:flex-start;}
+  .numbered-badge{
+    flex-shrink:0;width:32px;height:32px;border-radius:9999px;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:14px;
+  }
+
+  /* ---- 流程卡(雙鑽石流程) ---- */
+  .flow-step{border:1px solid var(--accent);border-radius:12px;padding:16px 20px;background:var(--accent);}
+  .flow-step p{color:#ffffff;}
+  .flow-arrow{display:flex;justify-content:center;color:var(--ink-faint);}
+  .flow-group{background:#f2f2f4;border-radius:20px;padding:24px;}
+
+  /* ---- Persona 卡片 ---- */
+  .persona-card{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--surface);}
+  .persona-photo{width:56px;height:56px;border-radius:9999px;object-fit:cover;flex-shrink:0;}
+
+  /* ---- 方案比較 pros/cons ---- */
+  .pros-cons dt{font-weight:700;color:var(--ink);}
+  .pros-cons dd{color:var(--ink-soft);margin-bottom:8px;}
+
+  /* ---- Tag pill ---- */
+  .tag-pill{border:1px solid var(--line);color:var(--ink-soft);}
+
+  /* ---- Page top link ---- */
+  .page-top-link{transition:color .3s ease;}
+  .page-top-link:hover{color:#fff;}
+  .page-top-link:hover .page-top-line{background:var(--accent);}
+  .page-top-line{transition:background-color .3s ease;}
+  .vertical-text{writing-mode:vertical-rl;text-orientation:mixed;}
+
+  /* ---- Case nav card ---- */
+  .case-nav-card{border:1px solid var(--line);transition:border-color .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;}
+  .case-nav-card:hover{border-color:#d4d4d9;transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(17,17,19,.18);}
+  .case-nav-card:hover .case-nav-arrow{transform:translateX(4px);}
+  .case-nav-arrow{transition:transform .3s cubic-bezier(.2,.7,.2,1);}
+  .case-nav-card .card-dot-grid{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
+    background-size:20px 20px;
+    opacity:1;
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);
+    transition:opacity .35s ease;
+  }
+  .case-nav-card:hover .card-dot-grid{opacity:0;}
+
+  /* ---- Hero dot-grid（由上至下淡出，透明度 100% → 0%） ---- */
+  .dot-grid{
+    position:absolute;inset:0;pointer-events:none;z-index:-1;
+    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
+    background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
+    mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+
+  /* ---- Process steps ---- */
+  .process-badge{
+    width:32px;height:32px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--ink);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);
+    position:relative;z-index:10;transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .process-badge.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .process-card h3{transition:color .3s ease;}
+  .process-card.active h3{color:var(--accent);}
+  #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
+
+  /* ---- 色票卡 ---- */
+  .swatch{border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;}
+  .swatch p{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.03em;}
+
+  /* ---- 風格區塊底色 ---- */
+  .style-panel{border-radius:24px;padding:32px;}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ NAVIGATION ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
+  <span id="top" class="absolute -top-1"></span>
+  <nav class="max-w-[1600px] mx-auto flex items-center justify-between px-8 md:px-16 py-8">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/images/about/logo-mark.png" alt="LT. logo" class="h-7 w-auto">
+    </a>
+    <div class="hidden md:flex items-center gap-16">
+      <a href="index.html" class="nav-link font-display text-sm tracking-wide">首頁</a>
+      <a href="works.html" class="nav-link is-active font-display text-sm tracking-wide">所有案例</a>
+      <a href="about.html" class="nav-link font-display text-sm tracking-wide">關於我</a>
+    </div>
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
+      <span class="block w-6 h-px bg-[var(--ink)]"></span>
+      <span class="block w-4 h-px bg-[var(--ink)]"></span>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 opacity-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--line)]">
+    <div class="flex flex-col px-8 py-8 gap-8 font-display text-base">
+      <a href="index.html" class="nav-link">首頁</a>
+      <a href="works.html" class="nav-link is-active">所有案例</a>
+      <a href="about.html" class="nav-link">關於我</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO 標題區(左文、右圖) ============ -->
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32">
+  <div class="dot-grid"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+
+    <a href="works.html" class="reveal inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      回到作品總覽
+    </a>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div class="lg:order-1">
+        <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>WORK・運動健康 APP</p>
+        <h1 class="reveal project-title mb-8 md:mb-16">博晶醫電-AIoT運動APP 風格提案</h1>
+        <p class="reveal text-[var(--ink-soft)] text-[12pt] leading-loose mb-16 md:mb-24">
+          從文獻與數據出發，替未定義的目標族群設定三類具消費潛力的用戶輪廓，並提出三款不同視覺取向的設計方案，完整呈現從研究洞察到落地產出的設計脈絡。
+        </p>
+        <div class="reveal border-t border-[var(--line)]">
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">合作對象</p>
+            <p class="text-[var(--ink-soft)]">博晶醫電</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案時間</p>
+            <p class="text-[var(--ink-soft)]">2020</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">製作時程</p>
+            <p class="text-[var(--ink-soft)]">6天</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案類型</p>
+            <p class="text-[var(--ink-soft)]">APP</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">負責內容</p>
+            <p class="text-[var(--ink-soft)]">UI設計、設計策略</p>
+          </div>
+        </div>
+      </div>
+      <div class="lg:order-2">
+        <div class="reveal case-thumb aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_03/hero-cover.jpg" alt="博晶醫電 AIoT運動APP 風格提案，三款App介面手機截圖">
+        </div>
+        <p class="reveal text-xs text-[var(--ink-faint)] mt-4">三款風格提案的介面總覽。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 成果與結論（結論先行） ============ -->
+<section class="relative py-24 md:py-32" style="background:var(--surface);">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot" style="background:var(--accent);"></span><span style="color:var(--accent);">成果與結論</span></p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        在 6 天的提案時程內，從文獻研究、目標族群假設到三款完整的視覺提案，交付一套可供產品團隊討論決策的設計方案，而非單一假設下的最終答案。
+      </p>
+    </div>
+
+    <div class="reveal stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-10 sm:gap-24">
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="6" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">天</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">完整提案時程</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="3" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">款</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">完整風格提案</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="3" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">類</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">假設用戶輪廓</p>
+        </div>
+      </div>
+    </div>
+    <p class="reveal font-mono text-xs text-[var(--ink-faint)] mt-8">＊本提案為入職後針對此產品的初次設計提案；三款風格為供內部團隊討論參考之設計方向，尚未經真實用戶測試驗證。</p>
+  </div>
+</section>
+
+<!-- ============ 本專案重點 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1200px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點</p>
+    <div class="reveal max-w-2xl">
+      <p class="text-[var(--ink)] text-[12pt] leading-loose">
+        本專案初期並未設定明確目標族群，因此先參考文獻與市場數據，設定三類具消費潛力、對數位產品熟悉的族群，提出三款不同取向的設計方案供初期討論。
+        整份簡報著重呈現脈絡與產出過程——從接到題目後如何拆解問題、設定目標，到最後的實際介面產出。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 大標：如何開始？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <h2 class="reveal project-title">如何開始？</h2>
+  </div>
+</section>
+
+<!-- ============ 提案規劃與分析 > 時程安排 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>提案規劃與分析 &gt; 時程安排</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      提案時程僅 6 天，因此在第一天即完成題目拆解與文獻搜集，並將目標用戶設定、色彩計畫等決策提前至第 2 天，讓後續的架構、wireframe 與 mockup 製作能有充足的時間反覆調整。
+    </p>
+    <div class="reveal overflow-x-auto">
+      <table class="info-table" style="min-width:900px;">
+        <thead><tr><th>階段</th><th>工作項目</th></tr></thead>
+        <tbody>
+          <tr><td class="num">D1</td><td>收到題目／基本資料研究／文獻搜集／簡報規劃</td></tr>
+          <tr><td class="num">D2</td><td>目標用戶設定／蒐集參考資料／架構規劃／訂定色彩計畫／簡報預排</td></tr>
+          <tr><td class="num">D3</td><td>架構整理／wireframe 規劃／視覺風格蒐集</td></tr>
+          <tr><td class="num">D4</td><td>wireframe 上機／mockup 製作</td></tr>
+          <tr><td class="num">D5</td><td>mockup 製作</td></tr>
+          <tr><td class="num">D6</td><td>mockup 製作／簡報製作／預計提前交付</td></tr>
+          <tr><td class="num">D7</td><td>交付檔案</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="relative mt-16 md:mt-24 md:min-h-[200vh]" id="processPinWrapper">
+    <div class="md:sticky md:top-0 md:h-screen md:flex md:flex-col md:justify-center">
+    <div class="mb-16 md:mb-24">
+      <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
+      <p class="reveal text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
+        本提案針對追求運動健康的行動裝置用戶，以使用者研究為基礎，替博晶醫電規劃三套差異化的視覺風格方向，實現親和、專業、科技並存的產品定位；完整流程從文獻資料的收斂彙整，走到高保真視覺稿的落地產出。
+      </p>
+    </div>
+    <div class="relative" id="processTrack">
+      <!-- 手機版：灰色垂直連接線 -->
+      <div id="processLineGrayMobile" class="md:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <!-- 手機版：藍色垂直連接線(隨滾動延伸) -->
+      <div id="processLineBlueMobile" class="md:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+
+      <!-- 桌機版：灰色水平連接線 -->
+      <div id="processLineGrayDesktop" class="hidden md:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <!-- 桌機版：藍色水平連接線(隨滾動延伸) -->
+      <div id="processLineBlueDesktop" class="hidden md:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+
+      <div class="flex flex-col gap-8 md:grid md:grid-cols-5 md:gap-x-8 md:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">01</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">研究文獻資料</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">文獻佐證：援引跑步相關健康研究，建立訴求立論基礎。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">02</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">設定目標</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">設計目標：收斂文獻洞察，訂定核心訴求方向。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">03</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">定義目標用戶</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">TA輪廓：歸納三種差異化目標用戶樣貌。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">04</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">規劃架構</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">資訊架構：平板 wireframe 驗證後，收斂至手機版型。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+          <div class="process-badge">05</div>
+          <div class="md:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">製作 mockup</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">高保真提案：依風格定位產出三套視覺稿。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 設計目標宣言 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1200px] mx-auto px-8 md:px-16 text-center">
+    <p class="reveal font-display font-semibold text-[var(--ink-faint)] tracking-wide mb-8">設計目標</p>
+    <p class="reveal statement-title">
+      安排初階計畫，<br>協助跑者建立運動習慣，看見自我進步。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 文獻查找 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>文獻查找</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      文獻與數據顯示女性運動風氣成熟、職場主力族群規律運動比例全面提升，但題目本身並未指定初階跑者的具體輪廓——這正是本次提案需要自行定義目標族群的起點。
+    </p>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_03/literature-doc.jpg" alt="教育部體育署107年運動現況調查成果與從事運動目的統計圖">
+      </div>
+      <div>
+        <p class="text-[var(--ink-soft)] text-[12pt] leading-loose mb-6">
+          從教育部體育署的資料中可發現目前民眾運動的相關現象：如女性運動風氣成熟，職業婦女規律運動人口比例顯著提升、職場主力族群規律運動人口比例全面提升等等。從另一份調查中可發現若是以目的做切入，兩性皆以「為了健康」最高，均逾 6 成 5，其次則女性及男性分別為「為了身材」（占 18.8％）及「興趣／好玩／有趣」（占 14.2％）。
+        </p>
+        <p class="text-[var(--ink-soft)] text-[12pt] leading-loose mb-4">
+          另因本次題目無設定是何種的初階使用者，針對這種情況，<span class="font-semibold" style="color:var(--accent);">提案中將會參考文獻與數據，設定三類具有消費潛力及對數位產品較為熟悉的族群，並提出三款不同的設計提案</span>，供產品團隊參考及討論。若後續確認的目標族群更具體，在風格提案上也可以做更精準的可能性延伸。
+        </p>
+        <p class="font-mono text-xs text-[var(--ink-faint)]">資料來源：教育部體育署《107 年運動現況調查成果發表記者會》</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 目標用戶設定 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>目標用戶設定</p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        依據文獻推論，設定三類具消費潛力且對數位產品較為熟悉的族群，並分別標記出各自的產品調性座標（感性／理性、專業／休閒），作為後續三款風格提案的依據。
+      </p>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div class="persona-card text-center">
+        <img src="assets/images/work-detail_03/persona-a.jpg" alt="小資運動女" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;">
+        <h4 class="font-display font-semibold text-lg mb-1">風格 A・小資運動女</h4>
+        <p class="text-sm mb-4" style="color:var(--accent);">省錢、維持身材、喜愛可愛小物、健康舒壓</p>
+        <div class="mx-auto" style="max-width:180px;">
+          <svg viewBox="0 0 160 160" width="100%">
+            <line x1="40" y1="80" x2="120" y2="80" stroke="#e6e6e9" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="#e6e6e9" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="#9a9aa1" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="#9a9aa1" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="60" cy="107" r="6" fill="#F18869"/>
+          </svg>
+        </div>
+      </div>
+      <div class="persona-card text-center">
+        <img src="assets/images/work-detail_03/persona-b.jpg" alt="運動猛男" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;">
+        <h4 class="font-display font-semibold text-lg mb-1">風格 B・運動猛男</h4>
+        <p class="text-sm mb-4" style="color:var(--accent);">維持身材、身材想被看到、成就感、挑戰自己</p>
+        <div class="mx-auto" style="max-width:180px;">
+          <svg viewBox="0 0 160 160" width="100%">
+            <line x1="40" y1="80" x2="120" y2="80" stroke="#e6e6e9" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="#e6e6e9" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="#9a9aa1" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="#9a9aa1" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="79" cy="79" r="6" fill="#1D2339"/>
+          </svg>
+        </div>
+      </div>
+      <div class="persona-card text-center">
+        <img src="assets/images/work-detail_03/persona-c.jpg" alt="頂客愛健康" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;">
+        <h4 class="font-display font-semibold text-lg mb-1">風格 C・頂客愛健康</h4>
+        <p class="text-sm mb-4" style="color:var(--accent);">喜歡質感、有品味、時尚、對自己有一定要求</p>
+        <div class="mx-auto" style="max-width:180px;">
+          <svg viewBox="0 0 160 160" width="100%">
+            <line x1="40" y1="80" x2="120" y2="80" stroke="#e6e6e9" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="#e6e6e9" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="#9a9aa1" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="#9a9aa1" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="98" cy="53" r="6" fill="#80C7A7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 產品意象－關鍵字發想 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4"><span class="eyebrow-dot"></span>產品意象－關鍵字發想</p>
+    <div class="reveal max-w-2xl mb-10 md:mb-12">
+      <p class="text-[var(--ink)] text-[12pt] leading-loose">
+        本階段收錄產品的核心意象關鍵字。後續將依據這些關鍵字與色彩計畫，發展出三款不同視覺方向的提案（風格 A／B／C），並在統一的 UI 架構限制下探索最佳體驗。
+      </p>
+    </div>
+
+    <div class="reveal mb-6">
+      <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-3">核心原則・三款風格共同基礎</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <span class="font-mono text-xs px-4 py-2 rounded-full font-semibold" style="background:var(--accent);color:#fff;">資訊清楚</span>
+        <span class="font-mono text-xs px-4 py-2 rounded-full font-semibold" style="background:var(--accent);color:#fff;">專業紀錄</span>
+        <span class="font-mono text-xs px-4 py-2 rounded-full font-semibold" style="background:var(--accent);color:#fff;">清楚易用</span>
+        <span class="font-mono text-xs px-4 py-2 rounded-full font-semibold" style="background:var(--accent);color:#fff;">層級明確</span>
+      </div>
+      <p class="text-sm text-[var(--ink-soft)]">無論何種風格，均基於上述統一架構發展；下列關鍵字將分化為三組提案，於後續章節結合色彩計畫呈現。</p>
+    </div>
+
+    <div class="reveal rounded-2xl p-6" style="background:#f5f5f6;">
+      <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-3">意象關鍵字池</p>
+      <div class="flex flex-wrap gap-2">
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>人味的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>安心的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>親切的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>女性化</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>柔和的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>無壓力</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>可愛的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F18869;"></span>溫柔的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#8fae2e;"></span>生命力</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#8fae2e;"></span>男性的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#8fae2e;"></span>速度感</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#8fae2e;"></span>信任的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#8fae2e;"></span>科技的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#8fae2e;"></span>現代的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#9a9aa1;"></span>清爽的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#9a9aa1;"></span>精準的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#9a9aa1;"></span>中性的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#9a9aa1;"></span>智慧的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#9a9aa1;"></span>專業的</span>
+        <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#9a9aa1;"></span>成熟的</span>
+      </div>
+      <div class="flex flex-wrap gap-4 mt-4 pt-4 border-t border-[var(--line)]">
+        <span class="inline-flex items-center gap-2 text-xs text-[var(--ink-faint)] font-mono"><span class="rounded-full" style="width:8px;height:8px;background:#F18869;"></span>風格 A・小資運動女</span>
+        <span class="inline-flex items-center gap-2 text-xs text-[var(--ink-faint)] font-mono"><span class="rounded-full" style="width:8px;height:8px;background:#8fae2e;"></span>風格 B・運動猛男</span>
+        <span class="inline-flex items-center gap-2 text-xs text-[var(--ink-faint)] font-mono"><span class="rounded-full" style="width:8px;height:8px;background:#9a9aa1;"></span>風格 C・頂客愛健康</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 類設計_功能相似的產品 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>類設計 &gt; 功能相似的產品</p>
+    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
+      繪製架構前，先參考有類似功能的數位產品介面，熟悉產品的共同視覺語彙，同時也觀察是否有可利用在自家產品上的優點特色。
+    </p>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="font-display font-semibold text-lg mb-6">課程列表參考素材</h3>
+        <div class="case-thumb aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_03/ref-course-list.jpg" alt="課程列表可參考的類似產品介面">
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-display font-semibold text-lg mb-6">課程內容參考素材</h3>
+        <div class="case-thumb aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_03/ref-course-content.jpg" alt="課程內容可參考的類似產品介面">
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-display font-semibold text-lg mb-6">運動數據參考素材</h3>
+        <div class="case-thumb aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_03/ref-data.jpg" alt="運動數據可參考的類似產品介面">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 大標：功能盤點與架構 ============ -->
+<section class="relative pt-20 md:pt-28 pb-4">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <h2 class="reveal project-title">功能盤點與架構</h2>
+  </div>
+</section>
+
+<!-- ============ 平板 Wireframe ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>平板 Wireframe</p>
+    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
+      以平板尺寸初步安排課程列表頁與活動開始頁的資訊層級：用戶個人資料、個人數據呈現、課程分類，以及運動中的體力值、心率、熱量消耗等重點身體數據。
+    </p>
+    <div class="reveal case-thumb aspect-[16/9] w-full">
+      <img src="assets/images/work-detail_03/tablet-wireframe.jpg" alt="平板尺寸的課程列表與活動開始頁 wireframe">
+    </div>
+  </div>
+</section>
+
+<!-- ============ 功能盤點與整理 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>功能盤點與整理</p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line mb-8">
+        以文件的方式重新梳理產品架構，藉此釐清功能面與資訊面的關係、排列出主要次要的層級關係，未來進入 UI 階段時能更有脈絡。
+      </p>
+      <ul class="space-y-3 text-[var(--ink-soft)]">
+        <li class="font-display font-bold text-[var(--ink)]">我的運動<span class="text-sm font-normal text-[var(--ink-faint)]">（略）</span></li>
+        <li class="font-display font-bold text-[var(--ink)]">AI 教練</li>
+        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程列表：身體數據（體力狀態／每日基礎代謝／建議每日消耗大卡）<span class="text-sm font-normal text-[var(--ink-soft)]">→ 數據呈現</span></li>
+        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程說明：課程圖片／課程名稱／消耗熱量／花費時間<span class="text-sm font-normal text-[var(--ink-soft)]">→ 課程說明</span></li>
+        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程內容：目標卡路里／運動時間預估／課程時間軸／達成效益<span class="text-sm font-normal text-[var(--ink-soft)]">→ 課程說明</span></li>
+        <li class="pl-6">— 操作：開始運動 <span class="text-sm">（Call to Action）</span></li>
+        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程進行中：體力值／心率／熱量消耗／課程時間軸／距離／速度<span class="text-sm font-normal text-[var(--ink-soft)]">→ 視覺資訊化</span></li>
+        <li class="pl-6">— 操作：結束運動 <span class="text-sm">（Call to Action，但主要目的是希望用戶完成運動，不需要特別強調此按鈕）</span></li>
+        <li class="font-display font-bold text-[var(--ink)]">挑戰訓練<span class="text-sm font-normal text-[var(--ink-faint)]">（略）</span></li>
+        <li class="font-display font-bold text-[var(--ink)]">其他設定<span class="text-sm font-normal text-[var(--ink-faint)]">（略）</span></li>
+      </ul>
+    </div>
+
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點設計</p>
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-12 md:gap-x-8 md:gap-y-16 lg:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Data</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">數據呈現</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">呈現用戶的體力狀態、每日基礎代謝與建議消耗大卡，讓用戶掌握自身數據，作為選擇課程的依據。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Guide</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">課程說明</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">整合課程圖片、名稱、消耗熱量與花費時間，並以目標卡路里、時間軸與達成效益，說明每個課程的內容與價值。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Visualize</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">視覺資訊化</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">將體力值、心率、熱量消耗、距離與速度等即時數據以圖表呈現，讓用戶運動時能一眼掌握自身狀態。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Action</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">行動呼籲</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">「開始運動」需明確、清楚呈現；「結束運動」則主要目的是讓用戶完成運動，因此不特別強調此按鈕。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ App Wireframe 流程與架構設計 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>App Wireframe 流程與架構設計</p>
+    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
+      將平板體驗收斂至手機端，針對小螢幕重構資訊層級，串接完整的跑步運動體驗流程。
+    </p>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 items-start">
+      <div class="persona-card">
+        <div class="rounded-xl mb-4 overflow-hidden">
+          <img src="assets/images/work-detail_03/wf-course-list.jpg" alt="課程列表頁 Wireframe" style="width:100%;height:auto;display:block;">
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3" style="background:var(--accent);color:#fff;">體驗優化</span>
+        <h4 class="font-display font-semibold text-lg mb-3">01・課程列表頁</h4>
+        <ul class="text-sm text-[var(--ink-soft)] space-y-2">
+          <li><span class="font-semibold text-[var(--ink)]">個人化入口：</span>點擊頭像可快速切換個人狀態與歷史數據。</li>
+          <li><span class="font-semibold text-[var(--ink)]">情境篩選：</span>將課程依「運動時間」分類，協助使用者依當下空檔快速決策。</li>
+        </ul>
+      </div>
+
+      <div class="persona-card">
+        <div class="rounded-xl mb-4 overflow-hidden">
+          <img src="assets/images/work-detail_03/wf-course-detail.jpg" alt="課程細節頁 Wireframe" style="width:100%;height:auto;display:block;">
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3" style="background:var(--accent);color:#fff;">資訊重構</span>
+        <h4 class="font-display font-semibold text-lg mb-3">02・課程細節頁</h4>
+        <ul class="text-sm text-[var(--ink-soft)] space-y-2">
+          <li><span class="font-semibold text-[var(--ink)]">聚焦行動（CTA）：</span>將「開始運動」固定於視覺焦點，降低操作阻力。</li>
+          <li><span class="font-semibold text-[var(--ink)]">資訊分層：</span>清楚區隔「基本課程資訊」與「強度／節奏說明」，提升閱讀效率。</li>
+        </ul>
+      </div>
+
+      <div class="persona-card">
+        <div class="rounded-xl mb-4 overflow-hidden">
+          <img src="assets/images/work-detail_03/wf-countdown.jpg" alt="倒數頁 Wireframe" style="width:100%;height:auto;display:block;">
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3" style="background:var(--accent);color:#fff;">流程補全</span>
+        <h4 class="font-display font-semibold text-lg mb-3">03・倒數頁</h4>
+        <ul class="text-sm text-[var(--ink-soft)] space-y-2">
+          <li><span class="font-semibold text-[var(--ink)]">流程緩衝：</span>補足原題目未定義的轉場頁，提供用戶預備跑步的心理預期。</li>
+          <li><span class="font-semibold text-[var(--ink)]">清晰提示：</span>大字體倒數設計，確保戶外強光下仍具備高可讀性。</li>
+        </ul>
+      </div>
+
+      <div class="persona-card">
+        <div class="rounded-xl mb-4 overflow-hidden">
+          <img src="assets/images/work-detail_03/wf-activity.jpg" alt="活動開始頁 Wireframe" style="width:100%;height:auto;display:block;">
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3" style="background:var(--accent);color:#fff;">資訊分層</span>
+        <h4 class="font-display font-semibold text-lg mb-3">04・活動開始頁</h4>
+        <ul class="text-sm text-[var(--ink-soft)] space-y-2">
+          <li><span class="font-semibold text-[var(--ink)]">數據層級重構：</span>主打核心指標「AI 預測體力值」，以大圖表呈現。</li>
+          <li><span class="font-semibold text-[var(--ink)]">次要數據收納：</span>將配速、心率等輔助數據依重要性排序，避免運動中資訊過載。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 大標：視覺稿提案 ============ -->
+<section class="relative pt-20 md:pt-28 pb-4">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <h2 class="reveal project-title">視覺稿提案</h2>
+  </div>
+</section>
+
+<!-- ============ 風格設定 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>風格設定策略</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      本階段奠基於相同的產品架構與功能亮點，發展出三套差異化的視覺風格，以探索不同的品牌溝通面向。
+    </p>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+
+      <!-- 風格 A -->
+      <div class="rounded-2xl p-8 flex flex-col" style="background:#FDF4F0;border:1px solid #F5D9CC;">
+        <div class="flex gap-2 mb-6">
+          <div class="rounded-full" style="width:28px;height:28px;background:#F18869;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#F9E1D9;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#FAF0E6;border:1px solid var(--line);"></div>
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3 self-start" style="background:#F18869;color:#fff;">風格 A</span>
+        <h3 class="font-display font-semibold text-2xl mb-2" style="color:#111113;">小資運動女</h3>
+        <p class="text-sm mb-6" style="color:#A85D45;">溫柔陪伴・跨出第一步的暖意</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">人味的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">安心的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">親切的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">女性化</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">柔和的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">無壓力</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">可愛的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">溫柔的</span>
+        </div>
+        <p class="text-sm leading-relaxed mt-auto" style="color:var(--ink-soft);">圓角較大、色彩對比柔和，強調親和力與陪伴感。</p>
+      </div>
+
+      <!-- 風格 B -->
+      <div class="rounded-2xl p-8 flex flex-col" style="background:#171B2E;border:1px solid #2A3150;">
+        <div class="flex gap-2 mb-6">
+          <div class="rounded-full" style="width:28px;height:28px;background:#E2FA40;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#1D2339;border:1px solid #2A3150;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#121729;border:1px solid #2A3150;"></div>
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3 self-start" style="background:#E2FA40;color:#1D2339;">風格 B</span>
+        <h3 class="font-display font-semibold text-2xl mb-2" style="color:#fff;">運動猛男</h3>
+        <p class="text-sm mb-6" style="color:#E2FA40;">速度與科技・追求進步的成就感</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A4166;color:#C9CCDA;">生命力</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A4166;color:#C9CCDA;">男性的</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A4166;color:#C9CCDA;">速度感</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A4166;color:#C9CCDA;">信任的</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A4166;color:#C9CCDA;">科技的</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A4166;color:#C9CCDA;">現代的</span>
+        </div>
+        <p class="text-sm leading-relaxed mt-auto" style="color:#9BA0BC;">高對比色系、俐落線條，展現強烈動態與數據感。</p>
+      </div>
+
+      <!-- 風格 C -->
+      <div class="rounded-2xl p-8 flex flex-col" style="background:#F4F4F4;border:1px solid #DCDCDC;">
+        <div class="flex gap-2 mb-6">
+          <div class="rounded-full" style="width:28px;height:28px;background:#1C1C1C;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#80C7A7;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#D6D6D6;"></div>
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3 self-start" style="background:#1C1C1C;color:#fff;">風格 C</span>
+        <h3 class="font-display font-semibold text-2xl mb-2" style="color:#111113;">頂客愛健康</h3>
+        <p class="text-sm mb-6" style="color:#4C8F73;">理性沉穩・值得信賴的專業感</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">清爽的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">精準的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">中性的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">智慧的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">專業的</span>
+          <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full bg-white">成熟的</span>
+        </div>
+        <p class="text-sm leading-relaxed mt-auto" style="color:var(--ink-soft);">極簡卡片設計、清晰視覺層級，強調資訊可讀性。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 風格 A ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>風格 A・小資運動女</p>
+    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
+      以溫暖的珊瑚橘為主色調，強調人味、親切與柔和的形象；透過放大的個人照片、口語化的課程分類，以及置底的圓形 Call to Action，塑造陪伴初階跑者跨出第一步的溫暖夥伴感。
+    </p>
+
+    <div class="reveal case-thumb aspect-[16/9] w-full mb-16 md:mb-24">
+      <img src="assets/images/work-detail_03/style-a-cover.jpg" alt="風格A介面與跑步情境照">
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch mb-16 md:mb-24">
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_03/style-a-mood.jpg" alt="風格A色票參考情境照片">
+      </div>
+      <div class="flex flex-col gap-4 h-full">
+        <div class="swatch" style="background:#F18869;flex:1;height:auto;"><p style="color:#fff;">#F18869</p></div>
+        <div class="swatch" style="background:#F9E1D9;flex:1;height:auto;"><p style="color:#111113;">#F9E1D9</p></div>
+        <div class="swatch" style="background:#FAF0E6;border:1px solid var(--line);flex:1;height:auto;"><p style="color:#111113;">#FAF0E6</p></div>
+        <div class="swatch" style="background:#5786C2;flex:1;height:auto;"><p style="color:#fff;">#5786C2</p></div>
+        <div class="swatch" style="background:#E9C863;flex:1;height:auto;"><p style="color:#111113;">#E9C863</p></div>
+      </div>
+    </div>
+
+    <div class="reveal case-thumb aspect-[16/9] w-full mb-16 md:mb-24">
+      <img src="assets/images/work-detail_03/style-a-screens.jpg" alt="風格A課程列表、課程細節、活動開始頁截圖">
+    </div>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">放大個人連結感</h4><p class="text-[var(--ink-soft)] leading-relaxed">將個人照片放大，強調用戶個人，增加用戶與產品的連結感。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">主從明確的運動數據</h4><p class="text-[var(--ink-soft)] leading-relaxed">運動數據主從明確、位置固定，用戶能一眼鎖定自己重視的數據，加強產品易用性。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">口語化分類</h4><p class="text-[var(--ink-soft)] leading-relaxed">以口語化的方式描述課程分類，增加產品的親合度同時讓用戶更容易了解分類。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">5</span><div><h4 class="font-display font-semibold text-lg mb-1">趣味化的體力值</h4><p class="text-[var(--ink-soft)] leading-relaxed">體力值融合動態插畫設計，增加產品的幽默感與趣味性，讓用戶每次跑步都有人陪伴。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">溫暖的 Call to Action</h4><p class="text-[var(--ink-soft)] leading-relaxed">「開始運動」按鈕置底，以圓形做設計，加強產品溫暖、和藹的形象定位。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">6</span><div><h4 class="font-display font-semibold text-lg mb-1">大圖引導開始課程</h4><p class="text-[var(--ink-soft)] leading-relaxed">課程列表採用大圖的方式呈現，吸引用戶開始課程，同時讓整體介面豐富。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 風格 B ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>風格 B・運動猛男</p>
+    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
+      黑底搭配螢光綠的高對比配色，強調速度感與科技感；以區塊化的資訊分層、直覺化的環形體力值呈現，訴求效率與成就感，鎖定想被看見、追求進步的運動男性形象。
+    </p>
+
+    <div class="reveal rounded-2xl overflow-hidden mb-16 md:mb-24" style="background:#1D2339;">
+      <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
+        <img src="assets/images/work-detail_03/style-b-cover.jpg" alt="風格B介面與跑鞋情境照">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch mb-16 md:mb-24">
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_03/style-b-mood.jpg" alt="風格B色票參考情境照片">
+      </div>
+      <div class="flex flex-col gap-4 h-full">
+        <div class="swatch" style="background:#FFFFFF;border:1px solid var(--line);flex:1;height:auto;"><p style="color:#111113;">#FFFFFF</p></div>
+        <div class="swatch" style="background:#E2FA40;flex:1;height:auto;"><p style="color:#111113;">#E2FA40</p></div>
+        <div class="swatch" style="background:#1D2339;flex:1;height:auto;"><p style="color:#fff;">#1D2339</p></div>
+        <div class="swatch" style="background:#121729;flex:1;height:auto;"><p style="color:#fff;">#121729</p></div>
+        <div class="swatch" style="background:#1C1C1C;flex:1;height:auto;"><p style="color:#fff;">#1C1C1C</p></div>
+      </div>
+    </div>
+
+    <div class="reveal rounded-2xl overflow-hidden mb-16 md:mb-24" style="background:#1D2339;">
+      <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
+        <img src="assets/images/work-detail_03/style-b-screens.jpg" alt="風格B課程列表、課程細節、活動開始頁截圖">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">數據入口並存</h4><p class="text-[var(--ink-soft)] leading-relaxed">上方資訊欄位強調數據資訊呈現，同時保留用戶個人資訊入口。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">區塊化資訊</h4><p class="text-[var(--ink-soft)] leading-relaxed">區塊化設計，將大量資訊分隔明確，提升資訊閱讀性。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">突出最在意的數據</h4><p class="text-[var(--ink-soft)] leading-relaxed">依照用戶特性，將用戶最在意的消耗卡路里做重點呈現，用戶可以更專注在自己重視的資訊。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">5</span><div><h4 class="font-display font-semibold text-lg mb-1">立即行動的 CTA</h4><p class="text-[var(--ink-soft)] leading-relaxed">Call to action 明確，用戶進入頁面後可無需閱讀資訊立刻進行動作，減少操作流程。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">彈性版型</h4><p class="text-[var(--ink-soft)] leading-relaxed">提供不同欄位的呈現方式，方便依照需求選擇不同版型：課程資訊量較少，但可呈現較多課程，視覺上也更豐富。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">6</span><div><h4 class="font-display font-semibold text-lg mb-1">速度感配色</h4><p class="text-[var(--ink-soft)] leading-relaxed">黑綠配色強調速度感，整體呈現專業、動態的產品形象。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 風格 C ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>風格 C・頂客愛健康</p>
+    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
+      以黑白灰為主的高質感配色，點綴薄荷綠強調重點操作；透過置中精簡的編排與細節刻度的儀表板，呈現專業、成熟、值得信賴的產品調性，貼近重視品味與質感的族群。
+    </p>
+
+    <div class="reveal rounded-2xl overflow-hidden mb-16 md:mb-24" style="background:#1C1C1C;">
+      <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
+        <img src="assets/images/work-detail_03/style-c-cover.jpg" alt="風格C介面與伸展運動情境照">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch mb-16 md:mb-24">
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_03/style-c-mood.jpg" alt="風格C色票參考情境照片">
+      </div>
+      <div class="flex flex-col gap-4 h-full">
+        <div class="swatch" style="background:#FFFFFF;border:1px solid var(--line);flex:1;height:auto;"><p style="color:#111113;">#FFFFFF</p></div>
+        <div class="swatch" style="background:#80C7A7;flex:1;height:auto;"><p style="color:#111113;">#80C7A7</p></div>
+        <div class="swatch" style="background:#D6D6D6;flex:1;height:auto;"><p style="color:#111113;">#D6D6D6</p></div>
+        <div class="swatch" style="background:#929292;flex:1;height:auto;"><p style="color:#fff;">#929292</p></div>
+        <div class="swatch" style="background:#1C1C1C;flex:1;height:auto;"><p style="color:#fff;">#1C1C1C</p></div>
+      </div>
+    </div>
+
+    <div class="reveal rounded-2xl overflow-hidden mb-16 md:mb-24" style="background:#1C1C1C;">
+      <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
+        <img src="assets/images/work-detail_03/style-c-screens.jpg" alt="風格C課程列表、課程細節、活動開始頁截圖">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">資訊分層明確</h4><p class="text-[var(--ink-soft)] leading-relaxed">分鐘數、課程名、大卡數、圖片分開呈現，資訊更加明確。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">流動的時間軸</h4><p class="text-[var(--ink-soft)] leading-relaxed">運動區間以動態設計呈現，固定當下的時間並移動時間軸，整體更有流動感。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">重點先行</h4><p class="text-[var(--ink-soft)] leading-relaxed">強調預期消耗大卡，用戶可立刻看到課程重點。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">5</span><div><h4 class="font-display font-semibold text-lg mb-1">精簡置中的編排</h4><p class="text-[var(--ink-soft)] leading-relaxed">強調專業與質感，編排上選擇置中，減少不必要的資訊呈現。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">大按鈕 CTA</h4><p class="text-[var(--ink-soft)] leading-relaxed">加大「開始運動」按鈕，強調 Call to Action，同時更適合年紀稍長的用戶使用。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">6</span><div><h4 class="font-display font-semibold text-lg mb-1">穩重的儀表板</h4><p class="text-[var(--ink-soft)] leading-relaxed">整體風格走黑白色調，重點操作以重點色強調；體力值加入細節刻度的儀表板，呈現專業穩重的視覺。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 風格總覽 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>風格總覽</p>
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <p class="font-display font-semibold text-base mb-4">風格 A・小資運動女</p>
+        <div class="case-thumb aspect-[16/9] w-full"><img src="assets/images/work-detail_03/style-a-cover.jpg" alt="風格A縮圖"></div>
+      </div>
+      <div>
+        <p class="font-display font-semibold text-base mb-4">風格 B・運動猛男</p>
+        <div class="case-thumb aspect-[16/9] w-full"><img src="assets/images/work-detail_03/style-b-cover.jpg" alt="風格B縮圖"></div>
+      </div>
+      <div>
+        <p class="font-display font-semibold text-base mb-4">風格 C・頂客愛健康</p>
+        <div class="case-thumb aspect-[16/9] w-full"><img src="assets/images/work-detail_03/style-c-cover.jpg" alt="風格C縮圖"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 大標：設計反思 ============ -->
+<section class="relative pt-20 md:pt-28 pb-4">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <h2 class="reveal project-title">設計反思</h2>
+  </div>
+</section>
+
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>設計心得與反思</p>
+    <div class="reveal max-w-2xl mb-16 md:mb-24">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        三款風格提案目前仍停留在提案討論階段，尚未經過真實用戶驗證。本專案同時也是一次自我驗證——在有限時間內快速理解題目、定義設計核心，並完整產出可供討論的設計方案。
+      </p>
+    </div>
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Ambiguity</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">直面模糊</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">題目未定義目標族群時，設計者需要有能力用文獻與假設，快速搭建可供討論的決策基礎，而非等待完美資訊才行動。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Parallel</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">並行發想</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">同時發展三款風格，讓同一套資訊架構在不同調性下被檢驗，更容易分辨哪些決策只是風格偏好，哪些是不可退讓的體驗原則。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Validation</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">尚待驗證</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">三款風格目前仍是假設下的產出，下一步應收斂為一款並進行真實用戶的可用性測試，才能把假設轉化為可信的設計決策。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+  <div class="flex justify-center" style="margin-top:48pt;">
+    <img src="assets/images/about/logo-mark-divider.png" alt="Kai Logo" style="width:42.5px;height:24px;">
+  </div>
+</div>
+
+<!-- ============ 上一個 / 下一個案例 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex flex-col sm:flex-row gap-6 justify-between mb-20 md:mb-40">
+      <a href="work-detail_02.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">上一個案例</p>
+          <div class="flex items-center justify-between gap-4">
+            <span class="case-nav-arrow flex-shrink-0" style="transform:scaleX(-1);"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h3 class="font-display font-semibold text-lg">TVBS-數位新聞媒體 改版提案</h3>
+          </div>
+        </div>
+      </a>
+      <a href="work-detail_01.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4 text-right">下一個案例</p>
+          <div class="flex items-center justify-between gap-4 flex-row-reverse">
+            <h3 class="font-display font-semibold text-lg">GoSmart-共享車 創新服務設計提案</h3>
+            <span class="case-nav-arrow flex-shrink-0"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-6">
+      <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        返回列表
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="mailto:rekaileon1125@gmail.com" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        合作邀約
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative overflow-hidden bg-[var(--ink)] text-white">
+  <a href="#top" class="page-top-link hidden md:flex flex-col items-center gap-4 absolute right-8 md:right-16 top-16">
+    <span class="page-top-line w-px h-16 bg-white/20"></span>
+    <span class="vertical-text font-mono text-[10px] tracking-[0.3em] text-white/50">PAGE TOP</span>
+  </a>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 pt-12 pb-8">
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-24 mb-12 md:mb-24">
+
+      <div class="flex flex-col gap-1">
+        <img src="assets/images/about/logo-mark-white.png" alt="Logo" class="h-7 w-auto self-start" style="margin-bottom:4pt;">
+        <span class="font-display font-semibold text-white">
+          <span class="text-lg">曾翊凱</span>
+        </span>
+        <p class="font-display text-sm text-white/60">個人作品集</p>
+      </div>
+
+      <div class="flex flex-col gap-6 font-display text-sm">
+        <a href="index.html" class="text-white/70 hover:text-white transition-colors duration-300">首頁</a>
+        <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
+        <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
+
+        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          合作邀約
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
+      <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      navbar.classList.add('menu-open');
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    }
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    });
+  });
+
+  function animateCount(el, target, duration = 900) {
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll('.stats-row').forEach(row => {
+    const statNumbers = row.querySelectorAll('.stat-number');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          statNumbers.forEach(el => animateCount(el, parseInt(el.dataset.target, 10)));
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
+    statsObserver.observe(row);
+  });
+
+  // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
+  // Desktop: track is pinned (sticky, centered) while progress is driven by the outer buffer wrapper,
+  // so the fill/highlight animation finishes before the section is allowed to scroll away.
+  (function () {
+    const track = document.getElementById('processTrack');
+    const pinWrapper = document.getElementById('processPinWrapper');
+    if (!track) return;
+
+    const grayDesktop = document.getElementById('processLineGrayDesktop');
+    const blueDesktop = document.getElementById('processLineBlueDesktop');
+    const grayMobile = document.getElementById('processLineGrayMobile');
+    const blueMobile = document.getElementById('processLineBlueMobile');
+    const badges = track.querySelectorAll('.process-badge');
+
+    let badgeThresholds = [];
+
+    // 量測每個數字標號在線段上的實際位置(而非用索引平均估算),
+    // 確保「線碰到標號」與「標號變色」的時機完全同步。
+    function measureBadgeThresholds() {
+      const trackRect = track.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 768;
+      badgeThresholds = Array.from(badges).map(badge => {
+        const badgeRect = badge.getBoundingClientRect();
+        if (isDesktop) {
+          const lineWidth = grayDesktop ? grayDesktop.offsetWidth : trackRect.width;
+          return lineWidth > 0 ? (badgeRect.left - trackRect.left) / lineWidth : 0;
+        } else {
+          const lineHeight = grayMobile ? grayMobile.offsetHeight : trackRect.height;
+          return lineHeight > 0 ? (badgeRect.top - trackRect.top) / lineHeight : 0;
+        }
+      });
+    }
+
+    function updateProcessLine() {
+      const isDesktop = window.innerWidth >= 768;
+      const vh = window.innerHeight;
+      let progress;
+
+      if (isDesktop && pinWrapper) {
+        const wrapRect = pinWrapper.getBoundingClientRect();
+        const scrollable = wrapRect.height - vh;
+        progress = scrollable > 0 ? (-wrapRect.top) / scrollable : 1;
+      } else {
+        const rect = track.getBoundingClientRect();
+        progress = (vh / 2 - rect.top) / rect.height;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+
+      if (grayDesktop && blueDesktop) {
+        blueDesktop.style.width = (grayDesktop.offsetWidth * progress) + 'px';
+      }
+      if (grayMobile && blueMobile) {
+        blueMobile.style.height = (grayMobile.offsetHeight * progress) + 'px';
+      }
+
+      badges.forEach((badge, i) => {
+        const threshold = badgeThresholds[i] !== undefined ? badgeThresholds[i] : i / (badges.length - 1);
+        const card = badge.closest('.process-card');
+        if (progress >= threshold - 0.002) {
+          badge.classList.add('active');
+          if (card) card.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+          if (card) card.classList.remove('active');
+        }
+      });
+    }
+
+    function handleResize() {
+      measureBadgeThresholds();
+      updateProcessLine();
+    }
+
+    let processScrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!processScrollTicking) {
+        processScrollTicking = true;
+        requestAnimationFrame(function () {
+          updateProcessLine();
+          processScrollTicking = false;
+        });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', handleResize);
+    measureBadgeThresholds();
+    updateProcessLine();
+  })();
+</script>
+
+</body>
+</html>

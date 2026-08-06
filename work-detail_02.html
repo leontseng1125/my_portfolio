@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>TVBS-數位新聞媒體 改版提案 ｜ 曾翊凱 Leon Tseng</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#111113;
+    --ink-soft:#5b5b62;
+    --ink-faint:#9a9aa1;
+    --line:#e6e6e9;
+    --bg:#fafafa;
+    --surface:#ffffff;
+    --dark:#0b0b0c;
+    --dark-line:#2a2a2d;
+    --dark-soft:#9d9da3;
+    --accent:#0468AF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    font-family:'Noto Sans TC','Inter',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---- Eyebrow ---- */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:14px;color:var(--ink);
+  }
+  .eyebrow-dot{width:8px;height:8px;background:var(--ink);flex-shrink:0;}
+  .eyebrow-accent{color:var(--accent);}
+
+  /* ---- Titles ---- */
+  .project-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:900;font-size:clamp(2rem, 6.5vw, 5.5rem);
+    line-height:1.05;letter-spacing:-0.02em;
+  }
+  .subsection-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:clamp(1.75rem, 4vw, 3rem);
+    line-height:1.15;letter-spacing:-0.01em;
+  }
+  .statement-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:clamp(1.5rem, 4.5vw, 3rem);
+    line-height:1.4;letter-spacing:-0.01em;color:var(--accent);
+  }
+  .governing-line{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);
+    line-height:1.5;letter-spacing:-0.01em;
+  }
+
+  /* ---- Nav ---- */
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease;}
+  #navbar:hover, #navbar.menu-open{
+    background-color:rgba(250,250,250,0.75);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-link{position:relative; color:var(--ink-soft);}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent);transition:width .3s ease;}
+  .nav-link:hover{color:var(--ink);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.is-active{color:var(--accent);}
+  .nav-link.is-active::after{width:100%;}
+  #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
+
+  /* ---- Buttons ---- */
+  .btn-primary{background:var(--ink);color:#fff;transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
+  .btn-outline{border:1px solid var(--ink);color:var(--ink);transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
+  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+
+  /* ---- Reveal ---- */
+  .reveal{opacity:1;transform:none;}
+
+  /* ---- 圖片容器 ---- */
+  .case-thumb{overflow:hidden;border-radius:16px;background:#2a2a2d;}
+  .case-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+  .case-thumb img[src=""],
+  .case-thumb img:not([src]){display:none;}
+
+  /* ---- 資料表格 ---- */
+  .info-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .info-table th{
+    text-align:left;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;
+    color:var(--ink);border-bottom:1px solid var(--ink);padding:8px 12px;white-space:nowrap;
+  }
+  .info-table td{border-bottom:1px solid var(--line);padding:8px 12px;color:var(--ink-soft);vertical-align:top;}
+  .info-table td.num{font-family:'IBM Plex Mono',monospace;color:var(--ink);white-space:nowrap;}
+  .info-table tr:last-child td{border-bottom:none;}
+
+  /* ---- 編號重點(藍色圓形數字) ---- */
+  .numbered-item{display:flex;gap:20px;align-items:flex-start;}
+  .numbered-badge{
+    flex-shrink:0;width:32px;height:32px;border-radius:9999px;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:14px;
+  }
+
+  /* ---- 流程卡(雙鑽石流程) ---- */
+  .flow-step{border:1px solid var(--accent);border-radius:12px;padding:16px 20px;background:var(--accent);}
+  .flow-step p{color:#ffffff;}
+  .flow-arrow{display:flex;justify-content:center;color:var(--ink-faint);}
+  .flow-group{background:#f2f2f4;border-radius:20px;padding:24px;}
+
+  /* ---- 本專案設計流程（樣式與動效參照 index.html 工作流程元件） ---- */
+  .process-badge{
+    width:32px;height:32px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--ink);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);
+    position:relative;z-index:10;transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .process-badge.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .process-card h3{transition:color .3s ease;}
+  .process-card.active h3{color:var(--accent);}
+  #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
+
+  /* ---- Persona 卡片 ---- */
+  .persona-card{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden;}
+  .persona-card-elevate{background:var(--bg);transition:background .3s ease;}
+  .persona-card-elevate:hover{background:var(--surface);border-color:var(--accent);}
+  .persona-photo{width:72px;height:72px;border-radius:9999px;object-fit:cover;flex-shrink:0;border:2px solid rgba(255,255,255,0.8);}
+  .persona-data-chip{background:var(--bg);border-radius:12px;padding:10px 12px;}
+  .persona-divider{height:1px;background:var(--line);margin:20px 0;}
+
+  /* ---- 方案比較 pros/cons ---- */
+  .pros-cons dt{font-weight:700;color:var(--ink);}
+  .pros-cons dd{color:var(--ink-soft);margin-bottom:8px;}
+
+  /* ---- Tag pill ---- */
+  .tag-pill{border:1px solid var(--line);color:var(--ink-soft);}
+
+  /* ---- Page top link ---- */
+  .page-top-link{transition:color .3s ease;}
+  .page-top-link:hover{color:#fff;}
+  .page-top-link:hover .page-top-line{background:var(--accent);}
+  .page-top-line{transition:background-color .3s ease;}
+  .vertical-text{writing-mode:vertical-rl;text-orientation:mixed;}
+
+  /* ---- Case nav card ---- */
+  .case-nav-card{border:1px solid var(--line);transition:border-color .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;}
+  .case-nav-card:hover{border-color:#d4d4d9;transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(17,17,19,.18);}
+  .case-nav-card:hover .case-nav-arrow{transform:translateX(4px);}
+  .case-nav-arrow{transition:transform .3s cubic-bezier(.2,.7,.2,1);}
+
+  /* ---- 案例導覽卡片網格點：normal 狀態由上至下淡出（100% → 20%），hover 時淡出至 0 ---- */
+  .case-nav-card .card-dot-grid{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
+    background-size:20px 20px;
+    opacity:1;
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);
+    transition:opacity .35s ease;
+  }
+  .case-nav-card:hover .card-dot-grid{opacity:0;}
+
+  /* ---- Hero dot-grid（由上至下淡出，透明度 100% → 0%） ---- */
+  .dot-grid{
+    position:absolute;inset:0;pointer-events:none;z-index:-1;
+    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
+    background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
+    mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
+  }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ NAVIGATION ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
+  <span id="top" class="absolute -top-1"></span>
+  <nav class="max-w-[1600px] mx-auto flex items-center justify-between px-8 md:px-16 py-8">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/images/about/logo-mark.png" alt="LT. logo" class="h-7 w-auto">
+    </a>
+    <div class="hidden md:flex items-center gap-16">
+      <a href="index.html" class="nav-link font-display text-sm tracking-wide">首頁</a>
+      <a href="works.html" class="nav-link is-active font-display text-sm tracking-wide">所有案例</a>
+      <a href="about.html" class="nav-link font-display text-sm tracking-wide">關於我</a>
+    </div>
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
+      <span class="block w-6 h-px bg-[var(--ink)]"></span>
+      <span class="block w-4 h-px bg-[var(--ink)]"></span>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 opacity-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--line)]">
+    <div class="flex flex-col px-8 py-8 gap-8 font-display text-base">
+      <a href="index.html" class="nav-link">首頁</a>
+      <a href="works.html" class="nav-link is-active">所有案例</a>
+      <a href="about.html" class="nav-link">關於我</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO 標題區(左文、右圖) ============ -->
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32">
+  <div class="dot-grid"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+
+    <a href="works.html" class="reveal inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      回到作品總覽
+    </a>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div class="lg:order-1">
+        <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>WORK・新聞媒體</p>
+        <h1 class="reveal project-title mb-4 md:mb-8">TVBS-數位新聞媒體 改版提案</h1>
+        <p class="reveal text-[var(--ink-soft)] leading-loose mb-16 md:mb-24" style="font-size:12pt;">
+          針對數位新聞閱聽人，以使用者體驗出發，替 TVBS 新聞網規劃符合當前數位使用習慣的產品，實現真實、信賴、科技的核心價值。
+        </p>
+        <div class="reveal border-t border-[var(--line)]">
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">合作對象</p>
+            <p class="text-[var(--ink-soft)]">TVBS</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案時間</p>
+            <p class="text-[var(--ink-soft)]">2023</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">製作時程</p>
+            <p class="text-[var(--ink-soft)]">2週</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案類型</p>
+            <p class="text-[var(--ink-soft)]">APP</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">負責內容</p>
+            <p class="text-[var(--ink-soft)]">分析研究、UX規劃、UI設計</p>
+          </div>
+        </div>
+      </div>
+      <div class="lg:order-2">
+        <div class="reveal case-thumb aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_02/hero-overview.jpg" onerror="this.style.display='none'" alt="TVBS新聞網 APP 首頁改版三方案介面總覽">
+        </div>
+        <p class="reveal text-xs text-[var(--ink-faint)] mt-4">首頁改版三方案介面總覽。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 成果與結論（結論先行） ============ -->
+<section class="relative py-24 md:py-32" style="background:var(--surface);">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot" style="background:var(--accent);"></span><span style="color:var(--accent);">成果與結論</span></p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        本專案展現在有限時間內聚焦產品重點。透過系統化盤點易用性議題與定義核心用戶輪廓，收斂出能在短時間內顯著提升體驗的三大優化方向，並產出具體且可執行性的提案，加速團隊溝通與後續開發對齊。
+      </p>
+    </div>
+
+    <div class="reveal stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-10 sm:gap-24">
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="33" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">項</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">易用性議題盤點</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="3" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">種</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">用戶輪廓定義</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="3" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">項</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">核心優化方向</p>
+        </div>
+      </div>
+    </div>
+    <!-- <p class="reveal font-mono text-xs text-[var(--ink-faint)] mt-8">＊本提案為內部設計提案階段，尚未經開發實作與正式上線驗證；TA輪廓與使用頻次數據為示意資料。</p> -->
+  </div>
+</section>
+
+<!-- ============ 本專案重點 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1200px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點</p>
+    <div class="reveal max-w-2xl">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        基於設計思考與用戶數據脈絡，本專案優先聚焦高影響力、可快速執行的關鍵項目——重構視覺層級與推出自定義頻道。以最有效率的方式優化產品體驗，為 TVBS 新聞閱聽人打造流暢且個人化的全新觀看感受。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 大標：如何開始？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <h2 class="reveal project-title">如何開始？</h2>
+  </div>
+</section>
+
+<!-- ============ 本專案設計流程 ============ -->
+<section class="relative py-12 md:py-16">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="relative lg:min-h-[200vh]" id="processPinWrapper">
+    <div class="lg:sticky lg:top-0 lg:h-[60vh] lg:flex lg:flex-col lg:justify-center">
+    <div class="mb-16 md:mb-24">
+      <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
+      <p class="reveal text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
+        本專案設計流程涵蓋「前期研析」、「痛點收斂與排序」至「概念發散與介面實作」，將研究數據層層轉化為具體的產品落地方案。
+      </p>
+    </div>
+
+    <div class="relative" id="processTrack">
+      <!-- 手機/平板：灰色垂直連接線 -->
+      <div id="processLineGrayMobile" class="lg:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <!-- 手機/平板：藍色垂直連接線(隨滾動延伸) -->
+      <div id="processLineBlueMobile" class="lg:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+
+      <!-- 桌機：灰色水平連接線 -->
+      <div id="processLineGrayDesktop" class="hidden lg:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <!-- 桌機：藍色水平連接線(隨滾動延伸) -->
+      <div id="processLineBlueDesktop" class="hidden lg:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+
+      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-7 lg:gap-x-4 lg:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">01</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">研究與分析</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">TA輪廓：援引電視收視與 App 使用行為研究，推論用戶輪廓。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">02</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">訪談</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">易用性議題：任務導向可用性測試，記錄 33 項具體議題。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">03</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">收斂痛點</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">整合訪談洞察，具體化為三位代表性人物側寫。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">04</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">顧客旅程地圖／IPA</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">定位首頁與內容頁的情緒缺口與服務落差。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">05</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">優先度排序</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">依 IPA 缺口排序，鎖定三大核心優化方向。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">06</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">產出設計概念</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">針對三大方向發散並收斂具體介面解法。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">07</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">設計實作</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">產出可供產品與工程團隊討論的高保真介面提案。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 研究 > 產品數據 TA輪廓 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>研究與分析</p>
+    <div class="reveal max-w-3xl mb-4">
+      <p class="governing-line">
+        觀眾分析指出，年輕單身、工作者及高齡者分別對應輕中重度用戶；使用頻次則以每日 1-2 次為大宗。
+      </p>
+    </div>
+    <div class="reveal max-w-3xl mb-4">
+      <p class="text-[var(--ink-soft)] leading-relaxed">
+        由於缺乏 TVBS 新聞網自身的用戶行為數據，本階段先援引兩份外部資料，交叉比對推論當前數位新聞閱聽人可能的輪廓與使用慣性，作為後續 TA 分群與 Persona 建構的起點依據。
+      </p>
+    </div>
+    <p class="reveal font-mono text-xs text-[var(--ink-faint)] mb-16 md:mb-24">＊以下為示意資料</p>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-20 md:mb-32">
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_02/ta-tv-analysis.jpg" onerror="this.style.display='none'" alt="引人注目的電視分析：台灣電視的輕度、中度和重度觀眾">
+      </div>
+      <div>
+        <h3 class="font-display font-semibold text-lg mb-3">引人注目的電視分析：台灣電視的輕度、中度和重度觀眾</h3>
+        <p class="text-xs text-[var(--accent)] font-medium mb-4">輕度觀眾單身且年輕，中度觀眾工作者多，重度觀眾老齡化</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed mb-4">
+          從年齡分層的角度來看，輕度觀眾最年輕，35歲以下的觀眾佔一半以上，55歲以上的比例明顯低於電視整體；中度觀眾的情況與台灣人口結構相似，以25-54歲為主；重度觀眾受眾明顯是老年結構，55歲以上的佔一半以上，其中65歲以上的比例遠遠高於電視整體。
+        </p>
+        <p class="text-[var(--ink-soft)] text-sm leading-relaxed mb-2">
+          圖二、分眾平均每日電視接觸率與收看分鐘（2019/1/1–9/30，Mon–Sun 02:00–25:59，4歲以上，所有頻道，平均每日電視接觸率與收看分鐘）
+        </p>
+        <p class="font-mono text-xs text-[var(--ink-faint)]">資料來源：Nielsen Corporation</p>
+      </div>
+    </div>
+
+    <p class="reveal text-[var(--ink-soft)] leading-relaxed max-w-3xl mb-12">
+      雖然電視收視數據與行動新聞 App 的使用情境不完全相同，但兩者同屬新聞內容消費行為，加上目前尚未追蹤TVBS 新聞網用戶資料，因此先將電視觀眾的年齡結構作為初步的年齡分佈參考，再透過另一份行動新聞 App 使用行為研究，補齊「使用頻次」與「單次停留時間」兩項數位情境專屬的行為指標，讓輪廓推論更貼近實際的 App 使用場景。
+    </p>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-12">
+      <div>
+        <p class="font-display font-semibold text-base mb-4">平均一日使用次數</p>
+        <table class="info-table">
+          <thead><tr><th>選項</th><th>樣本數</th><th>百分比</th></tr></thead>
+          <tbody>
+            <tr><td>1. 一次</td><td class="num">73</td><td class="num">22.26%</td></tr>
+            <tr><td>2. 兩次</td><td class="num">73</td><td class="num">22.26%</td></tr>
+            <tr><td>3. 三次</td><td class="num">55</td><td class="num">16.77%</td></tr>
+            <tr><td>4. 四次</td><td class="num">14</td><td class="num">4.27%</td></tr>
+            <tr><td>5. 四次以上</td><td class="num">29</td><td class="num">8.84%</td></tr>
+            <tr><td>6. 不是每天使用，約2~3天使用一次</td><td class="num">43</td><td class="num">13.11%</td></tr>
+            <tr><td>7. 不是每天使用，約4~5天使用一次</td><td class="num">11</td><td class="num">3.35%</td></tr>
+            <tr><td>8. 不是每天使用，約一週使用一次</td><td class="num">5</td><td class="num">1.52%</td></tr>
+            <tr><td>9. 不是每天使用，約一週以上使用一次</td><td class="num">25</td><td class="num">7.62%</td></tr>
+          </tbody>
+        </table>
+        <p class="font-mono text-xs text-[var(--ink-faint)] mt-4">資料來源：《行動新聞App使用者行為意圖研究》李巧勻</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold text-base mb-4">平均一日使用時間</p>
+        <table class="info-table">
+          <thead><tr><th>選項</th><th>樣本數</th><th>百分比</th></tr></thead>
+          <tbody>
+            <tr><td>1. 未滿五分鐘</td><td class="num">59</td><td class="num">17.99%</td></tr>
+            <tr><td>2. 五分鐘（含）以上，未滿十分鐘</td><td class="num">81</td><td class="num">24.70%</td></tr>
+            <tr><td>3. 十分鐘（含）以上，未滿十五分鐘</td><td class="num">73</td><td class="num">22.26%</td></tr>
+            <tr><td>4. 十五分鐘（含）以上，未滿半小時</td><td class="num">68</td><td class="num">20.73%</td></tr>
+            <tr><td>5. 半小時（含）以上，未滿四十五分鐘</td><td class="num">31</td><td class="num">9.45%</td></tr>
+            <tr><td>6. 四十五分鐘（含），未滿一小時</td><td class="num">8</td><td class="num">2.44%</td></tr>
+            <tr><td>7. 一小時以上</td><td class="num">8</td><td class="num">2.44%</td></tr>
+          </tbody>
+        </table>
+        <p class="font-mono text-xs text-[var(--ink-faint)] mt-4">資料來源：《行動新聞App使用者行為意圖研究》李巧勻</p>
+      </div>
+    </div>
+    <p class="reveal text-[var(--ink-soft)] leading-relaxed max-w-3xl">
+      綜合兩份資料可以發現，多數用戶集中在「一日 1~2 次、單次 5~15 分鐘」的中頻使用區間，高頻與長時間使用皆屬少數。將此使用頻次分布，與電視觀眾的年齡結構交叉對照後，即可初步推論：低頻的年輕單身族群、中頻的職場工作者，以及高頻的中高齡族群，可能各自代表不同的使用情境與需求。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 訂立目標 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>訂立目標</p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        產品指標眾多，本次目標為<span class="font-semibold" style="color:var(--accent);">提升既有用戶的參與行為</span>，因此先處理產品既有問題，作為後續拉新、用戶留存的優化基石。
+      </p>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      <div>
+        <p class="font-display font-semibold text-base mb-6">指標樹狀結構</p>
+        <ul class="space-y-3 text-[var(--ink-soft)]">
+          <li class="font-display font-bold text-[var(--ink)]">週活躍用戶</li>
+          <li class="pl-6">— 觸及人數</li>
+          <li class="pl-6">— 拉新<span class="text-sm">（使用人數、註冊人數）</span></li>
+          <li class="pl-6 font-semibold" style="color:var(--accent);">— 參與<span class="text-sm font-normal text-[var(--ink-soft)]">（使用頻次、總／單頁停留時間、用戶滿意度、跳出率、閱讀篇數、互動數）</span></li>
+          <li class="pl-6">— 留存<span class="text-sm">（用戶忠誠度）</span></li>
+          <li class="pl-6">— 導流</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-display font-semibold text-base mb-6">HMW 我們如何……</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="flow-step"><p class="text-sm text-white">提升用戶開啟意願</p></div>
+          <div class="flow-step"><p class="text-sm text-white">減少用戶找新聞的時間</p></div>
+          <div class="flow-step"><p class="text-sm text-white">減少用戶閱讀時的中斷點</p></div>
+          <div class="flow-step"><p class="text-sm text-white">提升用戶與新聞的互動</p></div>
+          <div class="flow-step"><p class="text-sm text-white">更精準推播用戶想看的新聞</p></div>
+          <div class="flow-step"><p class="text-sm text-white">提升中、重度用戶比例</p></div>
+          <div class="flow-step"><p class="text-sm text-white">拉抬TVBS其他相關產品</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 產品願景宣言 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1200px] mx-auto px-8 md:px-16 text-center">
+    <p class="reveal statement-title mb-16 md:mb-24">
+      不只提供即時新聞<br>更是友善且值得信賴的數位新聞服務
+    </p>
+    <div class="reveal max-w-5xl mx-auto pt-16 md:pt-24 border-t border-[var(--line)]">
+      <p class="font-display font-semibold text-[var(--ink-faint)] tracking-wide mb-8">HMW…</p>
+      <p id="visionStatement" class="statement-title whitespace-nowrap">
+        我們如何提高用戶在TVBS新聞網的參與程度，<br>
+        提升用戶對產品的認同感，<br>
+        創造友善、個人化的數位閱讀環境，<br>
+        進而願意再次開啟TVBS新聞網。
+      </p>
+      <div class="mt-16 md:mt-24 border-t border-[var(--line)]"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 研究 > TA輪廓(頻次分群) ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>設定目標族群</p>
+    <div class="reveal max-w-3xl mb-4">
+      <p class="governing-line">
+        延續前述年齡與頻次交叉推論，本階段將用戶設定為「被動漫遊型」、「主動接收型」、「互動發表型」，以此作為篩選訪談對象的依據。
+      </p>
+    </div>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="text-[var(--ink-soft)] leading-relaxed">
+        低頻的被動漫遊型多為年輕單身族群，較少主動開啟新聞 APP，資訊多來自社群平台的被動接觸；中頻的主動接收型則以職場工作者為主，會在通勤等固定時段主動開啟 APP 瀏覽；高頻的互動發表型則集中在中高齡族群，除了頻繁開啟 APP，也更傾向針對新聞議題發表意見與互動。三種輪廓將分別找到對應受訪者，進行下一節更深入的易用性訪談。
+      </p>
+    </div>
+
+    <div class="reveal flex flex-col md:flex-row items-center md:items-stretch gap-2 md:gap-2 mb-6">
+      <div class="tag-pill font-mono text-xs px-4 py-2 rounded-full self-center" style="background:var(--accent);color:#fff;border-color:var(--accent);">低頻</div>
+      <div class="flex md:flex-1 items-center justify-center py-3 md:py-0"><div class="w-px h-8 md:w-full md:h-px bg-[var(--line)]"></div></div>
+
+      <div class="persona-card flex-1 flex flex-col items-center text-center p-8 w-full max-w-xs mx-auto md:max-w-none md:mx-0">
+        <img src="assets/images/work-detail_02/persona-1.jpg" onerror="this.style.display='none'" alt="被動漫遊型使用者" class="persona-photo mb-4" style="width:80px;height:80px;">
+        <h4 class="font-display font-bold text-xl text-[var(--ink)] mb-3">被動漫遊型</h4>
+        <p class="text-[var(--ink-soft)] leading-relaxed">25 歲以下</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">1 次／2~3 日</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">平均使用 5 分鐘</p>
+      </div>
+
+      <div class="persona-card flex-1 flex flex-col items-center text-center p-8 w-full max-w-xs mx-auto md:max-w-none md:mx-0">
+        <img src="assets/images/work-detail_02/persona-2.jpg" onerror="this.style.display='none'" alt="主動接收型使用者" class="persona-photo mb-4" style="width:80px;height:80px;">
+        <h4 class="font-display font-bold text-xl text-[var(--ink)] mb-3">主動接收型</h4>
+        <p class="text-[var(--ink-soft)] leading-relaxed">25~55 歲以下</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">1~2 次／1 日</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">平均使用 10~15 分鐘</p>
+      </div>
+
+      <div class="persona-card flex-1 flex flex-col items-center text-center p-8 w-full max-w-xs mx-auto md:max-w-none md:mx-0">
+        <img src="assets/images/work-detail_02/persona-3.jpg" onerror="this.style.display='none'" alt="互動發表型使用者" class="persona-photo mb-4" style="width:80px;height:80px;">
+        <h4 class="font-display font-bold text-xl text-[var(--ink)] mb-3">互動發表型</h4>
+        <p class="text-[var(--ink-soft)] leading-relaxed">55 歲以上</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">3 次／1 日</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">平均使用 15~30 分鐘</p>
+      </div>
+
+      <div class="flex md:flex-1 items-center justify-center py-3 md:py-0"><div class="w-px h-8 md:w-full md:h-px bg-[var(--line)]"></div></div>
+      <div class="tag-pill font-mono text-xs px-4 py-2 rounded-full self-center" style="background:var(--accent);color:#fff;border-color:var(--accent);">高頻</div>
+    </div>
+    <p class="reveal font-mono text-xs text-[var(--ink-faint)]">資料來源：《有線電視新聞頻道觀眾接收分析》朱全斌、《行動新聞App使用者行為意圖研究》李巧勻</p>
+  </div>
+</section>
+<!-- ============ 訪談 > 易用性議題 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>訪談與探索易用性議題</p>
+    <div class="reveal max-w-3xl mb-4">
+      <p class="governing-line">
+        以可用性測試搭配情境訪談，共記錄 33 項易用性議題，涵蓋新聞、內頁、直播、搜尋、會員與共用元件六大範疇。
+      </p>
+    </div>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="text-[var(--ink-soft)] leading-relaxed">
+        邀請 3 位分別對應輕、中、重度使用頻次的受訪者，在行動裝置上實際執行「尋找特定新聞」、「切換頻道」、「延伸閱讀」等真實任務，同步採用放聲思考法記錄操作過程中的猶豫與誤觸，並在事後訪談中追問操作當下的期待與困惑，藉此探索用戶動機、需求與期待。
+      </p>
+    </div>
+
+    <div class="reveal case-thumb aspect-[16/9] w-full max-w-md mb-16 md:mb-24">
+      <img src="assets/images/work-detail_02/interview-photo.jpg" onerror="this.style.display='none'" alt="使用者訪談照片">
+    </div>
+
+    <p class="reveal text-[var(--ink-soft)] leading-relaxed max-w-3xl mb-8">
+      將訪談中觀察到的操作困難逐一記錄，依「頁面位置」歸類後，再標註議題類型（UI、UX、架構、動效）與對應的易用性指標（如介面一致、操作引導、避免錯誤等），方便後續依嚴重程度與影響範圍排序優化順序。
+    </p>
+
+    <div class="reveal overflow-x-auto">
+      <table class="info-table" style="min-width:900px;">
+        <thead>
+          <tr><th>頁面位置</th><th>編號</th><th>議題</th><th>類型</th><th>指標</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">新聞</td><td class="num">1_1</td><td>landing page 的視覺與整體產品調性不統一</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">1_2</td><td>若用戶關注的議題在 tab 最後，必須滑到很後面才可點擊</td><td>UX</td><td>操作引導</td></tr>
+          <tr><td></td><td class="num">1_3</td><td>主題新聞的 icon 過大，導致整體 APP 看起來不細緻</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">1_4</td><td>live 與每日熱搜的區塊像是一般的新聞，用戶無法分辨</td><td>UI</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">1_5</td><td>live 與每日熱搜的標籤沒有對齊</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">1_6</td><td>新聞、AD、推薦功能的大小不一，看起來較為混亂</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">1_7</td><td>下方區塊類別在分類上不明確，如「全球」類別下直接接「政治」新聞，但沒有標題做出區隔</td><td>架構</td><td>簡易學習</td></tr>
+          <tr><td></td><td class="num">1_8</td><td>廣告圖若還沒出現，需要以流沙做呈現</td><td>動效</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">1_9</td><td>配圖、內文、日期的間距不一致</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">1_10</td><td>上方 tab 切換時，live 與每日熱搜重複出現，用戶無法分辨首頁與次頁的差異</td><td>UX</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">1_11</td><td>下方 Maintab 的 icon 調性不一致</td><td>UI</td><td>介面一致</td></tr>
+
+          <tr><td class="num">內頁</td><td class="num">2_1</td><td>下方 Maintab 不該隨著點擊而轉換，應將進階功能重新安排位置</td><td>UI</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">2_2</td><td>內文區跳出的時機需要重新定義，忽然跳出會導致用戶困擾</td><td>UX</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">2_3</td><td>內文各區塊的間距需要重新調整</td><td>UI</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">2_4</td><td>更多新聞、新聞標籤、更新時間等資訊需要重新編排位置與呈現形式</td><td>UI</td><td>簡易學習</td></tr>
+          <tr><td></td><td class="num">2_5</td><td>「延伸閱讀」、「你可能會喜歡」、「人氣點榜」的推薦規則用戶不清楚</td><td>UX</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">2_6</td><td>「複製」的語意不明確，用戶以為是複製文字，結果是複製連結</td><td>UX</td><td>避免錯誤</td></tr>
+          <tr><td></td><td class="num">2_7</td><td>點擊「字級」後，沒有意識到下方是範例，位置與樣式需要重新調整</td><td>架構</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">2_8</td><td>點擊內文後，上方沒有意識到下方需要重新調整</td><td>UI</td><td>操作便利</td></tr>
+          <tr><td></td><td class="num">2_9</td><td>內文中插入「更多新聞」，會誤使用戶的閱讀節奏被打亂</td><td>UX</td><td>操作便利</td></tr>
+
+          <tr><td class="num">直播</td><td class="num">3_1</td><td>點擊「查看直播」結果是開啟新頁，用戶須點擊一次才可觀賞直播，屬於多餘的頁面</td><td>UX</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">3_2</td><td>直播標題重複出現「#最新看TVBS【LIVE】」，屬於重複的資訊</td><td>UX</td><td>介面理解</td></tr>
+          <tr><td></td><td class="num">3_3</td><td>用戶期待點擊「議題」後是看到不同主題的分類，不適合使用當前條列的形式</td><td>UX</td><td>介面理解</td></tr>
+
+          <tr><td class="num">搜尋</td><td class="num">4_1</td><td>頁面的編排方式與整體 APP 不相符</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">4_2</td><td>無法客製化自己要的內容</td><td>UX</td><td>客製化功能</td></tr>
+          <tr><td></td><td class="num">4_3</td><td>過去輸入的內容，已經清空但跳頁後仍持續出現</td><td>UX</td><td>避免錯誤</td></tr>
+
+          <tr><td class="num">會員</td><td class="num">5_1</td><td>本頁中的排版、樣式與 APP 的形式不一致</td><td>UI</td><td>架構理解</td></tr>
+          <tr><td></td><td class="num">5_2</td><td>註冊、登入為重要的 CTA，上方的呈現不明顯</td><td>架構</td><td>操作引導</td></tr>
+          <tr><td></td><td class="num">5_3</td><td>「會員」中的「特別致謝」連結失效</td><td>UX</td><td>避免錯誤</td></tr>
+          <tr><td></td><td class="num">5_4</td><td>本頁不需要下滑更新的動作</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">5_5</td><td>「關於」的項目需要盤點結構、目的並考量是否要移除</td><td>UX</td><td>介面理解</td></tr>
+
+          <tr><td class="num">共用</td><td class="num">6_1</td><td>本 APP 中的 AD 樣式需要重新盤點，討論一致性的可能</td><td>UI</td><td>介面一致</td></tr>
+          <tr><td></td><td class="num">6_2</td><td>本 APP 使用的 icon、字體樣式不一致</td><td>UI</td><td>介面一致</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="reveal text-[var(--ink-soft)] leading-relaxed max-w-3xl mt-8">
+      33 項議題中，「新聞首頁」與「內頁」合計占比超過六成，顯示用戶在瀏覽與閱讀的核心情境中遭遇最多阻礙，這也直接呼應了後續優化方向以首頁與內容頁為核心戰場的判斷。
+    </p>
+  </div>
+</section>
+
+<!-- ============ Persona ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>收斂痛點</p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line mb-3">具象化用戶輪廓與定義痛點、目標</p>
+      <p class="text-[var(--ink-soft)] leading-relaxed">
+        整合訪談與觀察，收斂出 3 種代表性使用者輪廓，作為設計執行的基準。
+      </p>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      <!-- Persona 1：被動漫遊型 -->
+      <div class="persona-card persona-card-elevate group flex flex-col">
+        <div class="p-7 pb-6" style="background:#4A8FC7;">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="assets/images/work-detail_02/persona-1.jpg" onerror="this.style.display='none'" alt="鄭小方" class="persona-photo">
+            <div>
+              <p class="font-display font-semibold text-base text-white">鄭小方</p>
+              <p class="text-sm text-white/75">24 歲</p>
+            </div>
+          </div>
+          <h4 class="font-display font-bold text-lg text-white mb-1">被動漫遊型</h4>
+          <p class="text-sm font-medium text-white/85">重視瀏覽功能</p>
+        </div>
+
+        <div class="p-7 flex flex-col flex-1">
+          <blockquote class="text-sm italic text-[var(--ink)] leading-relaxed mb-5 pl-4" style="border-left:3px solid var(--accent);">
+            「我只想滑手機的時候順便看看有什麼新鮮事，太複雜的介面會讓我直接滑走。」
+          </blockquote>
+
+          <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="persona-data-chip">
+              <p class="text-sm text-[var(--ink-faint)] mb-1">⏱ 使用頻率</p>
+              <p class="font-display font-bold text-base text-[var(--ink)]">1<span class="text-sm font-normal text-[var(--ink-soft)]">次／2~3日</span></p>
+            </div>
+            <div class="persona-data-chip">
+              <p class="text-sm text-[var(--ink-faint)] mb-1">⏳ 停留時間</p>
+              <p class="font-display font-bold text-base text-[var(--ink)]">5<span class="text-sm font-normal text-[var(--ink-soft)]">分鐘／次</span></p>
+            </div>
+          </div>
+
+          <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">關注議題</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">美食</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">寵物</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">旅遊</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">社群導向</span>
+          </div>
+        </div>
+
+        <div class="persona-expand lg:max-h-0 lg:opacity-0 lg:overflow-hidden lg:group-hover:max-h-[500px] lg:group-hover:opacity-100 transition-all duration-500 ease-in-out">
+          <div class="px-7 pb-7">
+            <div class="persona-divider"></div>
+            <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">痛點</p>
+            <ul class="space-y-1.5 mb-5">
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#d9534f;">✕</span>覺得產品看起來太複雜</li>
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#d9534f;">✕</span>無法快速掌握報導重點</li>
+            </ul>
+
+            <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">目標</p>
+            <ul class="space-y-1.5">
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#3a9d5d;">✓</span>更快速瀏覽資訊</li>
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#3a9d5d;">✓</span>避免中斷閱讀體驗</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 2：主動接收型 -->
+      <div class="persona-card persona-card-elevate group flex flex-col">
+        <div class="p-7 pb-6" style="background:#0468AF;">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="assets/images/work-detail_02/persona-2.jpg" onerror="this.style.display='none'" alt="曾阿凱" class="persona-photo">
+            <div>
+              <p class="font-display font-semibold text-base text-white">曾阿凱</p>
+              <p class="text-sm text-white/75">34 歲</p>
+            </div>
+          </div>
+          <h4 class="font-display font-bold text-lg text-white mb-1">主動接收型</h4>
+          <p class="text-sm font-medium text-white/85">重視檢索功能</p>
+        </div>
+
+        <div class="p-7 flex flex-col flex-1">
+          <blockquote class="text-sm italic text-[var(--ink)] leading-relaxed mb-5 pl-4" style="border-left:3px solid var(--accent);">
+            「我通勤時間有限，只想快速看完在意的那幾則新聞，其他干擾我完全不需要。」
+          </blockquote>
+
+          <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="persona-data-chip">
+              <p class="text-sm text-[var(--ink-faint)] mb-1">⏱ 使用頻率</p>
+              <p class="font-display font-bold text-base text-[var(--ink)]">1~2<span class="text-sm font-normal text-[var(--ink-soft)]">次／1日</span></p>
+            </div>
+            <div class="persona-data-chip">
+              <p class="text-sm text-[var(--ink-faint)] mb-1">⏳ 停留時間</p>
+              <p class="font-display font-bold text-base text-[var(--ink)]">10~15<span class="text-sm font-normal text-[var(--ink-soft)]">分鐘／次</span></p>
+            </div>
+          </div>
+
+          <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">關注議題</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">社會</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">政治</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">生活</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">通勤閱讀</span>
+          </div>
+        </div>
+
+        <div class="persona-expand lg:max-h-0 lg:opacity-0 lg:overflow-hidden lg:group-hover:max-h-[500px] lg:group-hover:opacity-100 transition-all duration-500 ease-in-out">
+          <div class="px-7 pb-7">
+            <div class="persona-divider"></div>
+            <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">痛點</p>
+            <ul class="space-y-1.5 mb-5">
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#d9534f;">✕</span>產品功能與閱讀習慣有落差</li>
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#d9534f;">✕</span>干擾太多，無法好好閱讀</li>
+            </ul>
+
+            <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">目標</p>
+            <ul class="space-y-1.5">
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#3a9d5d;">✓</span>管理自己感興趣的新聞</li>
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#3a9d5d;">✓</span>更有效率地閱讀新聞報導</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 3：互動發表型 -->
+      <div class="persona-card persona-card-elevate group flex flex-col">
+        <div class="p-7 pb-6" style="background:#043A63;">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="assets/images/work-detail_02/persona-3.jpg" onerror="this.style.display='none'" alt="王大日" class="persona-photo">
+            <div>
+              <p class="font-display font-semibold text-base text-white">王大日</p>
+              <p class="text-sm text-white/75">58 歲</p>
+            </div>
+          </div>
+          <h4 class="font-display font-bold text-lg text-white mb-1">互動發表型</h4>
+          <p class="text-sm font-medium text-white/85">重視互動功能</p>
+        </div>
+
+        <div class="p-7 flex flex-col flex-1">
+          <blockquote class="text-sm italic text-[var(--ink)] leading-relaxed mb-5 pl-4" style="border-left:3px solid var(--accent);">
+            「看新聞是我每天的日常，看到不認同的報導，我一定要留言講兩句。」
+          </blockquote>
+
+          <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="persona-data-chip">
+              <p class="text-sm text-[var(--ink-faint)] mb-1">⏱ 使用頻率</p>
+              <p class="font-display font-bold text-base text-[var(--ink)]">3<span class="text-sm font-normal text-[var(--ink-soft)]">次／1日</span></p>
+            </div>
+            <div class="persona-data-chip">
+              <p class="text-sm text-[var(--ink-faint)] mb-1">⏳ 停留時間</p>
+              <p class="font-display font-bold text-base text-[var(--ink)]">15~30<span class="text-sm font-normal text-[var(--ink-soft)]">分鐘／次</span></p>
+            </div>
+          </div>
+
+          <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">關注議題</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">政治</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">健康</span>
+            <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">意見發表</span>
+          </div>
+        </div>
+
+        <div class="persona-expand lg:max-h-0 lg:opacity-0 lg:overflow-hidden lg:group-hover:max-h-[500px] lg:group-hover:opacity-100 transition-all duration-500 ease-in-out">
+          <div class="px-7 pb-7">
+            <div class="persona-divider"></div>
+            <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">痛點</p>
+            <ul class="space-y-1.5 mb-5">
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#d9534f;">✕</span>無法針對報導進行互動</li>
+            </ul>
+
+            <p class="font-display font-bold text-sm text-[var(--ink-faint)] mb-2 tracking-wide">目標</p>
+            <ul class="space-y-1.5">
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#3a9d5d;">✓</span>更快速瀏覽資訊</li>
+              <li class="flex items-start gap-2 text-sm text-[var(--ink-soft)]"><span class="font-bold" style="color:#3a9d5d;">✓</span>避免中斷閱讀體驗</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="reveal text-xs text-[var(--ink-faint)] mt-4">＊ hover 卡片可展開查看完整痛點與目標</p>
+    <p class="reveal text-[var(--ink-soft)] leading-relaxed max-w-3xl mt-12">
+      三位 Persona 雖然開啟頻次與停留時間具有差異，卻共同指向同一個核心期待——更快速瀏覽資訊、避免中斷閱讀體驗。這也再次驗證了前述「新聞首頁」與「內容頁」作為優化戰場的判斷，是本次改版中最大的用戶需求。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 顧客旅程地圖 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>顧客旅程地圖</p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        透過顧客旅程地圖收斂易用性議題（P0），並搭配 IPA 評估服務缺口，以規劃其餘項目的優化優先順序。
+      </p>
+    </div>
+
+    <div class="reveal overflow-x-auto">
+      <table class="info-table" style="min-width:1100px;">
+        <thead>
+          <tr>
+            <th></th>
+            <th>選擇媒體<br><span class="font-mono text-[10px] font-normal text-[var(--ink-faint)]">使用前</span></th>
+            <th>開啟首頁<br><span class="font-mono text-[10px] font-normal text-[var(--ink-faint)]">使用中</span></th>
+            <th>選擇報導</th>
+            <th>閱讀內文</th>
+            <th>進階動作</th>
+            <th>延伸閱讀</th>
+            <th>其他延伸<br><span class="font-mono text-[10px] font-normal text-[var(--ink-faint)]">使用後</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="font-display font-bold text-[var(--ink)]">目標</td>
+            <td>找到適合自己的媒體</td>
+            <td>能快速理解版面介面、看起來條理分明、第一眼吸引人</td>
+            <td>被動：標題／圖片吸引人。主動：快速搜尋目標新聞、辨識出未讀的新聞</td>
+            <td>順暢讀完報導、能有舒適的閱讀體驗</td>
+            <td>能收藏感興趣的報導、能針對議題發表心情、留言、意見</td>
+            <td>得到更多相關的資訊</td>
+            <td>找得到收藏的地方</td>
+          </tr>
+          <tr>
+            <td class="font-display font-bold text-[var(--ink)]">痛點</td>
+            <td>不知道選擇哪家媒體</td>
+            <td>難以理解首頁畫面、點擊後不是期待的頁面</td>
+            <td>無法訂閱想關注的頻道、無法在列表時快速分別出新聞類別</td>
+            <td>不斷被其他資訊干擾閱讀</td>
+            <td>無法收藏報導、無法與他人互動、無法針對新聞發表心情</td>
+            <td>延伸閱讀出現的時機無法理解</td>
+            <td>無法針對產品做更多動作，可控性低、不知道成為會員的動機為何</td>
+          </tr>
+          <tr>
+            <td class="font-display font-bold text-[var(--ink)]">情緒曲線</td>
+            <td>🙂</td><td>😠</td><td>😐</td><td>😠</td><td>😠</td><td>😐</td><td>😐</td>
+          </tr>
+          <tr>
+            <td class="font-display font-bold text-[var(--ink)]">IPA</td>
+            <td class="num">8</td><td class="num">5</td><td class="num">8</td><td class="num">6.7</td><td class="num">3.6</td><td class="num">1</td><td class="num"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 大標：如何落地？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <h2 class="reveal project-title">如何落地？</h2>
+  </div>
+</section>
+
+<!-- ============ 優化方向總覽 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>三大優化方向</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      根據前述分析，本APP核心體驗集中於<span class="font-semibold" style="color:var(--accent);">「首頁」與「內容頁」</span>。因此本次優化將先聚焦在此兩大關鍵場景，預期透過視覺精緻化、個人化自定義，以及深度引導閱讀三大設計策略，優化介面與操作體驗。
+    </p>
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8">
+      <div class="rounded-2xl p-6" style="background:var(--ink);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">01</span>
+          <h3 class="font-display font-semibold text-xl text-white">新聞首頁提案</h3>
+          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.3);color:#fff;">首頁</span>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>提升細緻度，統一視覺風格</li>
+          <li>強化重點，使主從更明確</li>
+          <li>提供輔助資訊</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-6" style="background:var(--ink);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">02</span>
+          <h3 class="font-display font-semibold text-xl text-white">自定義頻道類別</h3>
+          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.3);color:#fff;">首頁</span>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>自定義個人化頻道</li>
+          <li>提供便捷快速的捷徑</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-6" style="background:var(--ink);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">03</span>
+          <h3 class="font-display font-semibold text-xl text-white">引導閱讀</h3>
+          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.3);color:#fff;">內容頁</span>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>統整視覺元件，強化整體一致性</li>
+          <li>釋放頁面閱讀空間</li>
+          <li>調整間距與圖文配置，優化閱讀動線</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ S01 新聞首頁提案（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">01</span>
+      <h2 class="subsection-title">新聞首頁提案</h2>
+      <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full" style="border-color:var(--accent);color:var(--accent);">首頁</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 新聞首頁提案 > 現況與問題 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 現況與問題</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      首頁在有限的螢幕空間內堆疊過多資訊層級，導致視覺主從不明；且問題多與「一致性」與「資訊有效運用」相關，是本次改版優先處理的基礎課題。
+    </p>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="flex flex-col gap-8">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">出現重複資訊</h4><p class="text-[var(--ink-soft)] leading-relaxed">頻道分類為產品重要架構，建議固定不要變動，減少用戶瞭解產品架構的學習時間。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">元件細緻度</h4><p class="text-[var(--ink-soft)] leading-relaxed">整體間距、對齊、大小階需要調整，增強整體細緻度，也凸現畫面中的主次關係。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">文字辨識度</h4><p class="text-[var(--ink-soft)] leading-relaxed">輪播的畫面中，圖片與文字的搭配使文字不宜閱讀，用戶需要更認真的閱讀文字，造成負擔。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">空間的有效運用</h4><p class="text-[var(--ink-soft)] leading-relaxed">此處留過多空白，導致首頁在第一屏給人散亂的感覺。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">5</span><div><h4 class="font-display font-semibold text-lg mb-1">視覺一致性</h4><p class="text-[var(--ink-soft)] leading-relaxed">此區塊為常駐的重點功能，目前版本像是直接嵌入畫面中，沒有考量視覺一致性。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">6</span><div><h4 class="font-display font-semibold text-lg mb-1">輔助標籤</h4><p class="text-[var(--ink-soft)] leading-relaxed">首頁報導列表中可提供分類標籤，協助用戶快速分辨該新聞是否是自己感興趣的。</p></div></div>
+      </div>
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_02/hero-app.jpg" onerror="this.style.display='none'" alt="新聞首頁現況畫面">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 新聞首頁提案 > 目的 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 目的</p>
+    <div class="reveal max-w-2xl mb-16 md:mb-24">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        提供結構分明的新首頁佈局，先優化通用性的易用性議題，提升產品的易讀性與操作體驗。
+      </p>
+    </div>
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 1</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">提升細緻度</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">對齊、間距、大小、留白，圖文比例安排，視覺、元件一致性。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 2</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">加入輔助資訊</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">新聞列表加入類別標籤，自定義頻道功能，未來版面擴充性。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 3</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">主從分明</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">強調第一屏的畫面重點，圖文搭配時的辨識度，聚焦在報導本身。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 新聞首頁提案 > 方案比較 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案發想</p>
+    <div class="reveal max-w-2xl mb-16 md:mb-24">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        提出三款首頁新方案，皆包含前述所提之優化重點，藉此創造團隊討論空間。
+      </p>
+    </div>
+    <div class="reveal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-original.jpg" onerror="this.style.display='none'" alt="原版首頁畫面"></div>
+        <h4 class="font-display font-semibold text-center mb-2">原版</h4>
+        <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">目前上線版本，作為比較基準。</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-option1.jpg" onerror="this.style.display='none'" alt="方案一首頁畫面"></div>
+        <h4 class="font-display font-semibold text-center mb-2" style="color:var(--accent);">方案一</h4>
+        <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">以原有 APP 為基礎，在既有的架構下進行重新拉皮，開發成本較低。</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-option2.jpg" onerror="this.style.display='none'" alt="方案二首頁畫面"></div>
+        <h4 class="font-display font-semibold text-center mb-2" style="color:var(--accent);">方案二</h4>
+        <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">透過卡片式設計提高未來擴充性，並將原首頁上方的圓形 TAB 收整在底部「議題」中。</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-option3.jpg" onerror="this.style.display='none'" alt="方案三首頁畫面"></div>
+        <h4 class="font-display font-semibold text-center mb-2" style="color:var(--accent);">方案三</h4>
+        <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">以「每日必知新聞」的形式增加用戶與 APP 的互動性。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 方案一 細節 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案一</p>
+    <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start">
+      <div class="case-thumb aspect-[9/16] w-full max-w-sm mx-auto lg:mx-0">
+        <img src="assets/images/work-detail_02/home-option1-detail.jpg" onerror="this.style.display='none'" alt="方案一介面細節">
+      </div>
+      <div class="flex flex-col gap-8">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">優化視覺一致性</h4><p class="text-[var(--ink-soft)] leading-relaxed">整理首頁相關視覺元件，帶入一致性的標準色，且調整間距、對齊、大小，使整體產品在第一印象上更為整齊、有重點。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">架構整理</h4><p class="text-[var(--ink-soft)] leading-relaxed">收整常駐的 Live 與熱搜榜至議題 TAB，利用主圖區分頻道與議題，保留更多的空間給新聞報導，以符合用戶希望「看新聞」的期待。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">提升閱覽效率</h4><p class="text-[var(--ink-soft)] leading-relaxed">提供更多的資訊，協助用戶在選擇報導時能有更多的依據，加速閱覽時的效率。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">可延續應用的 CTA 樣式</h4><p class="text-[var(--ink-soft)] leading-relaxed">重新調整 CTA 形式，讓 CTA 可延續使用，確保服務在具備一致性的前提下產生不同變化。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 方案二 細節 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案二</p>
+    <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start">
+      <div class="case-thumb aspect-[9/16] w-full max-w-sm mx-auto lg:mx-0">
+        <img src="assets/images/work-detail_02/home-option2-detail.jpg" onerror="this.style.display='none'" alt="方案二介面細節">
+      </div>
+      <div class="flex flex-col gap-8">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">聚焦文字內容</h4><p class="text-[var(--ink-soft)] leading-relaxed">利用大圖與文字的搭配，呈現出具質感的新聞媒體氛圍，因疊黑色透明的關係，降低不同品質照片的影響，用戶也能更聚焦在內容資訊本身。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">卡片式設計</h4><p class="text-[var(--ink-soft)] leading-relaxed">藉由卡片式設計保留未來新內容、功能加入時的擴充性，亦強化了不同主題的區塊感，用戶能明確的辨識出各區塊的主題與內容。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">利用標籤強化主題</h4><p class="text-[var(--ink-soft)] leading-relaxed">利用標籤的加入，幫助用戶在資訊量較多的首頁快速理出重點，也因為具備一致性，可幫助用戶更選擇希望看的新聞。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">減少用戶操作</h4><p class="text-[var(--ink-soft)] leading-relaxed">用戶在首頁即可看到今日熱搜排名內容，亦可以直接點擊觀看新聞，減少一層，減少用戶探索的時間。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 方案三 細節 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案三</p>
+    <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start">
+      <div class="case-thumb aspect-[9/16] w-full max-w-sm mx-auto lg:mx-0">
+        <img src="assets/images/work-detail_02/home-option3-detail.jpg" onerror="this.style.display='none'" alt="方案三介面細節：滑動切換每日必知新聞">
+      </div>
+      <div class="flex flex-col gap-8">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">強化互動</h4><p class="text-[var(--ink-soft)] leading-relaxed">以「每日必知新聞」的形式增加用戶與 APP 的互動性，用戶可藉由手勢滑動，快速篩選出想看的今日新聞，篩選後的新聞也不會出現，幫助用戶管理新聞。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">輕鬆友善的視覺風格</h4><p class="text-[var(--ink-soft)] leading-relaxed">本版因強調互動性，視覺上將採用較多的圓角，使產品調性偏向輕鬆友善，營造不同的即時新聞氛圍。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">增加用戶參與感</h4><p class="text-[var(--ink-soft)] leading-relaxed">加入已讀數與留言數，引導用戶與報導進行互動，增加用戶參與感，在本產品中進行更多操作。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">聚焦用戶操作行為</h4><p class="text-[var(--ink-soft)] leading-relaxed">下方 Main Tab 採用浮動的形式，當用戶下滑閱覽時消失，往回滑或停止 3 秒時出現，增加互動性的同時也讓閱讀空間更大。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ S02 自定義頻道類別（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">02</span>
+      <h2 class="subsection-title">自定義頻道類別</h2>
+      <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full" style="border-color:var(--accent);color:var(--accent);">首頁</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 自定義頻道類別 > 現況與問題 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 現況與問題</p>
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div>
+        <p class="text-[var(--ink-soft)] leading-relaxed mb-4">
+          當前頻道眾多，且每位用戶關注的議題不同，導致用戶在查找目標頻道時需要花費較多時間。
+        </p>
+        <p class="text-[var(--ink-soft)] leading-relaxed mb-8">
+          尤其對於僅有特定關注議題的中、高頻用戶而言，缺乏個人化的頻道管理機制，等同於每次開啟 APP 都要重新篩選一次資訊，長期下來將削弱使用效率與黏著度。
+        </p>
+        <div class="flex flex-col gap-8">
+          <div class="numbered-item"><span class="numbered-badge">1</span><h4 class="font-display font-semibold text-lg">查找頻道效率較低</h4></div>
+          <div class="numbered-item"><span class="numbered-badge">2</span><h4 class="font-display font-semibold text-lg">無法管理頻道</h4></div>
+        </div>
+      </div>
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_02/channel-current.jpg" onerror="this.style.display='none'" alt="頻道現況畫面">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 自定義頻道類別 > 目的 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 目的</p>
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 1</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">定義自己的新聞</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">用戶可依照自己需求，設定頁籤與推播設定，打造符合自己習慣的新聞 APP。提升用戶的操作性與客製化目的，進而提升產品黏著度。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 2</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">提供便捷的捷徑</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">用戶可藉由本頁總覽本產品的所有頻道，並可直接點擊進入目標頻道，提升操作效率。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 自定義頻道類別 > 佐證資料 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 佐證資料</p>
+    <div class="reveal max-w-2xl mb-16 md:mb-24">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        藉由競品發現「頻道管理」為即時新聞服務標配，表現的形式大同小異，不過對於年長用戶來說可能不好操作。
+      </p>
+    </div>
+    <div class="reveal grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-3"><img src="assets/images/work-detail_02/competitor-1.jpg" onerror="this.style.display='none'" alt="東森新聞雲"></div>
+        <p class="text-center text-sm font-display font-medium">東森新聞雲</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-3"><img src="assets/images/work-detail_02/competitor-2.jpg" onerror="this.style.display='none'" alt="und News"></div>
+        <p class="text-center text-sm font-display font-medium">und News</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-3"><img src="assets/images/work-detail_02/competitor-3.jpg" onerror="this.style.display='none'" alt="Medium"></div>
+        <p class="text-center text-sm font-display font-medium">Medium</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-3"><img src="assets/images/work-detail_02/competitor-4.jpg" onerror="this.style.display='none'" alt="小紅書"></div>
+        <p class="text-center text-sm font-display font-medium">小紅書</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full mb-3"><img src="assets/images/work-detail_02/competitor-5.jpg" onerror="this.style.display='none'" alt="蜻蜓FM"></div>
+        <p class="text-center text-sm font-display font-medium">蜻蜓FM</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 自定義頻道類別 > 概念解法 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 概念解法</p>
+    <p class="reveal governing-line max-w-3xl mb-4">
+      針對自定義頻道提出兩款方案：方案一以卡片式列表換取更大的觸控範圍，方案二則貼近多數競品的慣用形式，換取更精簡的頁面空間。
+    </p>
+    <p class="reveal font-mono text-xs text-[var(--ink-faint)] mb-16 md:mb-24">＊兩款方案的差異在於「操作範圍」與「學習成本」的取捨。</p>
+    <div class="reveal grid grid-cols-1 sm:grid-cols-[320px_320px] justify-center gap-2 lg:gap-4">
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full max-w-xs sm:max-w-none mx-auto mb-6"><img src="assets/images/work-detail_02/channel-option1.jpg" onerror="this.style.display='none'" alt="方案一：自定義頻道"></div>
+        <h4 class="font-display font-semibold text-lg mb-3 text-center">方案一</h4>
+        <p class="text-sm text-[var(--ink-soft)] mb-1 text-center"><span class="font-semibold text-[var(--ink)]">優｜</span>操作範圍大，不易誤觸</p>
+        <p class="text-sm text-[var(--ink-soft)] text-center"><span class="font-semibold text-[var(--ink)]">缺｜</span>所需頁面空間較大</p>
+      </div>
+      <div>
+        <div class="case-thumb aspect-[9/16] w-full max-w-xs sm:max-w-none mx-auto mb-6"><img src="assets/images/work-detail_02/channel-option2.jpg" onerror="this.style.display='none'" alt="方案二：自定義頻道"></div>
+        <h4 class="font-display font-semibold text-lg mb-3 text-center">方案二</h4>
+        <p class="text-sm text-[var(--ink-soft)] mb-1 text-center"><span class="font-semibold text-[var(--ink)]">優｜</span>競品常見的形式，所需空間較小</p>
+        <p class="text-sm text-[var(--ink-soft)] text-center"><span class="font-semibold text-[var(--ink)]">缺｜</span>需要學習操作，容易誤觸</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ S03 引導閱讀（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">03</span>
+      <h2 class="subsection-title">引導閱讀</h2>
+      <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full" style="border-color:var(--accent);color:var(--accent);">內容頁</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 引導閱讀 > 現況與問題 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>引導閱讀 &gt; 現況與問題</p>
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div>
+        <p class="text-[var(--ink-soft)] leading-relaxed mb-8">
+          以單屏瀏覽空間的角度，還有可釋出的空間。以整體的角度，排版因資訊主從不分明、廣告插入形式等綜合影響，導致全篇報導中斷點過多，用戶難以閱讀完全文。
+        </p>
+        <div class="flex flex-col gap-8">
+          <div class="numbered-item"><span class="numbered-badge">1</span><h4 class="font-display font-semibold text-lg">瀏覽空間沒有最大化應用</h4></div>
+          <div class="numbered-item"><span class="numbered-badge">2</span><h4 class="font-display font-semibold text-lg">用戶無法聚焦在報導本身</h4></div>
+          <div class="numbered-item"><span class="numbered-badge">3</span><h4 class="font-display font-semibold text-lg">斷點過多，干擾閱讀</h4></div>
+        </div>
+      </div>
+      <div class="case-thumb aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_02/reading-current.jpg" onerror="this.style.display='none'" alt="內文頁現況畫面">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 引導閱讀 > 目的 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>引導閱讀 &gt; 目的</p>
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 1</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">順暢的閱讀體驗</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">調整報導內文的配置，使各區塊所呈現的資訊與內容分明，用戶無需判斷自己現在在哪、看到哪一部份、是否尚未閱讀完的想法出現。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 2</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">增加瀏覽版面區塊</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">增加瀏覽時的閱讀區塊，讓用戶可以聚焦在閱讀的本身，降低被其他行為干擾的情況。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 引導閱讀 > 概念解法 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>引導閱讀 &gt; 概念解法</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      解法圍繞「釋放閱讀空間」與「降低中斷點」兩個方向展開：前半段聚焦頂部功能收整與內文層次重整，後半段則處理廣告、標籤與延伸閱讀等次要資訊的定位。
+    </p>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start mb-16 md:mb-24">
+      <div class="case-thumb aspect-[9/16] w-full max-w-sm mx-auto lg:mx-0">
+        <img src="assets/images/work-detail_02/reading-solution-1.jpg" onerror="this.style.display='none'" alt="引導閱讀概念解法：內文頁面">
+      </div>
+      <div class="flex flex-col gap-8">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">增加一屏的瀏覽版面區塊</h4><p class="text-[var(--ink-soft)] leading-relaxed">將原有功能收納，增加閱讀空間。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">進階功能收整在頂部</h4><p class="text-[var(--ink-soft)] leading-relaxed">螢幕下滑時 Fix 在頂部，讓用戶可隨時操作。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">重新整理新聞資訊層次</h4><p class="text-[var(--ink-soft)] leading-relaxed">統整相同的資訊，使新聞相關資訊清晰有結構，並新增已讀數與留言數，增加此新聞的互動感。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">調整內文區塊間距</h4><p class="text-[var(--ink-soft)] leading-relaxed">利用間距明確區分出各區塊的界線，避免發生用戶已經以為閱讀完畢，其實報導尚未結束。</p></div></div>
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start">
+      <div class="case-thumb w-full max-w-sm mx-auto lg:mx-0 aspect-[9/16]">
+        <img src="assets/images/work-detail_02/reading-solution-2.jpg" onerror="this.style.display='none'" alt="引導閱讀概念解法：延伸閱讀與留言區">
+      </div>
+      <div class="flex flex-col gap-8">
+        <div class="numbered-item"><span class="numbered-badge">5</span><div><h4 class="font-display font-semibold text-lg mb-1">重新選擇廣告樣式</h4><p class="text-[var(--ink-soft)] leading-relaxed">使內文圖片與廣告圖得以更明確的區分。（目前使用東森新聞雲的樣式）</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">6</span><div><h4 class="font-display font-semibold text-lg mb-1">圖片比例調整</h4><p class="text-[var(--ink-soft)] leading-relaxed">採用全版圖片明確呈現新聞照片。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">7</span><div><h4 class="font-display font-semibold text-lg mb-1">調整新聞標籤</h4><p class="text-[var(--ink-soft)] leading-relaxed">帶入產品識別色，增加視覺一致性。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">8</span><div><h4 class="font-display font-semibold text-lg mb-1">以視覺元件提示報導結束</h4><p class="text-[var(--ink-soft)] leading-relaxed">以明確的視覺元件提示報導已結束，接下來為延伸閱讀。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">9</span><div><h4 class="font-display font-semibold text-lg mb-1">CTA 明確</h4><p class="text-[var(--ink-soft)] leading-relaxed">藉由明確的「下一篇」指引，讓用戶無需接收更多資訊，直接閱讀下一篇相關報導。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">10</span><div><h4 class="font-display font-semibold text-lg mb-1">內文視覺一致性</h4><p class="text-[var(--ink-soft)] leading-relaxed">利用藉由標準色統整內文的視覺風格，使整體看起來具一致性。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">11</span><div><h4 class="font-display font-semibold text-lg mb-1">欄位編排方式</h4><p class="text-[var(--ink-soft)] leading-relaxed">收整目前需不斷下滑的延伸閱讀區塊，用戶可在一屏中更快速的得到更多新聞推薦，避免所推薦的文章用戶不喜歡卻又要一直往下滑，亦讓文章在閱讀節奏上有不同變化。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">12</span><div><h4 class="font-display font-semibold text-lg mb-1">留言區塊</h4><p class="text-[var(--ink-soft)] leading-relaxed">留言規劃在報導最下方，用戶可點擊頂部留言按鈕快速挑轉；無需換頁即可看留言，初期可使用 facebook 外掛留言，未來若自家開發留言系統可讓留言與互動的成效更完善。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 待確認議題 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1200px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>待確認議題</p>
+    <ol class="reveal space-y-4 text-[var(--ink-soft)] leading-relaxed list-decimal pl-5">
+      <li>公司對於未來首頁乃至於整體 APP 的目標、想法為何？</li>
+      <li>目前的版本中，有哪些是已決議不可變動的內容？</li>
+      <li>當前版本中，「即時」新聞會穿插類似主題式的新聞包，是否可藉由下方 TAB 中的「議題」做統一的收納？</li>
+      <li>當前上稿系統能否支援新設計？</li>
+      <li>是否有未考量到的情境與脈絡？</li>
+      <li>資訊單位與營業單位是否有其他的建議或想法？</li>
+    </ol>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 大標：設計反思 ============ -->
+<section class="relative pt-20 md:pt-28 pb-4">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <h2 class="reveal project-title">設計反思</h2>
+  </div>
+</section>
+
+<!-- ============ 設計心得與反思 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>設計心得與反思</p>
+    <div class="reveal max-w-2xl mb-16 md:mb-24">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        本提案目前仍停留在介面設計與內部溝通階段，尚未進入開發與上線驗證。回顧從研究到設計的完整脈絡，貫徹 TVBS 核心價值與公司願景的過程中，也淬煉出三個對數位新聞產品具有普遍意義的設計原則。
+      </p>
+    </div>
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Truth</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">真實</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">透過與產品互動，讓閱聽人得以參與報導，不再是被動接收資訊，加強閱聽人與 TVBS 新聞的連結。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Trust</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">信賴</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">滿足閱聽人需求，逐步建立認同感，進而強化對於 TVBS 的信賴感。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Technology</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">科技</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">將最新科技應用在傳統媒體，並以可感受的形式傳達給閱聽人。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+  <div class="flex justify-center" style="margin-top:48pt;">
+    <img src="assets/images/about/logo-mark-divider.png" alt="Kai Logo" style="width:42.5px;height:24px;">
+  </div>
+</div>
+
+<!-- ============ 上一個 / 下一個案例 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex flex-col sm:flex-row gap-6 justify-between mb-20 md:mb-40">
+      <a href="work-detail_01.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">上一個案例</p>
+          <div class="flex items-center justify-between gap-4">
+            <span class="case-nav-arrow flex-shrink-0" style="transform:scaleX(-1);"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h3 class="font-display font-semibold text-lg">GoSmart-共享車 創新服務設計提案</h3>
+          </div>
+        </div>
+      </a>
+      <a href="work-detail_03.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4 text-right">下一個案例</p>
+          <div class="flex items-center justify-between gap-4 flex-row-reverse">
+            <h3 class="font-display font-semibold text-lg">博晶醫電-AIoT運動APP 風格提案</h3>
+            <span class="case-nav-arrow flex-shrink-0"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-6">
+      <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        返回列表
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="mailto:rekaileon1125@gmail.com" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        合作邀約
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative overflow-hidden bg-[var(--ink)] text-white">
+  <a href="#top" class="page-top-link hidden md:flex flex-col items-center gap-4 absolute right-8 md:right-16 top-16">
+    <span class="page-top-line w-px h-16 bg-white/20"></span>
+    <span class="vertical-text font-mono text-[10px] tracking-[0.3em] text-white/50">PAGE TOP</span>
+  </a>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 pt-12 pb-8">
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-24 mb-12 md:mb-24">
+
+      <div class="flex flex-col gap-1">
+        <img src="assets/images/about/logo-mark-white.png" alt="Logo" class="h-7 w-auto self-start" style="margin-bottom:4pt;">
+        <span class="font-display font-semibold text-white">
+          <span class="text-lg">曾翊凱</span>
+        </span>
+        <p class="font-display text-sm text-white/60">個人作品集</p>
+      </div>
+
+      <div class="flex flex-col gap-6 font-display text-sm">
+        <a href="index.html" class="text-white/70 hover:text-white transition-colors duration-300">首頁</a>
+        <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
+        <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
+
+        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          合作邀約
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
+      <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      navbar.classList.add('menu-open');
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    }
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    });
+  });
+
+  // 願景宣言段落：自動縮放字體以避免單行文字超出螢幕寬度造成左右捲動
+  (function () {
+    const el = document.getElementById('visionStatement');
+    if (!el) return;
+
+    function fitText() {
+      el.style.fontSize = '';
+      const parent = el.parentElement;
+      if (!parent) return;
+      const availableWidth = parent.clientWidth;
+      let currentFontSize = parseFloat(window.getComputedStyle(el).fontSize);
+      let iterations = 0;
+      while (el.scrollWidth > availableWidth && currentFontSize > 12 && iterations < 60) {
+        currentFontSize -= 1;
+        el.style.fontSize = currentFontSize + 'px';
+        iterations++;
+      }
+    }
+
+    window.addEventListener('resize', fitText);
+    window.addEventListener('load', fitText);
+    fitText();
+  })();
+
+  function animateCount(el, target, duration = 900) {
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll('.stats-row').forEach(row => {
+    const statNumbers = row.querySelectorAll('.stat-number');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          statNumbers.forEach(el => animateCount(el, parseInt(el.dataset.target, 10)));
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
+    statsObserver.observe(row);
+  });
+
+  // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
+  // 樣式與動效參照 index.html「工作流程」元件，因步驟數較多（8步），改用 lg 斷點切換水平／垂直排列。
+  (function () {
+    const track = document.getElementById('processTrack');
+    const pinWrapper = document.getElementById('processPinWrapper');
+    if (!track) return;
+
+    const grayDesktop = document.getElementById('processLineGrayDesktop');
+    const blueDesktop = document.getElementById('processLineBlueDesktop');
+    const grayMobile = document.getElementById('processLineGrayMobile');
+    const blueMobile = document.getElementById('processLineBlueMobile');
+    const badges = track.querySelectorAll('.process-badge');
+
+    let badgeThresholds = [];
+
+    function measureBadgeThresholds() {
+      const trackRect = track.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 1024;
+      badgeThresholds = Array.from(badges).map(badge => {
+        const badgeRect = badge.getBoundingClientRect();
+        if (isDesktop) {
+          const lineWidth = grayDesktop ? grayDesktop.offsetWidth : trackRect.width;
+          return lineWidth > 0 ? (badgeRect.left - trackRect.left) / lineWidth : 0;
+        } else {
+          const lineHeight = grayMobile ? grayMobile.offsetHeight : trackRect.height;
+          return lineHeight > 0 ? (badgeRect.top - trackRect.top) / lineHeight : 0;
+        }
+      });
+    }
+
+    function updateProcessLine() {
+      const isDesktop = window.innerWidth >= 1024;
+      const vh = window.innerHeight;
+      let progress;
+
+      if (isDesktop && pinWrapper) {
+        const wrapRect = pinWrapper.getBoundingClientRect();
+        const scrollable = wrapRect.height - vh;
+        progress = scrollable > 0 ? (-wrapRect.top) / scrollable : 1;
+      } else {
+        const rect = track.getBoundingClientRect();
+        progress = (vh / 2 - rect.top) / rect.height;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+
+      if (grayDesktop && blueDesktop) {
+        blueDesktop.style.width = (grayDesktop.offsetWidth * progress) + 'px';
+      }
+      if (grayMobile && blueMobile) {
+        blueMobile.style.height = (grayMobile.offsetHeight * progress) + 'px';
+      }
+
+      badges.forEach((badge, i) => {
+        const threshold = badgeThresholds[i] !== undefined ? badgeThresholds[i] : i / (badges.length - 1);
+        const card = badge.closest('.process-card');
+        if (progress >= threshold - 0.002) {
+          badge.classList.add('active');
+          if (card) card.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+          if (card) card.classList.remove('active');
+        }
+      });
+    }
+
+    function handleResize() {
+      measureBadgeThresholds();
+      updateProcessLine();
+    }
+
+    let processScrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!processScrollTicking) {
+        processScrollTicking = true;
+        requestAnimationFrame(function () {
+          updateProcessLine();
+          processScrollTicking = false;
+        });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', handleResize);
+    measureBadgeThresholds();
+    updateProcessLine();
+  })();
+</script>
+
+</body>
+</html>
