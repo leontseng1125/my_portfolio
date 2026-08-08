@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light only">
-<title>GoSmart-共享車 創新服務設計提案 ｜ 曾翊凱 Leon Tseng</title>
+<title>GoSmart-共享車 創新服務設計 ｜ 曾翊凱 Leon Tseng</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -83,14 +83,48 @@
     -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);transition:opacity .35s ease;}
   .case-nav-card:hover .card-dot-grid{opacity:0;}
 
-  .dot-grid{position:absolute;inset:0;pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
+  .dot-grid{position:absolute;left:0;right:0;top:-280px;height:calc(100% + 560px);pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
     -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);mask-image:linear-gradient(to bottom, black 0%, transparent 100%);}
 
-  .strategy-card{background:var(--ink);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px;}
-  .strategy-code{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.05em;}
+  .strategy-card{background:linear-gradient(135deg,#00DDCD,#00ADEC);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:8px;}
+  .strategy-code{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#fff;letter-spacing:.05em;}
 
   .funnel-num{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:900;font-size:clamp(2.5rem,6vw,4rem);color:var(--accent);line-height:1;}
   .funnel-arrow{color:var(--ink-faint);flex-shrink:0;}
+
+  /* ---- Reveal / 滾動視差 / 大標底線 ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.is-visible{opacity:1;transform:translateY(0);}
+    .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal-scale.is-visible{opacity:1;transform:scale(1);}
+    [data-parallax]{will-change:transform;}
+  }
+  .divider-bg-dots{position:absolute;left:0;right:0;top:-340px;height:calc(100% + 680px);pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#d7d7db 1.5px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);}
+  .title-line-wrap{position:relative;display:inline-block;}
+  .title-underline{position:absolute;left:16pt;top:calc(100% + 4pt);height:4pt;width:100%;
+    background:linear-gradient(90deg,#00DDCD,#00ADEC);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform .12s linear;}
+  @media (prefers-reduced-motion: reduce){
+    .title-underline{transform:scaleX(1);transition:none;}
+  }
+
+  /* ---- 本專案設計流程 ---- */
+  .process-badge{
+    width:32px;height:32px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--ink);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);
+    position:relative;z-index:10;transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .process-badge.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .process-card h3{transition:color .3s ease;}
+  .process-card.active h3{color:var(--accent);}
+  #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
 </style>
 </head>
 <body class="antialiased">
@@ -130,8 +164,8 @@
 </header>
 
 <!-- ============ HERO 標題區(左文、右圖) ============ -->
-<section class="relative pt-40 md:pt-56 pb-24 md:pb-32">
-  <div class="dot-grid"></div>
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32 overflow-hidden">
+  <div class="dot-grid" data-parallax="0.55" data-parallax-max="260"></div>
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
 
     <a href="works.html" class="inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
@@ -142,7 +176,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
       <div class="lg:order-1">
         <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>WORK・智慧移動</p>
-        <h1 class="project-title mb-4 md:mb-8">GoSmart-共享車 創新服務設計提案</h1>
+        <h1 class="project-title mb-4 md:mb-8">GoSmart-共享車 創新服務設計</h1>
         <p class="text-[var(--ink-soft)] leading-loose mb-16 md:mb-24" style="font-size:12pt;">
           在資源有限的實務環境下，導入服務設計思維與 UX 研究方法，替 GoSmart 共享車系統性梳理服務缺口，提出十項可落地的創新提案，並進一步以高擬真原型進行實地測試驗證。
         </p>
@@ -152,7 +186,7 @@
             <p class="text-[var(--ink-soft)]">格上 GoSmart</p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
-            <p class="font-display font-bold text-base text-[var(--ink)]">研究時間</p>
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案時間</p>
             <p class="text-[var(--ink-soft)]">2024–2026</p>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
@@ -165,7 +199,7 @@
           </div>
         </div>
       </div>
-      <div class="lg:order-2">
+      <div class="lg:order-2" data-parallax="-0.22" data-parallax-max="140">
         <div class="case-thumb aspect-[16/9] w-full">
           <img src="assets/images/work-detail_01/ten-strategies-overview.png" alt="共享車十項創新服務策略總覽插畫，依服務渠道分為實體環境、數位服務、服務渠道三色標示">
         </div>
@@ -229,9 +263,75 @@
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
 <!-- ============ 大標：如何開始？ ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何開始？</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ 本專案設計流程 ============ -->
+<section class="relative py-12 md:py-16">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="project-title">如何開始？</h2>
+    <div class="relative lg:min-h-[180vh]" id="processPinWrapper">
+    <div class="lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-col lg:justify-center">
+    <div class="mb-16 md:mb-24">
+      <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
+      <p class="text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
+        本專案從業者訪談與負評分析出發，透過問卷調查理解用戶輪廓，收斂發散出的構想為十項創新服務策略，逐一落地為具體的介面與服務設計，最後以高擬真原型進行實地驗證。
+      </p>
+    </div>
+
+    <div class="relative" id="processTrack">
+      <div id="processLineGrayMobile" class="lg:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <div id="processLineBlueMobile" class="lg:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+
+      <div id="processLineGrayDesktop" class="hidden lg:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <div id="processLineBlueDesktop" class="hidden lg:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+
+      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-5 lg:gap-x-4 lg:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">01</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">問題洞察</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">業者訪談與 157 筆負評分析，梳理用戶流失的 7 大核心範疇。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">02</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">用戶理解</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">問卷調查交叉分析使用頻次與服務期望，劃分四種用戶輪廓。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">03</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">策略發想</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">以服務藍圖與顧客旅程地圖為基礎，從 42 項構想收斂至十項策略。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">04</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">方案落地</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">逐一定義十項策略對應的介面、服務與實體場域設計細節。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">05</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">原型驗證</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">高擬真實體場域測試，捕捉量化數據看不到的真實用戶心理。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
   </div>
 </section>
 
@@ -289,25 +389,35 @@
       本專案以問卷調查蒐集用戶的使用行為與服務期望，並以「使用頻次」與「服務期望」兩個構面交叉分析，劃分出高頻型、實惠型、休閒型、體驗型四種用戶輪廓。本專案進一步在四種輪廓下歸納出十一種具體代表族群，並分別梳理各自的痛點、癢點與爽點，據此提出對應的 HMW 設計提問。這些個別提問最終收斂為一個更上位的追問：當多數用戶只是偶發性使用者時，共享車服務該如何讓每一次使用都值得信任、值得回訪？
     </p>
 
-    <div class="case-thumb contain-img aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_01/persona-frequency-distribution.png" alt="四種用戶輪廓之使用頻率分布百分比：體驗型57.7%、休閒型28.2%、實惠型11.2%、高頻型2.8%">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-16 md:mb-24">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_01/persona-frequency-distribution.png" alt="四種用戶輪廓之使用頻率分布百分比：體驗型57.7%、休閒型28.2%、實惠型11.2%、高頻型2.8%">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">問卷調查顯示，體驗型與休閒型兩種低頻族群合計占比達 85.9%，高頻型僅占 2.8%。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_01/persona-quadrant.png" alt="使用頻次與服務期望二維象限圖，劃分高頻型、實惠型、休閒型、體驗型四種用戶輪廓">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">使用頻次 × 服務期望象限圖，每種輪廓皆含痛點／癢點／爽點三層描述。</p>
+      </div>
     </div>
-    <p class="text-xs text-[var(--ink-faint)] mt-4 mb-16 md:mb-24">問卷調查顯示，體驗型與休閒型兩種低頻族群合計占比達 85.9%，高頻型僅占 2.8%——多數用戶其實是偶發性使用者，而非忠實常客。</p>
 
-    <div class="case-thumb contain-img aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_01/persona-quadrant.png" alt="使用頻次與服務期望二維象限圖，劃分高頻型、實惠型、休閒型、體驗型四種用戶輪廓">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_01/persona-archetypes.png" alt="四種用戶輪廓之細分代表族群：體驗型、休閒型、實惠型、高頻型，各含2–3個具體人物側寫">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">每種輪廓再細分出具體的代表族群，例如高頻型對應「中階主管科技男」。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_01/persona-hmw-by-type.png" alt="針對四種用戶輪廓分別提出的HMW設計提問：如何提升休閒型吸引力、提供高頻型個人化服務、降低體驗型學習門檻、提升實惠型使用頻率">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">針對每種輪廓分別定義 HMW 設計提問，最終收斂為群組三的核心命題。</p>
+      </div>
     </div>
-    <p class="text-xs text-[var(--ink-faint)] mt-4 mb-16 md:mb-24">使用頻次 × 服務期望象限圖，每種輪廓皆含痛點／癢點／爽點三層描述。</p>
-
-    <div class="case-thumb contain-img aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_01/persona-archetypes.png" alt="四種用戶輪廓之細分代表族群：體驗型、休閒型、實惠型、高頻型，各含2–3個具體人物側寫">
-    </div>
-    <p class="text-xs text-[var(--ink-faint)] mt-4 mb-16 md:mb-24">每種用戶輪廓再細分出具體的代表族群，例如高頻型對應「中階主管科技男」，體驗型則涵蓋「白領小資女」「都市生活壯年男」「年輕家庭主婦」等多種樣貌。</p>
-
-    <div class="case-thumb contain-img aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_01/persona-hmw-by-type.png" alt="針對四種用戶輪廓分別提出的HMW設計提問：如何提升休閒型吸引力、提供高頻型個人化服務、降低體驗型學習門檻、提升實惠型使用頻率">
-    </div>
-    <p class="text-xs text-[var(--ink-faint)] mt-4 mb-16 md:mb-24">針對每種輪廓分別定義 HMW（How Might We）設計提問，這些個別提問最終收斂為群組三的核心命題。</p>
   </div>
 </section>
 
@@ -341,12 +451,16 @@
       <p class="text-xs text-[var(--ink-faint)] mt-4">顧客旅程地圖，橫軸為用車前／中／後三大歷程，縱軸依序為目標、痛點、情緒、解方，並依 4P 觸點展開對應構想。</p>
     </div>
 
+    <div class="border-t border-[var(--line)] mb-20 md:mb-32"></div>
+
     <div class="max-w-3xl mx-auto text-center mb-20 md:mb-32">
       <p class="font-display font-semibold text-[var(--ink-faint)] tracking-wide mb-8">HMW…</p>
       <p class="statement-title">
-        我們如何透過提升便利性與服務信任感，讓 GoSmart 成為共享車服務的品牌首選？
+        如何透過提升服務便利性與信任感，<br>讓 GoSmart 成為共享車品牌的首選？
       </p>
     </div>
+
+    <div class="border-t border-[var(--line)] mb-20 md:mb-32"></div>
 
     <div class="">
       <p class="font-display font-semibold text-base mb-8 text-center md:text-left">從發散到收斂：42 → 37 → 10</p>
@@ -373,9 +487,13 @@
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
 <!-- ============ 大標：如何落地？ ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="project-title">如何落地？</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何落地？</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -461,10 +579,12 @@
 <!-- ============ 方案細節：S01 等級與常客優惠 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S01 等級與常客優惠</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車前</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S01 等級與常客優惠</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車前</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       透過徽章升等與預授權減免，根據用戶等級提供專屬優惠，激勵用戶持續使用服務，提升黏著度與忠誠度。
@@ -487,10 +607,12 @@
 <!-- ============ 方案細節：S02 共享許願牆、互動區 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S02 共享許願牆、互動區</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車前</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S02 共享許願牆、互動區</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車前</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       讓用戶主動提交站點許願需求，並以需求熱度與可行性計算「實現可能性」，促進共創服務。
@@ -513,11 +635,13 @@
 <!-- ============ 方案細節：S03 Beacon 與 AR 找車 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S03 Beacon 與 AR 找車</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="background:var(--accent);color:#fff;border-color:var(--accent);">研究驗證成效最佳</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：實體環境</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車前→用車中</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S03 Beacon 與 AR 找車</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="background:var(--accent);color:#fff;border-color:var(--accent);">研究驗證成效最佳</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：實體環境</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車前→用車中</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       有效補足線下環境的感知盲區，建構出流暢的尋車體驗。
@@ -539,10 +663,12 @@
 <!-- ============ 方案細節：S04 車內標示設計 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S04 車內標示設計</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：實體環境</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S04 車內標示設計</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：實體環境</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       車內設計直覺易懂的標示，搭配教學 QR Code，讓用戶掃描即可獲取操作指南與常見問題解答，確保順暢駕駛。
@@ -565,11 +691,13 @@
 <!-- ============ 方案細節：S05 整合檢查步驟 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S05 整合檢查步驟</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="background:var(--accent);color:#fff;border-color:var(--accent);">研究驗證成效最佳</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S05 整合檢查步驟</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="background:var(--accent);color:#fff;border-color:var(--accent);">研究驗證成效最佳</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       將所有還車步驟整合至單一頁面，透過清晰的視覺層級設計，顯著降低使用者的認知負荷與取還車焦慮。
@@ -592,11 +720,13 @@
 <!-- ============ 方案細節：S06 升級控制畫面 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S06 升級控制畫面</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="background:var(--accent);color:#fff;border-color:var(--accent);">研究驗證成效最佳</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S06 升級控制畫面</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="background:var(--accent);color:#fff;border-color:var(--accent);">研究驗證成效最佳</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       透過提供明確的可預期性與進度框架，顯著降低使用者的認知負荷與取還車焦慮。
@@ -619,10 +749,12 @@
 <!-- ============ 方案細節：S07 提供車輛清潔組 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S07 提供車輛清潔組</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：實體環境</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S07 提供車輛清潔組</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：實體環境</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       在車內提供便利的清潔組，並透過獎勵機制鼓勵用戶主動維持車輛整潔，簡單擦拭也能讓下一位用戶受益。
@@ -644,20 +776,24 @@
 <!-- ============ 方案細節：S08 AI 客服 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S08 AI 客服</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S08 AI 客服</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車中</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       AI 客服協助用戶規劃旅程並即時分流問題至相關部門，確保用戶能快速獲得解答，提升整體服務效率。
     </p>
-    <div class="case-thumb aspect-[16/9] w-full mb-12">
-      <img src="assets/images/work-detail_01/s08-ai-chat.png" alt="AI 客服阿狗 Go：問題分流與旅程規劃對話畫面">
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">即時問題分流與快速解答</h4><p class="text-[var(--ink-soft)] leading-relaxed">AI 客服可根據用戶提出的問題，自動識別問題類型，並將問題快速分流至對應的專業部門，縮短用戶等待時間。</p></div></div>
-      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">個性化旅程規劃建議</h4><p class="text-[var(--ink-soft)] leading-relaxed">可根據用戶的旅行目標、偏好、時間安排等因素，推薦最適合的出行方案，包括最佳路線、站點選擇、車輛類型等。</p></div></div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="case-thumb aspect-[16/9] w-full lg:order-1">
+        <img src="assets/images/work-detail_01/s08-ai-chat.png" alt="AI 客服阿狗 Go：問題分流與旅程規劃對話畫面">
+      </div>
+      <div class="flex flex-col gap-8 lg:order-2">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">即時問題分流與快速解答</h4><p class="text-[var(--ink-soft)] leading-relaxed">AI 客服可根據用戶提出的問題，自動識別問題類型，並將問題快速分流至對應的專業部門，縮短用戶等待時間。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">個性化旅程規劃建議</h4><p class="text-[var(--ink-soft)] leading-relaxed">可根據用戶的旅行目標、偏好、時間安排等因素，推薦最適合的出行方案，包括最佳路線、站點選擇、車輛類型等。</p></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -667,10 +803,12 @@
 <!-- ============ 方案細節：S09 評價前車主 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S09 評價前車主</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車後</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S09 評價前車主</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車後</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       鼓勵用戶針對用車習慣進行互評，促進社群互動，幫助彼此改進用車行為，提升整體服務品質。
@@ -692,10 +830,12 @@
 <!-- ============ 方案細節：S10 個人租車碳足跡地圖 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex flex-wrap items-center gap-3 mb-4 md:mb-8">
-      <p class="eyebrow"><span class="eyebrow-dot"></span>方案細節・S10 個人租車碳足跡地圖</p>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
-      <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車後</span>
+    <div class="mb-4 md:mb-8">
+      <p class="eyebrow mb-3"><span class="eyebrow-dot"></span>S10 個人租車碳足跡地圖</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">服務類型：APP</span>
+        <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full">階段：用車後</span>
+      </div>
     </div>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
       將共享車服務的環保效益轉化為情感化、故事化的數據展示，鼓勵用戶選擇可持續出行，深化品牌永續形象。
@@ -784,9 +924,13 @@
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
 <!-- ============ 大標：設計反思 ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="project-title">設計反思</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">設計反思</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -939,6 +1083,150 @@
     }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
     statsObserver.observe(row);
   });
+
+  // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
+  (function () {
+    const track = document.getElementById('processTrack');
+    const pinWrapper = document.getElementById('processPinWrapper');
+    if (!track) return;
+
+    const grayDesktop = document.getElementById('processLineGrayDesktop');
+    const blueDesktop = document.getElementById('processLineBlueDesktop');
+    const grayMobile = document.getElementById('processLineGrayMobile');
+    const blueMobile = document.getElementById('processLineBlueMobile');
+    const badges = track.querySelectorAll('.process-badge');
+
+    let badgeThresholds = [];
+
+    function measureBadgeThresholds() {
+      const trackRect = track.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 1024;
+      badgeThresholds = Array.from(badges).map(badge => {
+        const badgeRect = badge.getBoundingClientRect();
+        if (isDesktop) {
+          const lineWidth = grayDesktop ? grayDesktop.offsetWidth : trackRect.width;
+          return lineWidth > 0 ? (badgeRect.left - trackRect.left) / lineWidth : 0;
+        } else {
+          const lineHeight = grayMobile ? grayMobile.offsetHeight : trackRect.height;
+          return lineHeight > 0 ? (badgeRect.top - trackRect.top) / lineHeight : 0;
+        }
+      });
+    }
+
+    function updateProcessLine() {
+      const isDesktop = window.innerWidth >= 1024;
+      const vh = window.innerHeight;
+      let progress;
+
+      if (isDesktop && pinWrapper) {
+        const wrapRect = pinWrapper.getBoundingClientRect();
+        const scrollable = wrapRect.height - vh;
+        progress = scrollable > 0 ? (-wrapRect.top) / scrollable : 1;
+      } else {
+        const rect = track.getBoundingClientRect();
+        progress = (vh / 2 - rect.top) / rect.height;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+
+      if (grayDesktop && blueDesktop) {
+        blueDesktop.style.width = (grayDesktop.offsetWidth * progress) + 'px';
+      }
+      if (grayMobile && blueMobile) {
+        blueMobile.style.height = (grayMobile.offsetHeight * progress) + 'px';
+      }
+
+      badges.forEach((badge, i) => {
+        const threshold = badgeThresholds[i] !== undefined ? badgeThresholds[i] : i / (badges.length - 1);
+        const card = badge.closest('.process-card');
+        if (progress >= threshold - 0.002) {
+          badge.classList.add('active');
+          if (card) card.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+          if (card) card.classList.remove('active');
+        }
+      });
+    }
+
+    function handleResize() {
+      measureBadgeThresholds();
+      updateProcessLine();
+    }
+
+    let processScrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!processScrollTicking) {
+        processScrollTicking = true;
+        requestAnimationFrame(function () {
+          updateProcessLine();
+          processScrollTicking = false;
+        });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', handleResize);
+    measureBadgeThresholds();
+    updateProcessLine();
+  })();
+  // ============ 滾動視差 & 進場顯現／大標底線 ============
+  (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const revealSelectors = '.governing-line, .case-thumb, .numbered-item, .strategy-card, .info-table, .statement-title, .funnel-num, .funnel-arrow';
+    document.querySelectorAll(revealSelectors).forEach(el => el.classList.add('reveal'));
+    document.querySelectorAll('.strategy-card').forEach((el, i) => {
+      el.style.transitionDelay = (i % 5) * 70 + 'ms';
+    });
+    document.querySelectorAll('.case-thumb.contain-img').forEach(el => {
+      el.classList.remove('reveal');
+      el.classList.add('reveal-scale');
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    const underlineEls = Array.from(document.querySelectorAll('.title-underline')).map(el => ({
+      el,
+      wrap: el.closest('.title-line-wrap')
+    }));
+
+    if (parallaxEls.length || underlineEls.length) {
+      let ticking = false;
+      const clamp = (v, max) => Math.max(-max, Math.min(max, v));
+      const updateScrollFx = () => {
+        const vh = window.innerHeight;
+        parallaxEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax) || 0.15;
+          const max = parseFloat(el.dataset.parallaxMax) || 400;
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) * factor, max);
+          el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
+        underlineEls.forEach(({ el, wrap }) => {
+          const target = wrap || el;
+          const rect = target.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * 0.55)));
+          el.style.transform = `scaleX(${progress})`;
+        });
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+    }
+  })();
 </script>
 </body>
 </html>

@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="is-loading">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>Dozze－軟硬整合智能睡眠 App ｜ 曾翊凱 Leon Tseng</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loader.css">
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#111113;
+    --ink-soft:#5b5b62;
+    --ink-faint:#9a9aa1;
+    --line:#e6e6e9;
+    --bg:#fafafa;
+    --surface:#ffffff;
+    --dark:#0b0b0c;
+    --accent:#0468AF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{font-family:'Noto Sans TC','Inter',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+  .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:14px;color:var(--ink);}
+  .eyebrow-dot{width:8px;height:8px;background:var(--ink);flex-shrink:0;}
+
+  .project-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:900;font-size:clamp(2rem, 6.5vw, 5.5rem);line-height:1.05;letter-spacing:-0.02em;}
+  .subsection-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.75rem, 4vw, 3rem);line-height:1.15;letter-spacing:-0.01em;}
+  .statement-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.4rem, 4vw, 2.75rem);line-height:1.4;letter-spacing:-0.01em;color:var(--accent);}
+  .governing-line{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);line-height:1.5;letter-spacing:-0.01em;}
+
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease;}
+  #navbar:hover, #navbar.menu-open{background-color:rgba(250,250,250,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
+  .nav-link{position:relative;color:var(--ink-soft);}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent);transition:width .3s ease;}
+  .nav-link:hover{color:var(--ink);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.is-active{color:var(--accent);}
+  .nav-link.is-active::after{width:100%;}
+  #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
+
+  .btn-primary{background:var(--ink);color:#fff;transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
+  .btn-outline{border:1px solid var(--ink);color:var(--ink);transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
+  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+
+  .case-thumb{overflow:hidden;border-radius:16px;background:var(--surface);}
+  .case-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+  .case-thumb.contain-img img{object-fit:contain;}
+  .img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;
+    background:repeating-linear-gradient(135deg, #eeeeef, #eeeeef 10px, #f5f5f6 10px, #f5f5f6 20px);
+    color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;}
+
+  .info-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .info-table th{text-align:left;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;color:var(--ink);border-bottom:1px solid var(--ink);padding:8px 12px;white-space:nowrap;}
+  .info-table td{border-bottom:1px solid var(--line);padding:8px 12px;color:var(--ink-soft);vertical-align:top;}
+  .info-table td.num{font-family:'IBM Plex Mono',monospace;color:var(--ink);white-space:nowrap;}
+  .info-table tr:last-child td{border-bottom:none;}
+
+  .numbered-item{display:flex;gap:20px;align-items:flex-start;}
+  .numbered-badge{flex-shrink:0;width:32px;height:32px;border-radius:9999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:14px;}
+
+  .tag-pill{border:1px solid var(--line);color:var(--ink-soft);}
+
+  .swatch-card{border-radius:4px;overflow:hidden;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;aspect-ratio:1/1;}
+  .swatch-card .swatch-color{flex:1;}
+  .swatch-card .swatch-code{padding:6% 8%;text-align:center;}
+  .swatch-card .swatch-code p{font-family:'IBM Plex Mono',monospace;font-size:clamp(9px,2.6vw,12px);letter-spacing:.02em;color:var(--ink);white-space:nowrap;}
+
+  .page-top-link{transition:color .3s ease;}
+  .page-top-link:hover{color:#fff;}
+  .page-top-link:hover .page-top-line{background:var(--accent);}
+  .page-top-line{transition:background-color .3s ease;}
+  .vertical-text{writing-mode:vertical-rl;text-orientation:mixed;}
+
+  .case-nav-card{border:1px solid var(--line);transition:border-color .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;}
+  .case-nav-card:hover{border-color:#d4d4d9;transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(17,17,19,.18);}
+  .case-nav-card:hover .case-nav-arrow{transform:translateX(4px);}
+  .case-nav-arrow{transition:transform .3s cubic-bezier(.2,.7,.2,1);}
+  .case-nav-card .card-dot-grid{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:20px 20px;opacity:1;
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);transition:opacity .35s ease;}
+  .case-nav-card:hover .card-dot-grid{opacity:0;}
+
+  .dot-grid{position:absolute;left:0;right:0;top:-280px;height:calc(100% + 560px);pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);mask-image:linear-gradient(to bottom, black 0%, transparent 100%);}
+
+  /* ---- Reveal / 滾動視差 / 大標底線 ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.is-visible{opacity:1;transform:translateY(0);}
+    .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal-scale.is-visible{opacity:1;transform:scale(1);}
+    [data-parallax]{will-change:transform;}
+  }
+  .divider-bg-dots{position:absolute;left:0;right:0;top:-340px;height:calc(100% + 680px);pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#d7d7db 1.5px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);}
+  .title-line-wrap{position:relative;display:inline-block;}
+  .title-underline{position:absolute;left:16pt;top:calc(100% + 4pt);height:4pt;width:100%;
+    background:linear-gradient(90deg,#00DDCD,#00ADEC);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform .12s linear;}
+  @media (prefers-reduced-motion: reduce){
+    .title-underline{transform:scaleX(1);transition:none;}
+  }
+
+  /* ---- 本專案設計流程 ---- */
+  .process-badge{
+    width:32px;height:32px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--ink);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);
+    position:relative;z-index:10;transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .process-badge.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .process-card h3{transition:color .3s ease;}
+  .process-card.active h3{color:var(--accent);}
+  #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ 頁面載入動效 ============ -->
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-mark"></div>
+  <div class="loader-track"><div class="loader-bar"></div></div>
+  <span class="loader-label">Loading</span>
+</div>
+<script src="assets/js/loader.js"></script>
+
+<!-- ============ NAVIGATION ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
+  <span id="top" class="absolute -top-1"></span>
+  <nav class="max-w-[1600px] mx-auto flex items-center justify-between px-8 md:px-16 py-8">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/images/about/logo-mark.png" alt="LT. logo" class="h-7 w-auto">
+    </a>
+    <div class="hidden md:flex items-center gap-16">
+      <a href="index.html" class="nav-link font-display text-sm tracking-wide">首頁</a>
+      <a href="works.html" class="nav-link is-active font-display text-sm tracking-wide">所有案例</a>
+      <a href="about.html" class="nav-link font-display text-sm tracking-wide">關於我</a>
+    </div>
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
+      <span class="block w-6 h-px bg-[var(--ink)]"></span>
+      <span class="block w-4 h-px bg-[var(--ink)]"></span>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 opacity-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--line)]">
+    <div class="flex flex-col px-8 py-8 gap-8 font-display text-base">
+      <a href="index.html" class="nav-link">首頁</a>
+      <a href="works.html" class="nav-link is-active">所有案例</a>
+      <a href="about.html" class="nav-link">關於我</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO 標題區(左文、右圖) ============ -->
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32 overflow-hidden">
+  <div class="dot-grid" data-parallax="0.55" data-parallax-max="260"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+
+    <a href="works.html" class="inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      回到作品總覽
+    </a>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div class="lg:order-1">
+        <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>WORK・智慧健康</p>
+        <h1 class="project-title mb-4 md:mb-8">Dozze－軟硬整合智能睡眠 App</h1>
+        <p class="text-[var(--ink-soft)] leading-loose mb-16 md:mb-24" style="font-size:12pt;">
+          針對移動與居家情境下的短暫小睡困擾，規劃「頸枕裝置＋App＋服務」三者整合的智慧睡眠方案，透過睡前快速啟動、睡中沉浸引導、睡後個人化喚醒的完整體驗，協助忙碌的現代人在有限的時間裡，睡得更安心、更有品質。
+        </p>
+        <div class="border-t border-[var(--line)]">
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">合作對象</p>
+            <p class="text-[var(--ink-soft)]">佳綸生技</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">研究時間</p>
+            <p class="text-[var(--ink-soft)]">2019</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案類型</p>
+            <p class="text-[var(--ink-soft)]">App</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">負責內容</p>
+            <p class="text-[var(--ink-soft)]">設計策略、分析研究、資訊架構、專案管理、UI設計</p>
+          </div>
+        </div>
+      </div>
+      <div class="lg:order-2" data-parallax="-0.22" data-parallax-max="140">
+        <div class="case-thumb contain-img aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_05/hero-app-overview.jpg" alt="Dozze App 最終介面總覽，涵蓋睡眠倒數、睡眠結果與睡眠日記三個核心畫面">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)] mt-4">睡眠倒數、睡眠結果、睡眠日記三大核心畫面，構成 Dozze 的完整睡眠體驗迴圈。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 成果與結論（結論先行） ============ -->
+<section class="relative py-24 md:py-32" style="background:var(--surface);">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot" style="background:var(--accent);"></span><span style="color:var(--accent);">成果與結論</span></p>
+    <div class="max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        本專案由我全權規劃佳綸生技的線上服務，從研究、概念定位到介面設計皆獨立完成，某種程度上像是一場「內部創業」——在既有企業資源中，打造出可驗證市場反應的 MVP 產品。最終收斂為「頸枕裝置＋App＋服務」三者整合的智慧睡眠方案，並透過深度訪談與田野調查釐清移動族群的小睡痛點，貫穿睡前、睡中、睡後的完整體驗，讓短暫的小睡也能被好好照顧。
+      </p>
+    </div>
+
+    <div class="stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-10 sm:gap-24">
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="3" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">項</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">三階段整合睡眠服務</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="45" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">%</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">小睡準備流程時間縮短（模擬數字）</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="72" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">%</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">概念測試用戶滿意度（模擬數字）</p>
+        </div>
+      </div>
+    </div>  </div>
+</section>
+
+<!-- ============ 本專案重點 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <div class="lg:order-1">
+        <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+          隨著「睡眠負債」議題受到廣泛討論，各國睡眠經濟規模持續擴大，從枕頭租借、睡眠顧問到穿戴裝置，各式產品與服務紛紛出現。佳綸生技作為深耕健康材料領域的企業，希望藉由頸枕裝置與行動應用的軟硬整合，將既有的材料研發優勢延伸至智慧睡眠場域，尤其聚焦在移動與居家情境中最容易被忽略的「小睡」時刻。本專案即在此脈絡下，展開從研究到設計的完整流程。
+        </p>
+      </div>
+      <div class="lg:order-2">
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_05/context-sleep-economy.jpg" alt="睡眠經濟市場規模相關報導截圖，說明睡眠周邊產業持續成長的市場背景">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">根據報導，日本睡眠周邊產業規模已跨越兆元門檻，反映「睡眠經濟」正持續擴張，也成為本專案切入市場的重要背景參考。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 大標：如何開始？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何開始？</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ 本專案設計流程 ============ -->
+<section class="relative py-12 md:py-16">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="relative lg:min-h-[180vh]" id="processPinWrapper">
+    <div class="lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-col lg:justify-center">
+    <div class="mb-16 md:mb-24">
+      <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
+      <p class="text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
+        本專案從第一手的深度訪談與田野調查出發，交叉比對次級市場資料驗證議題價值，收斂為軟硬整合的核心概念，落地為貫穿睡前、睡中、睡後的完整體驗設計，最後延伸出對應的視覺風格提案。
+      </p>
+    </div>
+
+    <div class="relative" id="processTrack">
+      <div id="processLineGrayMobile" class="lg:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <div id="processLineBlueMobile" class="lg:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+
+      <div id="processLineGrayDesktop" class="hidden lg:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <div id="processLineBlueDesktop" class="hidden lg:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+
+      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-5 lg:gap-x-4 lg:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">01</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">需求探索</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">透過深度訪談與田野調查，蒐集用戶在移動與居家情境下的小睡痛點。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">02</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">市場驗證</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">以次級資料佐證睡眠經濟趨勢與商機規模，確認議題的市場價值。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">03</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">概念定位</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">收斂用戶洞察與核心概念，定義軟硬整合的睡眠服務方向。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">04</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">功能設計</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">拆解睡前、睡中、睡後三階段體驗，逐一落地對應的功能設計。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">05</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">視覺提案</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">依情境色彩發展三套視覺風格，提案討論最終定調的品牌調性。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 深度訪談與田野調查 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>深度訪談與田野調查</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      本專案以半結構式深度訪談搭配線上田野調查展開，訪綱涵蓋旅行習慣、午睡習慣與睡眠背景三大主題，並不斷追問「為什麼」，讓受訪者說出更多細節，而非單純回答是非題。
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-4">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_05/research-interview-guide.jpg" alt="深度訪談訪綱，涵蓋旅行習慣、午睡習慣、睡眠背景三大主題與提問原則">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">訪綱以旅行習慣、午睡習慣、睡眠背景三大主題展開，過程中不斷追問「為什麼」。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_05/research-fieldwork-survey.jpg" alt="IM田野調查統計圖表，顯示低頭睡脖子痠、趴睡壓痕、東倒西歪怕撞到他人等小睡困擾比例">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">「低頭睡導致脖子痠痛」是最多受訪者提及的困擾，其次是趴睡壓痕與東倒西歪怕撞到他人。</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mt-16 md:mt-24">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">量化痛點浮現</h4><p class="text-[var(--ink-soft)] leading-relaxed">調查中，「低頭睡導致脖子痠痛」是最多受訪者提及的困擾，其次是趴睡壓痕與東倒西歪怕撞到他人，顯示小睡的生理不適是普遍現象。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">女性移動補眠更頻繁</h4><p class="text-[var(--ink-soft)] leading-relaxed">調查也發現女性在長程移動的次數平均比男性多出2至3次，也更願意在睡眠周邊小物上花費，顯示這是一群被市場忽略的潛在用戶。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 次級市場研究 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>次級市場研究</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      除了第一手訪談，本專案也蒐集天下雜誌、BBC中文網、日經中文網等媒體報導，交叉驗證睡眠經濟的市場規模與消費者痛點，確認「小睡品質」是值得投入資源優化的議題。
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="lg:order-1">
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_05/research-secondary-articles.jpg" alt="日經中文網與相關媒體報導截圖，說明日本睡眠周邊產業與睡眠顧問服務興起">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">彙整多篇睡眠經濟相關報導，包括日本睡眠周邊產業興起、企業導入睡眠顧問服務等案例，作為市場定位的參考依據。</p>
+      </div>
+      <div class="flex flex-col gap-8 lg:order-2">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">睡眠負債成為全球議題</h4><p class="text-[var(--ink-soft)] leading-relaxed">多篇報導指出，睡眠不足已從個人健康問題延伸為企業生產力與社會經濟的損失來源，帶動周邊產業快速成長。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">亞洲市場已有先行者</h4><p class="text-[var(--ink-soft)] leading-relaxed">日本市場已出現枕頭租借、睡眠顧問等多元服務，顯示消費者願意為「更好的睡眠」付費，也為本專案的商業定位提供參考。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 用戶洞察與人物誌 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>用戶洞察與人物誌</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      綜合訪談與田野調查的發現，本專案將主要用戶收斂為一群年齡27至41歲、常態性移動或需要午休補眠的職場女性，她們多為北漂青年、護理人員或行政內勤人員，共同的困擾是脖子痠痛、睡相尷尬與擔心睡過頭。
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="flex flex-col gap-8 order-2 lg:order-1">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">情境比身份更重要</h4><p class="text-[var(--ink-soft)] leading-relaxed">這群用戶未必屬於同一職業或年齡層，真正的共同點是她們都在「移動中」或「工作空檔」需要補眠，情境才是設計的起點。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">心理與生理的雙重負擔</h4><p class="text-[var(--ink-soft)] leading-relaxed">她們在生理上容易因姿勢不良而痠痛，心理上則因擔心睡過頭而無法真正放鬆，這也是後續設計最需要回應的核心矛盾。</p></div></div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_05/persona-insight-map.jpg" alt="用戶特徵與情境關鍵字地圖，包含旅行、午休、脖子扭到、睡過頭等關鍵字">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">從訪談與調查中浮現的用戶特徵與情境關鍵字，收斂為本專案的主要用戶輪廓。</p>
+      </div>
+    </div>
+
+    <div class="border-t border-[var(--line)] my-16 md:my-24"></div>
+
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="font-display font-semibold text-[var(--ink-faint)] tracking-wide mb-8">目標</p>
+      <p class="statement-title">
+        為這群辛勤工作、經常在移動中補眠的女性，<br>
+        打造一個貼身的智慧睡眠夥伴，讓每一次小睡都安心、舒適、被好好記錄。
+      </p>
+    </div>
+
+    <div class="border-t border-[var(--line)] mt-16 md:mt-24"></div>
+  </div>
+</section>
+
+<!-- ============ 大標：如何落地？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何落地？</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ 現況與問題 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>現況與問題</p>
+    <p class="governing-line max-w-3xl">
+      田野調查顯示，多數受訪者對小睡的體驗並不滿意——生理上有肌肉痠痛的困擾，心理上則因擔心睡過頭而難以真正放鬆，兩者交織讓「小睡」變成一件需要提心吊膽的事，而非真正的休息。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 設計目標 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計目標</p>
+    <p class="text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
+      承接這個目標，本專案將解法方向定調為「頸枕裝置＋App＋服務」三者整合——讓生理層面的舒適與心理層面的安心同時被妥善照顧，才能真正實現「貼身智慧睡眠夥伴」的承諾。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 概念解法 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>概念解法</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      本專案提出「頸枕裝置＋App＋服務」三者整合的解法：頸枕負責承接生理層面的舒適支撐，App負責睡前引導、睡中陪伴與睡後喚醒的完整體驗，服務層則透過睡眠日記與社交分享延續用戶關係，三者共同回應「安心託付」這個核心目標。
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <div class="lg:order-1">
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_05/concept-medtech-ux-model.jpg" alt="以醫療科技與用戶體驗為核心概念的模型圖，串連裝置、情境、市場、用戶與科技五個面向">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">本專案以醫療科技與用戶體驗為核心概念，串連裝置、情境、市場、用戶與科技五個面向，確保軟硬整合的方向不偏離用戶真實需求。</p>
+      </div>
+      <div class="lg:order-2">
+        <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+          綜合上述概念，本專案將完整的睡眠體驗拆解為睡前、睡中、睡後三個階段，讓每個階段都有對應的功能設計回應用戶需求。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 三大方向總覽 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_05/concept-three-phase-framework.jpg" alt="睡前、睡中、睡後三階段功能框架圖，分別列出對應的功能設計重點">
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">以睡前、睡中、睡後三階段拆解完整的睡眠體驗，並分別對應不同的功能設計重點。</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">01</span>
+          <h3 class="font-display font-semibold text-xl text-white">睡前準備</h3>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>一鍵睡眠與頸枕配對</li>
+          <li>設定起床時間與睡眠長度</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">02</span>
+          <h3 class="font-display font-semibold text-xl text-white">睡中陪伴</h3>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>睡眠引導與舒眠音樂</li>
+          <li>勿擾模式守護睡眠品質</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">03</span>
+          <h3 class="font-display font-semibold text-xl text-white">睡後喚醒</h3>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>可自錄的個人化喚醒鈴聲</li>
+          <li>睡眠日記累積自我認識</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ S01 睡前準備（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">01</span>
+      <h2 class="subsection-title">睡前準備</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 睡前準備 > 設計說明 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      睡前流程以「快速啟動」為核心，用戶只需兩個步驟即可完成小睡設定，並可透過頸枕配對啟動個人化的睡眠情境，降低小睡前的操作門檻。
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="lg:order-1">
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_05/phase-before-quickstart.jpg" alt="兩步驟快速睡眠設定畫面，用戶可選擇睡眠方式並直接開始">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">兩步驟即可完成小睡設定——選擇睡眠方式、按下開始，讓忙碌的用戶不必在複雜選項中猶豫。</p>
+      </div>
+      <div class="flex flex-col gap-8 lg:order-2">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">兩步驟極速啟動</h4><p class="text-[var(--ink-soft)] leading-relaxed">用戶可直接選擇「想睡到幾點」或「想睡多久」，App 隨即進入睡眠引導，大幅縮短小睡前的準備時間。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">頸枕配對啟動個人化情境</h4><p class="text-[var(--ink-soft)] leading-relaxed">完成頸枕配對後，裝置與App即可連動，依照用戶的睡眠長度與偏好，自動調整震動喚醒與感應設定。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">睡前呼吸調節儀式</h4><p class="text-[var(--ink-soft)] leading-relaxed">根據國外研究，調節呼吸有助於提升睡眠品質，因此在正式進入睡眠倒數前，加入一段輕量的引導式呼吸練習，讓身心先慢下來，再進入小睡狀態。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ S02 睡中陪伴（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">02</span>
+      <h2 class="subsection-title">睡中陪伴</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 睡中陪伴 > 設計說明 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      睡中階段著重「五感沉浸」，頸枕與App共同營造觸覺、聽覺與視覺上的舒眠情境，並提供勿擾模式，避免通知打斷難得的小睡時光。
+    </p>
+
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_05/phase-during-immersive.jpg" alt="沉浸式睡眠體驗畫面，頸枕與App共同營造五感沉浸的睡眠倒數情境">
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">睡眠倒數畫面搭配舒眠音樂與震動提示，讓頸枕與App共同營造沉浸式的小睡情境。</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">五感沉浸式引導</h4><p class="text-[var(--ink-soft)] leading-relaxed">觸覺上由頸枕提供舒適支撐，聽覺上可選擇白噪音或輕音樂，視覺上以沉穩的深色介面降低干擾，共同延伸沉浸感。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">勿擾模式守護睡眠品質</h4><p class="text-[var(--ink-soft)] leading-relaxed">睡眠倒數期間自動切換為勿擾模式，過濾非必要通知，避免用戶因外部干擾而中途醒來。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">幽默心情小語相伴</h4><p class="text-[var(--ink-soft)] leading-relaxed">睡眠倒數畫面搭配幽默的心情小語，像是「世界上沒有什麼事是一次睡覺不能解決的，如果有，那就睡兩次」，讓等待入睡的過程多一點會心一笑的陪伴感。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ S03 睡後喚醒（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">03</span>
+      <h2 class="subsection-title">睡後喚醒</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 睡後喚醒 > 設計說明 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      睡後流程從「喚醒」延伸為「記錄」與「分享」——用戶可自錄個人化喚醒鈴聲，也能將幽默的鈴聲分享給總是睡過頭的朋友，讓喚醒不只是功能，更是一種社交互動。
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 mb-4">
+      <div class="case-thumb contain-img aspect-[16/9] lg:aspect-auto lg:h-full w-full">
+        <img src="assets/images/work-detail_05/phase-after-share-wake.jpg" alt="幽默的睡眠互動畫面，用戶可將自錄的喚醒鈴聲分享給朋友">
+      </div>
+      <div class="grid grid-rows-2 gap-4 md:gap-8">
+        <div class="case-thumb contain-img aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_05/phase-after-record-alarm.jpg" alt="自錄舒眠音頻畫面，用戶可錄製環境音效作為個人化喚醒鈴聲">
+        </div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_05/phase-after-sleep-diary.jpg" alt="睡眠日記畫面，統計每次小睡的時長與趨勢">
+        </div>
+      </div>
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">用戶可將自己錄製的喚醒鈴聲分享給朋友，也能隨時回顧自錄鈴聲與睡眠日記，讓「叫醒」延伸為記錄與分享的完整體驗。</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">個人化喚醒鈴聲</h4><p class="text-[var(--ink-soft)] leading-relaxed">用戶可自行錄製環境音效（如家人的聲音）作為喚醒鈴聲，讓睡醒的瞬間更貼近真實生活情境。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">睡眠日記累積自我認識</h4><p class="text-[var(--ink-soft)] leading-relaxed">每次小睡結束後，可依照匹茲堡睡眠質量量表（PSQI）填寫簡短問卷並自動生成睡眠日記，讓每一次的睡眠回饋都有學理依據，協助用戶逐步累積對自己睡眠模式的認識。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">遊戲化的睡眠牧場</h4><p class="text-[var(--ink-soft)] leading-relaxed">每次完成小睡，都能為專屬的睡眠牧場增添一株植物或一隻小動物，讓睡眠紀錄從「被追蹤」變成「被養成」，用戶更有動機持續使用、養成規律的小睡習慣。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 大標：視覺風格提案 ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">視覺風格提案</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ 配色風格設定 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>配色風格設定</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      本階段以「情境色彩」為出發點，從極光、日常穿搭、月夜三種生活場景提煉出三套視覺語言，探索不同的品牌調性與App介面呈現方式。
+    </p>
+
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-16 md:mb-24">
+      <img src="assets/images/work-detail_05/palette-mood-collage.jpg" alt="極光、日常穿搭、月夜三種生活場景的情境照片，分別對應極光綠、優雅金、靜謐藍三套配色">
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+
+      <!-- 配色 A -->
+      <div class="rounded-2xl p-8 flex flex-col" style="background:#16211D;border:1px solid #2A3D36;">
+        <div class="flex gap-2 mb-6">
+          <div class="rounded-full" style="width:28px;height:28px;background:#6ACFAD;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#3E635E;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#1B1B23;"></div>
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3 self-start" style="background:#6ACFAD;color:#0B1B16;">配色 A</span>
+        <h3 class="font-display font-semibold text-2xl mb-2" style="color:#fff;">極光綠</h3>
+        <p class="text-sm mb-6" style="color:#6ACFAD;">摩登・時尚・潮流</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #2A3D36;color:#B7CFC7;">摩登</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #2A3D36;color:#B7CFC7;">時尚</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #2A3D36;color:#B7CFC7;">潮流</span>
+        </div>
+        <p class="text-sm leading-relaxed mt-auto" style="color:#9BAEA8;">大圓角、色塊構成的扁平化介面，呈現年輕潮流的活力感。</p>
+      </div>
+
+      <!-- 配色 B -->
+      <div class="rounded-2xl p-8 flex flex-col" style="background:#1E1B14;border:1px solid #3A331F;">
+        <div class="flex gap-2 mb-6">
+          <div class="rounded-full" style="width:28px;height:28px;background:#EBC66D;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#DDA267;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#2A2A2A;"></div>
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3 self-start" style="background:#EBC66D;color:#2A2210;">配色 B</span>
+        <h3 class="font-display font-semibold text-2xl mb-2" style="color:#fff;">優雅金</h3>
+        <p class="text-sm mb-6" style="color:#EBC66D;">品味・中性・優雅</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A331F;color:#D6C7A8;">品味</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A331F;color:#D6C7A8;">中性</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #3A331F;color:#D6C7A8;">優雅</span>
+        </div>
+        <p class="text-sm leading-relaxed mt-auto" style="color:#B3A88E;">小圓角、細線條，大量黑白灰點綴金色，展現沉穩內斂的品味感。</p>
+      </div>
+
+      <!-- 配色 C -->
+      <div class="rounded-2xl p-8 flex flex-col" style="background:#141A24;border:1px solid #263244;">
+        <div class="flex gap-2 mb-6">
+          <div class="rounded-full" style="width:28px;height:28px;background:#6988C8;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#345693;"></div>
+          <div class="rounded-full" style="width:28px;height:28px;background:#0F2743;"></div>
+        </div>
+        <span class="font-mono text-[10px] px-2 py-1 rounded-full inline-block mb-3 self-start" style="background:#6988C8;color:#0F1B33;">配色 C</span>
+        <h3 class="font-display font-semibold text-2xl mb-2" style="color:#fff;">靜謐藍</h3>
+        <p class="text-sm mb-6" style="color:#9FB6E0;">自然・和諧・靜謐</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #263244;color:#AEBEDA;">自然</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #263244;color:#AEBEDA;">和諧</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full" style="border:1px solid #263244;color:#AEBEDA;">靜謐</span>
+        </div>
+        <p class="text-sm leading-relaxed mt-auto" style="color:#9CA9C2;">影像搭配細線條與透明堆疊，營造靜謐都市中的一席之地。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 配色 A・極光綠 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>配色 A・極光綠</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
+      <div class="lg:order-1">
+        <p class="text-[var(--ink)] text-[12pt] leading-loose">
+          極光綠取材自「看見極光就會帶來一輩子幸福」的古老傳說，以沉浸的綠松色調呼應在紛擾城市中找回專屬睡眠之地的渴望；介面採大圓角與色塊構成的扁平化風格，呈現年輕、潮流的品牌調性。
+        </p>
+      </div>
+      <div class="case-thumb contain-img aspect-[16/9] w-full lg:order-2">
+        <img src="assets/images/work-detail_05/palette-a-aurora-statement.jpg" alt="極光綠配色情境圖，搭配摩登、時尚、潮流的品牌訊息">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_05/palette-a-app-screens.jpg" alt="極光綠配色的App視覺元件，包含睡眠倒數、登入頁、時鐘設定與睡眠結果畫面">
+      </div>
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 content-start">
+        <div class="swatch-card"><div class="swatch-color" style="background:#6ACFAD;"></div><div class="swatch-code"><p>#6ACFAD</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#A9D5C2;"></div><div class="swatch-code"><p>#A9D5C2</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#3E635E;"></div><div class="swatch-code"><p>#3E635E</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#243E3E;"></div><div class="swatch-code"><p>#243E3E</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#272733;"></div><div class="swatch-code"><p>#272733</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#1B1B23;"></div><div class="swatch-code"><p>#1B1B23</p></div></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">沉浸式視覺語言</h4><p class="text-[var(--ink-soft)] leading-relaxed">以極光般的漸層綠光作為睡眠倒數的視覺焦點，搭配深色背景營造沉浸感，呼應「休息5分鐘，迎接下半場」的品牌訊息。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">大圓角與色塊構成</h4><p class="text-[var(--ink-soft)] leading-relaxed">介面元件採用大圓角與色塊分割，降低視覺銳利度，傳遞年輕、放鬆的潮流氛圍。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 配色 B・優雅金 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>配色 B・優雅金</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
+      <div class="case-thumb contain-img aspect-[16/9] w-full order-2 lg:order-1">
+        <img src="assets/images/work-detail_05/palette-b-elegant-statement.jpg" alt="優雅金配色情境圖，搭配品味、中性、優雅的品牌訊息">
+      </div>
+      <div class="order-1 lg:order-2">
+        <p class="text-[var(--ink)] text-[12pt] leading-loose">
+          優雅金呼應金色「應用已有上千年之久，能維持中性調性」的特質，適合想保有自我風格、卻不脫離群體的都會使用者；介面改以小圓角與細線條為主，大量運用黑白灰，只在關鍵操作點綴金色，呈現更沉穩內斂的品味感。
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_05/palette-b-app-screens.jpg" alt="優雅金配色的App視覺元件，包含睡眠倒數、登入頁、時鐘設定與睡眠結果畫面">
+      </div>
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 content-start">
+        <div class="swatch-card"><div class="swatch-color" style="background:#EBC66D;"></div><div class="swatch-code"><p>#EBC66D</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#DDA267;"></div><div class="swatch-code"><p>#DDA267</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#D6D6D6;"></div><div class="swatch-code"><p>#D6D6D6</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#5E5E5E;"></div><div class="swatch-code"><p>#5E5E5E</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#3A3A3A;"></div><div class="swatch-code"><p>#3A3A3A</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#2A2A2A;"></div><div class="swatch-code"><p>#2A2A2A</p></div></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">細線條的品味感</h4><p class="text-[var(--ink-soft)] leading-relaxed">以纖細線條取代大圓角色塊，搭配大量黑白灰底色，呈現如金飾般低調卻不失質感的視覺語言。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">重點色的精準點綴</h4><p class="text-[var(--ink-soft)] leading-relaxed">金色只出現在需要被強調的操作點（如喚醒按鈕、重點數據），讓畫面在沉穩之中仍保有清晰的視覺焦點。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 配色 C・靜謐藍 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>配色 C・靜謐藍</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
+      <div class="lg:order-1">
+        <p class="text-[var(--ink)] text-[12pt] leading-loose">
+          靜謐藍取材自月夜下小男孩靜靜融入月光的畫面，傳遞「好好享受都市中的一席之地」的靜謐感；介面大量運用真實影像、細線條與半透明堆疊，讓每個畫面都像被月光包覆一般柔和。
+        </p>
+      </div>
+      <div class="case-thumb contain-img aspect-[16/9] w-full lg:order-2">
+        <img src="assets/images/work-detail_05/palette-c-tranquil-statement.jpg" alt="靜謐藍配色情境圖，搭配自然、和諧、靜謐的品牌訊息">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_05/palette-c-app-screens.jpg" alt="靜謐藍配色的App視覺元件，包含睡眠倒數、登入頁、時鐘設定與睡眠結果畫面">
+      </div>
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 content-start">
+        <div class="swatch-card"><div class="swatch-color" style="background:#6988C8;"></div><div class="swatch-code"><p>#6988C8</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#345693;"></div><div class="swatch-code"><p>#345693</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#A2CED7;"></div><div class="swatch-code"><p>#A2CED7</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#EFF3CB;"></div><div class="swatch-code"><p>#EFF3CB</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#1D2C3C;"></div><div class="swatch-code"><p>#1D2C3C</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#0F2743;"></div><div class="swatch-code"><p>#0F2743</p></div></div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">影像堆疊的層次感</h4><p class="text-[var(--ink-soft)] leading-relaxed">以半透明的影像堆疊取代純色塊，讓夜空、月光等意象自然融入介面，增加畫面的柔和層次。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">細線條的和諧比例</h4><p class="text-[var(--ink-soft)] leading-relaxed">圖形元件維持纖細的線條比例，呼應「自然、和諧、靜謐」的品牌調性，避免過於銳利的視覺衝突。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 配色總覽 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>配色總覽</p>
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_05/palette-overview-final.jpg" alt="極光綠、優雅金、靜謐藍三套配色並列總覽，各自對應的品牌關鍵字與App畫面">
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mt-4">三套配色最終在同一套介面架構上並行呈現，方便向客戶端清楚比較不同情境色彩帶來的品牌感受差異。</p>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 大標：設計反思 ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">設計反思</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Systems</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">系統思維</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">軟硬整合的專案讓我意識到，介面設計只是體驗的一部分——頸枕的觸感、震動的時機，都跟畫面上的文字同樣重要。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Empathy</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">同理心</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">田野調查中那些「脖子痠痛」「睡相被看見」的小困擾，提醒我優化的常常不是重大痛點，而是被忽略的日常細節。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Playfulness</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">幽默感</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">分享喚醒鈴聲的設計讓我發現，睡眠不只是私密的個人行為，適度加入一點幽默互動，也能讓產品更有溫度。</p>
+      </div>
+    </div>  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+  <div class="flex justify-center" style="margin-top:48pt;">
+    <img src="assets/images/about/logo-mark-divider.png" alt="Kai Logo" style="width:42.5px;height:24px;">
+  </div>
+</div>
+
+<!-- ============ 上一個 / 下一個案例 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex flex-col sm:flex-row gap-6 justify-between mb-20 md:mb-40">
+      <a href="work-detail_04.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">上一個案例</p>
+          <div class="flex items-center justify-between gap-4">
+            <span class="case-nav-arrow flex-shrink-0" style="transform:scaleX(-1);"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h3 class="font-display font-semibold text-lg">GoSmart-2.0首頁改版</h3>
+          </div>
+        </div>
+      </a>
+      <a href="work-detail_01.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4 text-right">下一個案例</p>
+          <div class="flex items-center justify-between gap-4 flex-row-reverse">
+            <h3 class="font-display font-semibold text-lg">GoSmart-共享車 創新服務設計提案</h3>
+            <span class="case-nav-arrow flex-shrink-0"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+      <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        返回列表
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="mailto:rekaileon1125@gmail.com" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        合作邀約
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative overflow-hidden bg-[var(--ink)] text-white">
+  <a href="#top" class="page-top-link hidden md:flex flex-col items-center gap-4 absolute right-8 md:right-16 top-16">
+    <span class="page-top-line w-px h-16 bg-white/20"></span>
+    <span class="vertical-text font-mono text-[10px] tracking-[0.3em] text-white/50">PAGE TOP</span>
+  </a>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 pt-12 pb-8">
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-24 mb-12 md:mb-24">
+      <div class="flex flex-col gap-1">
+        <img src="assets/images/about/logo-mark-white.png" alt="Logo" class="h-7 w-auto self-start" style="margin-bottom:4pt;">
+        <span class="font-display font-semibold text-white"><span class="text-lg">曾翊凱</span></span>
+        <p class="font-display text-sm text-white/60">個人作品集</p>
+      </div>
+      <div class="flex flex-col gap-6 font-display text-sm">
+        <a href="index.html" class="text-white/70 hover:text-white transition-colors duration-300">首頁</a>
+        <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
+        <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
+        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          合作邀約
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
+      <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.style.maxHeight = menuOpen ? mobileMenu.scrollHeight + 'px' : '0px';
+    mobileMenu.style.opacity = menuOpen ? '1' : '0';
+    navbar.classList.toggle('menu-open', menuOpen);
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      navbar.classList.remove('menu-open');
+    });
+  });
+
+  function animateCount(el, target, duration = 900) {
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll('.stats-row').forEach(row => {
+    const statNumbers = row.querySelectorAll('.stat-number');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          statNumbers.forEach(el => animateCount(el, parseInt(el.dataset.target, 10)));
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
+    statsObserver.observe(row);
+  });
+
+  // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
+  (function () {
+    const track = document.getElementById('processTrack');
+    const pinWrapper = document.getElementById('processPinWrapper');
+    if (!track) return;
+
+    const grayDesktop = document.getElementById('processLineGrayDesktop');
+    const blueDesktop = document.getElementById('processLineBlueDesktop');
+    const grayMobile = document.getElementById('processLineGrayMobile');
+    const blueMobile = document.getElementById('processLineBlueMobile');
+    const badges = track.querySelectorAll('.process-badge');
+
+    let badgeThresholds = [];
+
+    function measureBadgeThresholds() {
+      const trackRect = track.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 1024;
+      badgeThresholds = Array.from(badges).map(badge => {
+        const badgeRect = badge.getBoundingClientRect();
+        if (isDesktop) {
+          const lineWidth = grayDesktop ? grayDesktop.offsetWidth : trackRect.width;
+          return lineWidth > 0 ? (badgeRect.left - trackRect.left) / lineWidth : 0;
+        } else {
+          const lineHeight = grayMobile ? grayMobile.offsetHeight : trackRect.height;
+          return lineHeight > 0 ? (badgeRect.top - trackRect.top) / lineHeight : 0;
+        }
+      });
+    }
+
+    function updateProcessLine() {
+      const isDesktop = window.innerWidth >= 1024;
+      const vh = window.innerHeight;
+      let progress;
+
+      if (isDesktop && pinWrapper) {
+        const wrapRect = pinWrapper.getBoundingClientRect();
+        const scrollable = wrapRect.height - vh;
+        progress = scrollable > 0 ? (-wrapRect.top) / scrollable : 1;
+      } else {
+        const rect = track.getBoundingClientRect();
+        progress = (vh / 2 - rect.top) / rect.height;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+
+      if (grayDesktop && blueDesktop) {
+        blueDesktop.style.width = (grayDesktop.offsetWidth * progress) + 'px';
+      }
+      if (grayMobile && blueMobile) {
+        blueMobile.style.height = (grayMobile.offsetHeight * progress) + 'px';
+      }
+
+      badges.forEach((badge, i) => {
+        const threshold = badgeThresholds[i] !== undefined ? badgeThresholds[i] : i / (badges.length - 1);
+        const card = badge.closest('.process-card');
+        if (progress >= threshold - 0.002) {
+          badge.classList.add('active');
+          if (card) card.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+          if (card) card.classList.remove('active');
+        }
+      });
+    }
+
+    function handleResize() {
+      measureBadgeThresholds();
+      updateProcessLine();
+    }
+
+    let processScrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!processScrollTicking) {
+        processScrollTicking = true;
+        requestAnimationFrame(function () {
+          updateProcessLine();
+          processScrollTicking = false;
+        });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', handleResize);
+    measureBadgeThresholds();
+    updateProcessLine();
+  })();
+  // ============ 滾動視差 & 進場顯現／大標底線 ============
+  (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const revealSelectors = '.governing-line, .case-thumb, .numbered-item, .strategy-card, .info-table, .statement-title, .funnel-num, .funnel-arrow';
+    document.querySelectorAll(revealSelectors).forEach(el => el.classList.add('reveal'));
+    document.querySelectorAll('.strategy-card').forEach((el, i) => {
+      el.style.transitionDelay = (i % 5) * 70 + 'ms';
+    });
+    document.querySelectorAll('.case-thumb.contain-img').forEach(el => {
+      el.classList.remove('reveal');
+      el.classList.add('reveal-scale');
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    const underlineEls = Array.from(document.querySelectorAll('.title-underline')).map(el => ({
+      el,
+      wrap: el.closest('.title-line-wrap')
+    }));
+
+    if (parallaxEls.length || underlineEls.length) {
+      let ticking = false;
+      const clamp = (v, max) => Math.max(-max, Math.min(max, v));
+      const updateScrollFx = () => {
+        const vh = window.innerHeight;
+        parallaxEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax) || 0.15;
+          const max = parseFloat(el.dataset.parallaxMax) || 400;
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) * factor, max);
+          el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
+        underlineEls.forEach(({ el, wrap }) => {
+          const target = wrap || el;
+          const rect = target.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * 0.55)));
+          el.style.transform = `scaleX(${progress})`;
+        });
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+    }
+  })();
+</script>
+</body>
+</html>

@@ -86,8 +86,26 @@
   .btn-outline{border:1px solid var(--ink);color:var(--ink);transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
   .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
 
-  /* ---- Reveal ---- */
-  .reveal{opacity:1;transform:none;}
+  /* ---- Reveal / 滾動視差 / 大標底線 ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.is-visible{opacity:1;transform:translateY(0);}
+    .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal-scale.is-visible{opacity:1;transform:scale(1);}
+    [data-parallax]{will-change:transform;}
+  }
+  .divider-bg-dots{position:absolute;left:0;right:0;top:-340px;height:calc(100% + 680px);pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#d7d7db 1.5px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);}
+  .title-line-wrap{position:relative;display:inline-block;}
+  .title-underline{position:absolute;left:16pt;top:calc(100% + 4pt);height:4pt;width:100%;
+    background:linear-gradient(90deg,#00DDCD,#00ADEC);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform .12s linear;}
+  @media (prefers-reduced-motion: reduce){
+    .title-underline{transform:scaleX(1);transition:none;}
+  }
 
   /* ---- 圖片容器 ---- */
   .case-thumb{overflow:hidden;border-radius:16px;background:#2a2a2d;}
@@ -172,13 +190,8 @@
   .case-nav-card:hover .card-dot-grid{opacity:0;}
 
   /* ---- Hero dot-grid（由上至下淡出，透明度 100% → 0%） ---- */
-  .dot-grid{
-    position:absolute;inset:0;pointer-events:none;z-index:-1;
-    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
-    background-size:28px 28px;
-    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
-    mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
-  }
+  .dot-grid{position:absolute;left:0;right:0;top:-280px;height:calc(100% + 560px);pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);mask-image:linear-gradient(to bottom, black 0%, transparent 100%);}
 </style>
 </head>
 <body class="antialiased">
@@ -218,8 +231,8 @@
 </header>
 
 <!-- ============ HERO 標題區(左文、右圖) ============ -->
-<section class="relative pt-40 md:pt-56 pb-24 md:pb-32">
-  <div class="dot-grid"></div>
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32 overflow-hidden">
+  <div class="dot-grid" data-parallax="0.55" data-parallax-max="260"></div>
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
 
     <a href="works.html" class="reveal inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
@@ -257,7 +270,7 @@
           </div>
         </div>
       </div>
-      <div class="lg:order-2">
+      <div class="lg:order-2" data-parallax="-0.22" data-parallax-max="140">
         <div class="reveal case-thumb aspect-[16/9] w-full">
           <img src="assets/images/work-detail_02/hero-overview.jpg" onerror="this.style.display='none'" alt="TVBS新聞網 APP 首頁改版三方案介面總覽">
         </div>
@@ -323,17 +336,21 @@
 </div>
 
 <!-- ============ 大標：如何開始？ ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="reveal project-title">如何開始？</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何開始？</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
 <!-- ============ 本專案設計流程 ============ -->
 <section class="relative py-12 md:py-16">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="relative lg:min-h-[200vh]" id="processPinWrapper">
-    <div class="lg:sticky lg:top-0 lg:h-[60vh] lg:flex lg:flex-col lg:justify-center">
+    <div class="relative lg:min-h-[180vh]" id="processPinWrapper">
+    <div class="lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-col lg:justify-center">
     <div class="mb-16 md:mb-24">
       <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
       <p class="reveal text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
@@ -922,9 +939,13 @@
 </div>
 
 <!-- ============ 大標：如何落地？ ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="reveal project-title">如何落地？</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何落地？</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -935,37 +956,43 @@
     <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
       根據前述分析，本APP核心體驗集中於<span class="font-semibold" style="color:var(--accent);">「首頁」與「內容頁」</span>。因此本次優化將先聚焦在此兩大關鍵場景，預期透過視覺精緻化、個人化自定義，以及深度引導閱讀三大設計策略，優化介面與操作體驗。
     </p>
-    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-8">
-      <div class="rounded-2xl p-6" style="background:var(--ink);">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">01</span>
-          <h3 class="font-display font-semibold text-xl text-white">新聞首頁提案</h3>
-          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.3);color:#fff;">首頁</span>
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+      <div class="rounded-2xl p-6" style="background:linear-gradient(135deg, #00DDCD, #00ADEC);">
+        <div class="mb-4">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid #fff;color:#fff;">01</span>
+            <h3 class="font-display font-semibold text-xl text-white">新聞首頁提案</h3>
+          </div>
+          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.5);color:#fff;">首頁</span>
         </div>
-        <ul class="text-white/70 list-disc pl-5 space-y-1">
+        <ul class="text-white list-disc pl-5 space-y-1">
           <li>提升細緻度，統一視覺風格</li>
           <li>強化重點，使主從更明確</li>
           <li>提供輔助資訊</li>
         </ul>
       </div>
-      <div class="rounded-2xl p-6" style="background:var(--ink);">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">02</span>
-          <h3 class="font-display font-semibold text-xl text-white">自定義頻道類別</h3>
-          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.3);color:#fff;">首頁</span>
+      <div class="rounded-2xl p-6" style="background:linear-gradient(135deg, #00DDCD, #00ADEC);">
+        <div class="mb-4">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid #fff;color:#fff;">02</span>
+            <h3 class="font-display font-semibold text-xl text-white">自定義頻道類別</h3>
+          </div>
+          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.5);color:#fff;">首頁</span>
         </div>
-        <ul class="text-white/70 list-disc pl-5 space-y-1">
+        <ul class="text-white list-disc pl-5 space-y-1">
           <li>自定義個人化頻道</li>
           <li>提供便捷快速的捷徑</li>
         </ul>
       </div>
-      <div class="rounded-2xl p-6" style="background:var(--ink);">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">03</span>
-          <h3 class="font-display font-semibold text-xl text-white">引導閱讀</h3>
-          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.3);color:#fff;">內容頁</span>
+      <div class="rounded-2xl p-6" style="background:linear-gradient(135deg, #00DDCD, #00ADEC);">
+        <div class="mb-4">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid #fff;color:#fff;">03</span>
+            <h3 class="font-display font-semibold text-xl text-white">引導閱讀</h3>
+          </div>
+          <span class="tag-pill font-mono text-[11px] px-3 py-1 rounded-full" style="border-color:rgba(255,255,255,0.5);color:#fff;">內容頁</span>
         </div>
-        <ul class="text-white/70 list-disc pl-5 space-y-1">
+        <ul class="text-white list-disc pl-5 space-y-1">
           <li>統整視覺元件，強化整體一致性</li>
           <li>釋放頁面閱讀空間</li>
           <li>調整間距與圖文配置，優化閱讀動線</li>
@@ -982,9 +1009,11 @@
 <!-- ============ S01 新聞首頁提案（章節標題） ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="reveal flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">01</span>
-      <h2 class="subsection-title">新聞首頁提案</h2>
+    <div class="reveal">
+      <div class="flex items-center gap-5 md:gap-6 flex-wrap mb-3">
+        <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">01</span>
+        <h2 class="subsection-title">新聞首頁提案</h2>
+      </div>
       <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full" style="border-color:var(--accent);color:var(--accent);">首頁</span>
     </div>
   </div>
@@ -993,13 +1022,13 @@
 <!-- ============ 新聞首頁提案 > 現況與問題 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 現況與問題</p>
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>現況與問題</p>
     <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
       首頁在有限的螢幕空間內堆疊過多資訊層級，導致視覺主從不明；且問題多與「一致性」與「資訊有效運用」相關，是本次改版優先處理的基礎課題。
     </p>
 
     <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-      <div class="flex flex-col gap-8">
+      <div class="flex flex-col gap-8 order-2 lg:order-1">
         <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">出現重複資訊</h4><p class="text-[var(--ink-soft)] leading-relaxed">頻道分類為產品重要架構，建議固定不要變動，減少用戶瞭解產品架構的學習時間。</p></div></div>
         <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">元件細緻度</h4><p class="text-[var(--ink-soft)] leading-relaxed">整體間距、對齊、大小階需要調整，增強整體細緻度，也凸現畫面中的主次關係。</p></div></div>
         <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">文字辨識度</h4><p class="text-[var(--ink-soft)] leading-relaxed">輪播的畫面中，圖片與文字的搭配使文字不宜閱讀，用戶需要更認真的閱讀文字，造成負擔。</p></div></div>
@@ -1007,7 +1036,7 @@
         <div class="numbered-item"><span class="numbered-badge">5</span><div><h4 class="font-display font-semibold text-lg mb-1">視覺一致性</h4><p class="text-[var(--ink-soft)] leading-relaxed">此區塊為常駐的重點功能，目前版本像是直接嵌入畫面中，沒有考量視覺一致性。</p></div></div>
         <div class="numbered-item"><span class="numbered-badge">6</span><div><h4 class="font-display font-semibold text-lg mb-1">輔助標籤</h4><p class="text-[var(--ink-soft)] leading-relaxed">首頁報導列表中可提供分類標籤，協助用戶快速分辨該新聞是否是自己感興趣的。</p></div></div>
       </div>
-      <div class="case-thumb aspect-[16/9] w-full">
+      <div class="case-thumb aspect-[16/9] w-full order-1 lg:order-2">
         <img src="assets/images/work-detail_02/hero-app.jpg" onerror="this.style.display='none'" alt="新聞首頁現況畫面">
       </div>
     </div>
@@ -1017,7 +1046,7 @@
 <!-- ============ 新聞首頁提案 > 目的 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 目的</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>設計目標</p>
     <div class="reveal max-w-2xl mb-16 md:mb-24">
       <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
         提供結構分明的新首頁佈局，先優化通用性的易用性議題，提升產品的易讀性與操作體驗。
@@ -1049,29 +1078,29 @@
 <!-- ============ 新聞首頁提案 > 方案比較 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案發想</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>方案發想</p>
     <div class="reveal max-w-2xl mb-16 md:mb-24">
       <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
         提出三款首頁新方案，皆包含前述所提之優化重點，藉此創造團隊討論空間。
       </p>
     </div>
-    <div class="reveal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-      <div>
+    <div class="reveal flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto sm:overflow-visible -mx-8 px-8 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none scroll-pl-8 sm:scroll-pl-0">
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
         <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-original.jpg" onerror="this.style.display='none'" alt="原版首頁畫面"></div>
         <h4 class="font-display font-semibold text-center mb-2">原版</h4>
         <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">目前上線版本，作為比較基準。</p>
       </div>
-      <div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
         <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-option1.jpg" onerror="this.style.display='none'" alt="方案一首頁畫面"></div>
         <h4 class="font-display font-semibold text-center mb-2" style="color:var(--accent);">方案一</h4>
         <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">以原有 APP 為基礎，在既有的架構下進行重新拉皮，開發成本較低。</p>
       </div>
-      <div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
         <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-option2.jpg" onerror="this.style.display='none'" alt="方案二首頁畫面"></div>
         <h4 class="font-display font-semibold text-center mb-2" style="color:var(--accent);">方案二</h4>
         <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">透過卡片式設計提高未來擴充性，並將原首頁上方的圓形 TAB 收整在底部「議題」中。</p>
       </div>
-      <div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
         <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_02/home-option3.jpg" onerror="this.style.display='none'" alt="方案三首頁畫面"></div>
         <h4 class="font-display font-semibold text-center mb-2" style="color:var(--accent);">方案三</h4>
         <p class="text-sm text-[var(--ink-soft)] text-center leading-relaxed">以「每日必知新聞」的形式增加用戶與 APP 的互動性。</p>
@@ -1083,7 +1112,7 @@
 <!-- ============ 方案一 細節 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案一</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>方案一</p>
     <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start">
       <div class="case-thumb aspect-[9/16] w-full max-w-sm mx-auto lg:mx-0">
         <img src="assets/images/work-detail_02/home-option1-detail.jpg" onerror="this.style.display='none'" alt="方案一介面細節">
@@ -1101,7 +1130,7 @@
 <!-- ============ 方案二 細節 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案二</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>方案二</p>
     <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start">
       <div class="case-thumb aspect-[9/16] w-full max-w-sm mx-auto lg:mx-0">
         <img src="assets/images/work-detail_02/home-option2-detail.jpg" onerror="this.style.display='none'" alt="方案二介面細節">
@@ -1119,7 +1148,7 @@
 <!-- ============ 方案三 細節 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新聞首頁提案 &gt; 方案三</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>方案三</p>
     <div class="reveal grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-8 lg:gap-12 items-start">
       <div class="case-thumb aspect-[9/16] w-full max-w-sm mx-auto lg:mx-0">
         <img src="assets/images/work-detail_02/home-option3-detail.jpg" onerror="this.style.display='none'" alt="方案三介面細節：滑動切換每日必知新聞">
@@ -1141,9 +1170,11 @@
 <!-- ============ S02 自定義頻道類別（章節標題） ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="reveal flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">02</span>
-      <h2 class="subsection-title">自定義頻道類別</h2>
+    <div class="reveal">
+      <div class="flex items-center gap-5 md:gap-6 flex-wrap mb-3">
+        <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">02</span>
+        <h2 class="subsection-title">自定義頻道類別</h2>
+      </div>
       <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full" style="border-color:var(--accent);color:var(--accent);">首頁</span>
     </div>
   </div>
@@ -1152,22 +1183,22 @@
 <!-- ============ 自定義頻道類別 > 現況與問題 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 現況與問題</p>
-    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-      <div>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>現況與問題</p>
+    <div class="reveal flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-[auto_auto] gap-8 lg:gap-x-16 lg:gap-y-8 items-start">
+      <div class="order-1 lg:order-none lg:col-start-1 lg:row-start-1">
         <p class="text-[var(--ink-soft)] leading-relaxed mb-4">
           當前頻道眾多，且每位用戶關注的議題不同，導致用戶在查找目標頻道時需要花費較多時間。
         </p>
-        <p class="text-[var(--ink-soft)] leading-relaxed mb-8">
+        <p class="text-[var(--ink-soft)] leading-relaxed">
           尤其對於僅有特定關注議題的中、高頻用戶而言，缺乏個人化的頻道管理機制，等同於每次開啟 APP 都要重新篩選一次資訊，長期下來將削弱使用效率與黏著度。
         </p>
-        <div class="flex flex-col gap-8">
-          <div class="numbered-item"><span class="numbered-badge">1</span><h4 class="font-display font-semibold text-lg">查找頻道效率較低</h4></div>
-          <div class="numbered-item"><span class="numbered-badge">2</span><h4 class="font-display font-semibold text-lg">無法管理頻道</h4></div>
-        </div>
       </div>
-      <div class="case-thumb aspect-[16/9] w-full">
+      <div class="case-thumb aspect-[16/9] w-full order-2 lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2">
         <img src="assets/images/work-detail_02/channel-current.jpg" onerror="this.style.display='none'" alt="頻道現況畫面">
+      </div>
+      <div class="flex flex-col gap-8 order-3 lg:order-none lg:col-start-1 lg:row-start-2">
+        <div class="numbered-item"><span class="numbered-badge">1</span><h4 class="font-display font-semibold text-lg">查找頻道效率較低</h4></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><h4 class="font-display font-semibold text-lg">無法管理頻道</h4></div>
       </div>
     </div>
   </div>
@@ -1176,7 +1207,7 @@
 <!-- ============ 自定義頻道類別 > 目的 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 目的</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>設計目標</p>
     <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 text-center">
       <div>
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 1</p>
@@ -1197,7 +1228,7 @@
 <!-- ============ 自定義頻道類別 > 佐證資料 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 佐證資料</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>佐證資料</p>
     <div class="reveal max-w-2xl mb-16 md:mb-24">
       <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
         藉由競品發現「頻道管理」為即時新聞服務標配，表現的形式大同小異，不過對於年長用戶來說可能不好操作。
@@ -1231,20 +1262,20 @@
 <!-- ============ 自定義頻道類別 > 概念解法 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>自定義頻道類別 &gt; 概念解法</p>
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>概念解法</p>
     <p class="reveal governing-line max-w-3xl mb-4">
       針對自定義頻道提出兩款方案：方案一以卡片式列表換取更大的觸控範圍，方案二則貼近多數競品的慣用形式，換取更精簡的頁面空間。
     </p>
     <p class="reveal font-mono text-xs text-[var(--ink-faint)] mb-16 md:mb-24">＊兩款方案的差異在於「操作範圍」與「學習成本」的取捨。</p>
-    <div class="reveal grid grid-cols-1 sm:grid-cols-[320px_320px] justify-center gap-2 lg:gap-4">
+    <div class="reveal grid grid-cols-2 sm:grid-cols-[320px_320px] justify-center gap-4 sm:gap-2 lg:gap-4">
       <div>
-        <div class="case-thumb aspect-[9/16] w-full max-w-xs sm:max-w-none mx-auto mb-6"><img src="assets/images/work-detail_02/channel-option1.jpg" onerror="this.style.display='none'" alt="方案一：自定義頻道"></div>
+        <div class="case-thumb aspect-[9/16] w-full mb-3 sm:mb-6"><img src="assets/images/work-detail_02/channel-option1.jpg" onerror="this.style.display='none'" alt="方案一：自定義頻道"></div>
         <h4 class="font-display font-semibold text-lg mb-3 text-center">方案一</h4>
         <p class="text-sm text-[var(--ink-soft)] mb-1 text-center"><span class="font-semibold text-[var(--ink)]">優｜</span>操作範圍大，不易誤觸</p>
         <p class="text-sm text-[var(--ink-soft)] text-center"><span class="font-semibold text-[var(--ink)]">缺｜</span>所需頁面空間較大</p>
       </div>
       <div>
-        <div class="case-thumb aspect-[9/16] w-full max-w-xs sm:max-w-none mx-auto mb-6"><img src="assets/images/work-detail_02/channel-option2.jpg" onerror="this.style.display='none'" alt="方案二：自定義頻道"></div>
+        <div class="case-thumb aspect-[9/16] w-full mb-3 sm:mb-6"><img src="assets/images/work-detail_02/channel-option2.jpg" onerror="this.style.display='none'" alt="方案二：自定義頻道"></div>
         <h4 class="font-display font-semibold text-lg mb-3 text-center">方案二</h4>
         <p class="text-sm text-[var(--ink-soft)] mb-1 text-center"><span class="font-semibold text-[var(--ink)]">優｜</span>競品常見的形式，所需空間較小</p>
         <p class="text-sm text-[var(--ink-soft)] text-center"><span class="font-semibold text-[var(--ink)]">缺｜</span>需要學習操作，容易誤觸</p>
@@ -1260,9 +1291,11 @@
 <!-- ============ S03 引導閱讀（章節標題） ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="reveal flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">03</span>
-      <h2 class="subsection-title">引導閱讀</h2>
+    <div class="reveal">
+      <div class="flex items-center gap-5 md:gap-6 flex-wrap mb-3">
+        <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">03</span>
+        <h2 class="subsection-title">引導閱讀</h2>
+      </div>
       <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full" style="border-color:var(--accent);color:var(--accent);">內容頁</span>
     </div>
   </div>
@@ -1271,20 +1304,20 @@
 <!-- ============ 引導閱讀 > 現況與問題 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>引導閱讀 &gt; 現況與問題</p>
-    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-      <div>
-        <p class="text-[var(--ink-soft)] leading-relaxed mb-8">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>現況與問題</p>
+    <div class="reveal flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-[auto_auto] gap-8 lg:gap-x-16 lg:gap-y-8 items-start">
+      <div class="order-1 lg:order-none lg:col-start-1 lg:row-start-1">
+        <p class="text-[var(--ink-soft)] leading-relaxed">
           以單屏瀏覽空間的角度，還有可釋出的空間。以整體的角度，排版因資訊主從不分明、廣告插入形式等綜合影響，導致全篇報導中斷點過多，用戶難以閱讀完全文。
         </p>
-        <div class="flex flex-col gap-8">
-          <div class="numbered-item"><span class="numbered-badge">1</span><h4 class="font-display font-semibold text-lg">瀏覽空間沒有最大化應用</h4></div>
-          <div class="numbered-item"><span class="numbered-badge">2</span><h4 class="font-display font-semibold text-lg">用戶無法聚焦在報導本身</h4></div>
-          <div class="numbered-item"><span class="numbered-badge">3</span><h4 class="font-display font-semibold text-lg">斷點過多，干擾閱讀</h4></div>
-        </div>
       </div>
-      <div class="case-thumb aspect-[16/9] w-full">
+      <div class="case-thumb aspect-[16/9] w-full order-2 lg:order-none lg:col-start-2 lg:row-start-1 lg:row-span-2">
         <img src="assets/images/work-detail_02/reading-current.jpg" onerror="this.style.display='none'" alt="內文頁現況畫面">
+      </div>
+      <div class="flex flex-col gap-8 order-3 lg:order-none lg:col-start-1 lg:row-start-2">
+        <div class="numbered-item"><span class="numbered-badge">1</span><h4 class="font-display font-semibold text-lg">瀏覽空間沒有最大化應用</h4></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><h4 class="font-display font-semibold text-lg">用戶無法聚焦在報導本身</h4></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><h4 class="font-display font-semibold text-lg">斷點過多，干擾閱讀</h4></div>
       </div>
     </div>
   </div>
@@ -1293,7 +1326,7 @@
 <!-- ============ 引導閱讀 > 目的 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>引導閱讀 &gt; 目的</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>設計目標</p>
     <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 text-center">
       <div>
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Goal 1</p>
@@ -1314,7 +1347,7 @@
 <!-- ============ 引導閱讀 > 概念解法 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>引導閱讀 &gt; 概念解法</p>
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>概念解法</p>
     <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
       解法圍繞「釋放閱讀空間」與「降低中斷點」兩個方向展開：前半段聚焦頂部功能收整與內文層次重整，後半段則處理廣告、標籤與延伸閱讀等次要資訊的定位。
     </p>
@@ -1373,9 +1406,13 @@
 </div>
 
 <!-- ============ 大標：設計反思 ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="reveal project-title">設計反思</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">設計反思</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -1650,6 +1687,56 @@
     window.addEventListener('resize', handleResize);
     measureBadgeThresholds();
     updateProcessLine();
+  })();
+  // ============ 滾動視差 & 進場顯現／大標底線 ============
+  (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    const underlineEls = Array.from(document.querySelectorAll('.title-underline')).map(el => ({
+      el,
+      wrap: el.closest('.title-line-wrap')
+    }));
+
+    if (parallaxEls.length || underlineEls.length) {
+      let ticking = false;
+      const clamp = (v, max) => Math.max(-max, Math.min(max, v));
+      const updateScrollFx = () => {
+        const vh = window.innerHeight;
+        parallaxEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax) || 0.15;
+          const max = parseFloat(el.dataset.parallaxMax) || 400;
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) * factor, max);
+          el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
+        underlineEls.forEach(({ el, wrap }) => {
+          const target = wrap || el;
+          const rect = target.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * 0.55)));
+          el.style.transform = `scaleX(${progress})`;
+        });
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+    }
   })();
 </script>
 

@@ -82,8 +82,29 @@
     -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);transition:opacity .35s ease;}
   .case-nav-card:hover .card-dot-grid{opacity:0;}
 
-  .dot-grid{position:absolute;inset:0;pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
+  .dot-grid{position:absolute;left:0;right:0;top:-280px;height:calc(100% + 560px);pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
     -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);mask-image:linear-gradient(to bottom, black 0%, transparent 100%);}
+
+  /* ---- Reveal / 滾動視差 / 大標底線 ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.is-visible{opacity:1;transform:translateY(0);}
+    .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal-scale.is-visible{opacity:1;transform:scale(1);}
+    [data-parallax]{will-change:transform;}
+  }
+  .divider-bg-dots{position:absolute;left:0;right:0;top:-340px;height:calc(100% + 680px);pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#d7d7db 1.5px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);}
+  .title-line-wrap{position:relative;display:inline-block;}
+  .title-underline{position:absolute;left:16pt;top:calc(100% + 4pt);height:4pt;width:100%;
+    background:linear-gradient(90deg,#00DDCD,#00ADEC);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform .12s linear;}
+  @media (prefers-reduced-motion: reduce){
+    .title-underline{transform:scaleX(1);transition:none;}
+  }
 
   /* ---- 本專案設計流程 ---- */
   .process-badge{
@@ -136,8 +157,8 @@
 </header>
 
 <!-- ============ HERO 標題區(左文、右圖) ============ -->
-<section class="relative pt-40 md:pt-56 pb-24 md:pb-32">
-  <div class="dot-grid"></div>
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32 overflow-hidden">
+  <div class="dot-grid" data-parallax="0.55" data-parallax-max="260"></div>
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
 
     <a href="works.html" class="inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
@@ -171,9 +192,9 @@
           </div>
         </div>
       </div>
-      <div class="lg:order-2">
+      <div class="lg:order-2" data-parallax="-0.22" data-parallax-max="140">
         <div class="case-thumb contain-img aspect-[16/9] w-full">
-          <img src="assets/images/work-detail_04/visual-proposal-before-after.png" alt="GoSmart App首頁原版本與本次改版提案介面對比，新版整合日租車、共享車與多元移動服務入口">
+          <img src="assets/images/work-detail_04/visual-proposal-before-after.jpg" alt="GoSmart App首頁原版本與本次改版提案介面對比，新版整合日租車、共享車與多元移動服務入口">
         </div>
         <p class="text-xs text-[var(--ink-faint)] mt-4">首頁改版前後對比，新版強化多元服務入口與情境文案。</p>
       </div>
@@ -224,7 +245,7 @@
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點</p>
     <div class="max-w-2xl">
       <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
-        隨著 MaaS（Mobility as a Service）移動即服務興起，各家品牌紛紛透過數位入口串連自身服務生態圈。格上集團擁有領先同業的數位開發能量與長期累積的用戶口碑，GoSmart App 首頁因此被賦予更關鍵的角色——不只是租車入口，更是集團對外展示移動生態圈願景的第一個接觸點。本專案即在此脈絡下，重新定義首頁的資訊架構與溝通語氣。
+        隨著 MaaS（Mobility as a Service）移動即服務興起，各家品牌紛紛透過數位入口串連自身服務生態圈。格上集團擁有領先同業的數位開發能量與長期累積的用戶口碑，GoSmart App 首頁因此被賦予更關鍵的角色——不只是租車入口，更是集團對外展示移動生態圈願景的第一個接觸點。我在此脈絡下主導了這次首頁改版，從資訊架構到溝通語氣，重新定義 GoSmart 首頁該有的樣貌。
       </p>
     </div>
   </div>
@@ -233,9 +254,13 @@
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
 <!-- ============ 大標：如何開始？ ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="project-title">如何開始？</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何開始？</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -247,7 +272,7 @@
     <div class="mb-16 md:mb-24">
       <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
       <p class="text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
-        本次改版以格上內部既有市場觀察與用戶回饋共識為基礎，未另行安排前期研究，直接從釐清目標出發，依序拆解改版重點的三個角度，再收斂為具體的視覺與文案提案。
+        本次改版以格上內部既有市場觀察與用戶回饋共識為基礎，未另行安排前期研究，直接從釐清目標出發，探索下一階段服務的可能性，藉此定義改版重點，最後實現出具體的新首頁。
       </p>
     </div>
 
@@ -258,26 +283,33 @@
       <div id="processLineGrayDesktop" class="hidden lg:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
       <div id="processLineBlueDesktop" class="hidden lg:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
 
-      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-3 lg:gap-x-4 lg:gap-y-0">
+      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-4 lg:gap-x-4 lg:gap-y-0">
         <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">01</div>
           <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">設定目標</h3>
-            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">釐清首頁改版要達成的核心目標與願景。</p>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">從市場觀察出發，釐清首頁改版要達成的目標與願景。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">02</div>
           <div class="lg:mt-8">
-            <h3 class="font-display font-semibold text-base mb-2">改版重點</h3>
-            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">從公司、用戶、產品三個面向拆解具體重點。</p>
+            <h3 class="font-display font-semibold text-base mb-2">探索首頁可能性</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">從公司、用戶、產品三面向，發散思考下一階段服務可能性。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">03</div>
           <div class="lg:mt-8">
-            <h3 class="font-display font-semibold text-base mb-2">視覺與文案提案</h3>
-            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">落實為介面佈局規劃與情境化文案設計。</p>
+            <h3 class="font-display font-semibold text-base mb-2">定義改版重點</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">收斂發散內容，定義三個面向對應的具體改版重點。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">04</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">探索視覺風格</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">展開視覺與文案提案，發展新首頁的介面風格與情境文案。</p>
           </div>
         </div>
       </div>
@@ -299,7 +331,7 @@
       <div class="flex flex-col gap-6">
         <h3 class="font-display font-semibold text-lg mb-1">GoSmart 既有優勢</h3>
         <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">領先同業的數位能力</h4><p class="text-[var(--ink-soft)] leading-relaxed">格上擁有勝過同業的資訊團隊，在開發、迭代產品上較競品快速且有效率。</p></div></div>
-        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">貼近用戶的優質服務</h4><p class="text-[var(--ink-soft)] leading-relaxed">GoSmart 過去在使用體驗上獲得多數用戶好評，新版首頁將繼續深化用戶體驗、提高忠誠度。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">貼近用戶的優質服務</h4><p class="text-[var(--ink-soft)] leading-relaxed">GoSmart 前一版已獲得多數用戶好評，新版首頁將繼續深化用戶體驗、提高忠誠度。</p></div></div>
         <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">逐步擴增的生態圈</h4><p class="text-[var(--ink-soft)] leading-relaxed">各家品牌都想打造自己的生態圈，GoSmart 有機會成為集團串連不同服務的重要載體。</p></div></div>
       </div>
       <div>
@@ -338,13 +370,13 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>改版重點</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      確立目標後，本專案進一步從公司面、用戶面、產品面三個角度拆解具體改版重點——分別對應保留未來擴充性、強化品牌溝通，以及展現多元移動服務。
+      在確立目標後，從公司面、用戶面、產品面分別提煉出多元移動服務、強化品牌溝通、未來擴充性的改版重點
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
       <div>
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Product</p>
-        <h3 class="font-display font-black text-4xl md:text-5xl my-4">展現多元移動服務</h3>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">多元移動服務</h3>
         <p class="text-[var(--accent)] mb-4">◆</p>
         <p class="text-[var(--ink-soft)] leading-relaxed">呈現格上所有服務，滿足用戶任何跟「行」相關需求。</p>
       </div>
@@ -352,11 +384,11 @@
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">User</p>
         <h3 class="font-display font-black text-4xl md:text-5xl my-4">強化品牌溝通</h3>
         <p class="text-[var(--accent)] mb-4">◆</p>
-        <p class="text-[var(--ink-soft)] leading-relaxed">利用使用情境與相關文案與用戶進行溝通，吸引用戶持續跟產品互動。</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">藉由「使用情境」與用戶溝通，吸引用戶持續跟產品互動。</p>
       </div>
       <div>
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Company</p>
-        <h3 class="font-display font-black text-4xl md:text-5xl my-4">保留未來擴充性</h3>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">未來擴充性</h3>
         <p class="text-[var(--accent)] mb-4">◆</p>
         <p class="text-[var(--ink-soft)] leading-relaxed">因應未來公司在數位服務的發展，預先保留擴充服務的空間。</p>
       </div>
@@ -367,9 +399,13 @@
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
 <!-- ============ 大標：如何落地？ ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="project-title">如何落地？</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何落地？</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -378,12 +414,12 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>新版首頁</p>
     <p class="text-[var(--ink)] leading-loose max-w-2xl mb-16 md:mb-24" style="font-size:12pt;">
-      新版首頁在維持日租車預訂效率的前提下，於下方分層加入共享車與多元服務入口，並融入情境化設計，展現產品朝「數位移動平台」轉型的定位。
+      新版首頁在維持日租車預訂效率的前提下，依登入狀態、租車模式等情境動態調整版面內容，並於下方分層加入共享車與多元服務入口，展現產品朝「數位移動平台」轉型的定位。
     </p>
     <div class="case-thumb contain-img aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_04/visual-proposal-before-after.png" alt="GoSmart App首頁原版本與本次改版提案介面對比">
+      <img src="assets/images/work-detail_04/new-homepage-closeup.jpg" alt="GoSmart App新版首頁介面總覽，涵蓋門市租車、24h自助租車、登入前後等多種狀態畫面">
     </div>
-    <p class="text-xs text-[var(--ink-faint)] mt-4">原版本以單一租車情境為主視覺；本次提案第一屏保留日租車快速預訂，並加入鄰近共享車即時資訊與多元服務入口。</p>
+    <p class="text-xs text-[var(--ink-faint)] mt-4">新版首頁涵蓋門市租車、24h自助租車、登入前後等多種情境畫面，皆保留第一屏快速預訂路徑。</p>
   </div>
 </section>
 
@@ -392,12 +428,12 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>其他風格嘗試</p>
     <p class="text-[var(--ink)] leading-loose max-w-2xl mb-16 md:mb-24" style="font-size:12pt;">
-      為了與團隊有效討論，在定案前針對「問候語氣、服務入口排序與資訊密度」，延伸發展出三款不同的版面方案。
+      為了與團隊有效討論，在定案前針對「問候語氣、服務入口排序與資訊呈現方式」，延伸發展出三款不同的版面方案。
     </p>
     <div class="case-thumb contain-img aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_04/other-versions-explored.png" alt="首頁改版另外三款版面嘗試比較，分別調整問候語氣、服務入口排序與圖示密度">
+      <img src="assets/images/work-detail_04/other-versions-explored.jpg" alt="首頁改版另外三款版面嘗試比較，分別調整問候語氣、服務入口排序與圖示呈現方式">
     </div>
-    <p class="text-xs text-[var(--ink-faint)] mt-4">三款版面嘗試比較：問候語氣調整、服務排序調整、圖示排列密度調整。</p>
+    <p class="text-xs text-[var(--ink-faint)] mt-4">三款版面嘗試比較：問候語氣調整、服務排序調整、圖示與卡片呈現方式的比重差異。</p>
   </div>
 </section>
 
@@ -411,9 +447,9 @@
       綜合上述版面嘗試的討論結果，本次改版收斂為三個核心設計方向，以下逐一說明各自的設計邏輯。
     </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="rounded-2xl p-6" style="background:var(--ink);">
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
         <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">01</span>
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">01</span>
           <h3 class="font-display font-semibold text-xl text-white">首屏設計</h3>
         </div>
         <ul class="text-white/70 list-disc pl-5 space-y-1">
@@ -421,9 +457,9 @@
           <li>顯性化共享車周遭動態</li>
         </ul>
       </div>
-      <div class="rounded-2xl p-6" style="background:var(--ink);">
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
         <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">02</span>
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">02</span>
           <h3 class="font-display font-semibold text-xl text-white">強化用戶溝通</h3>
         </div>
         <ul class="text-white/70 list-disc pl-5 space-y-1">
@@ -431,14 +467,14 @@
           <li>依使用場景提供對應文案</li>
         </ul>
       </div>
-      <div class="rounded-2xl p-6" style="background:var(--ink);">
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
         <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid var(--accent);color:var(--accent);">03</span>
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">03</span>
           <h3 class="font-display font-semibold text-xl text-white">功能分層與行銷合作</h3>
         </div>
         <ul class="text-white/70 list-disc pl-5 space-y-1">
-          <li>服務名稱＋情境溝通降低理解門檻</li>
-          <li>預留行銷廣宣與異業合作空間</li>
+          <li>服務名稱＋情境標語，兼顧熟手與新手用戶</li>
+          <li>新增廣告版位與跨單位優惠清單，強化行銷露出</li>
         </ul>
       </div>
     </div>
@@ -462,17 +498,17 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      新版首頁優先保障「日租車」的高效預訂，並根據用戶前次使用行為動態調整預設服務；同時顯性化共享車「隨租隨還」優勢與周遭車輛動態，協助用戶快速掌握服務特色、彈性選擇。
+      新版首頁以「門市租車」與「24h自助租車」雙模式呈現：前者維持高效的欄位式預訂流程，後者則顯性化共享車「隨租隨還」優勢與周遭車輛動態，協助用戶依需求快速掌握服務特色、彈性選擇。
     </p>
 
     <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
-      <img src="assets/images/work-detail_04/design-rationale-pricing-nearby.png" alt="首頁快速使用與服務特色設計說明，包含日租車快速預訂欄位與附近共享車地圖">
+      <img src="assets/images/work-detail_04/design-rationale-pricing-nearby.jpg" alt="首頁首屏設計說明，展示門市租車欄位式預訂與24h自助租車周邊共享車地圖兩種模式">
     </div>
-    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">首屏保留日租車快速預訂欄位（含線上優惠資訊），並加入地圖呈現，即時顯示鄰近可租共享車數量。</p>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">「門市租車」以欄位式輸入取還門市與時間；「24h自助租車」則以地圖呈現周邊可用共享車數量。</p>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">快速使用</h4><p class="text-[var(--ink-soft)] leading-relaxed">新版本首頁不單是整合其他服務，亦希望提升既有租車效率，讓用戶可在第一屏進入租車流程，不因服務擴增而拉長操作路徑。</p></div></div>
-      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">凸顯服務特色</h4><p class="text-[var(--ink-soft)] leading-relaxed">共享車擁有隨租隨還特點，方便性是用戶最大考量，首頁入口將加強此特點，讓用戶即時掌握周遭可用車輛。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">快速使用</h4><p class="text-[var(--ink-soft)] leading-relaxed">「門市租車」模式保留欄位式輸入（從哪個門市出發、還車門市、時間），讓用戶可在第一屏直接進入租車流程，不因服務擴增而拉長操作路徑。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">凸顯服務特色</h4><p class="text-[var(--ink-soft)] leading-relaxed">「24h自助租車」模式以地圖顯示周邊共享車數量，方便性是用戶最大考量，讓用戶即時掌握周遭可用車輛。</p></div></div>
     </div>
   </div>
 </section>
@@ -494,17 +530,17 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      新版文案從單純的「功能引導」升級為「情境對話」，運用生活化的口語向用戶招呼，並依據使用場景即時提供對應文案，創造更貼心、有感的品牌互動。
+      新版文案從單純的「功能引導」升級為「情境對話」：依租車模式標註對應的使用情境（如行程明確或用車彈性），並以生活化的口語與表情符號，在登入前後動態呈現對應鼓勵文案。
     </p>
 
     <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
-      <img src="assets/images/work-detail_04/design-rationale-copywriting.png" alt="首頁情感化文案設計說明，展示口語化問候語與用戶導向說明文字">
+      <img src="assets/images/work-detail_04/design-rationale-copywriting.jpg" alt="首頁情境化文案設計說明，展示租車模式對應的情境標語與登入前後的口語化鼓勵文案">
     </div>
-    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">首頁問候語與功能說明改以口語化文案呈現，強化與用戶的對話感。</p>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">同一租車流程依「門市租車」與「24h自助租車」提供不同情境標語，並依登入狀態切換對應文案與行動呼籲。</p>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">建立情感連結</h4><p class="text-[var(--ink-soft)] leading-relaxed">利用輕鬆、口語化的方式向用戶打招呼，創造產品與用戶的對話機會，亦可針對不同節日、時段提供特定詞句與用戶互動。</p></div></div>
-      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">用戶導向</h4><p class="text-[var(--ink-soft)] leading-relaxed">相關文案的提供將關注用戶需求和期望，並從用戶使用場景、情境出發，設想用戶可能會對什麼內容感到疑惑，適時提供說明。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">建立情感連結</h4><p class="text-[var(--ink-soft)] leading-relaxed">以「簡單幾步，快速租車👍」、「超多車輛等著你駕馭🚗」等生活化口語搭配表情符號，創造產品與用戶的對話感。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">用戶導向</h4><p class="text-[var(--ink-soft)] leading-relaxed">在每個租車模式下標註對應情境描述，如「適合行程明確、喜歡現場專人說明的你」，協助用戶依自身需求快速判斷適合的服務。</p></div></div>
     </div>
   </div>
 </section>
@@ -526,17 +562,19 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      策略性兼顧體驗與商業效益：一方面以「服務名稱 + 情境溝通」降低用戶理解門檻、滿足不同熟練度的認知路徑；另一方面預留行銷廣宣與異業合作區塊，賦予平台更高的商業營運彈性。
+      服務項目擴增後，首頁不只要降低用戶的認知門檻，也要承擔行銷曝光與跨事業單位露出的商業任務；本次改版同時處理「使用理解」與「行銷合作」兩個層次的需求。
     </p>
 
     <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
-      <img src="assets/images/work-detail_04/design-rationale-service-understanding.png" alt="首頁服務理解設計說明，展示服務名稱區塊與使用情境區塊並行呈現">
+      <img src="assets/images/work-detail_04/design-rationale-service-understanding.jpg" alt="首頁功能分層與行銷合作設計說明，展示服務名稱與情境標語、深度體驗廣告版位，以及跨事業單位優惠活動清單">
     </div>
-    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">首頁下方以服務名稱區塊與使用情境區塊並行呈現，協助不同熟悉度的用戶理解服務。</p>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">服務區塊整合服務名稱與情境標語，下方並列廣告版位與跨單位優惠清單，兼顧使用理解與行銷露出。</p>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-flow-col lg:grid-rows-2 gap-8 lg:gap-16 items-start">
       <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">熟手用戶：服務名</h4><p class="text-[var(--ink-soft)] leading-relaxed">對格上服務有一定暸解的用戶，可直接藉由服務名快速選擇使用。</p></div></div>
-      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">新手用戶：描述使用情境</h4><p class="text-[var(--ink-soft)] leading-relaxed">透過先前訪談發現，其實有更多一般民眾不知道日租車／共享車的差別，更不清楚該如何選擇服務，因此提供不同情境之敘述，讓用戶從不同角度認識服務。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">新手用戶：情境標語</h4><p class="text-[var(--ink-soft)] leading-relaxed">每個服務卡片都搭配一句情境標語（如「彈性租期輕鬆擁車」），讓不熟悉服務內容的用戶也能快速理解定位。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-lg mb-1">行銷推廣：深度體驗廣告</h4><p class="text-[var(--ink-soft)] leading-relaxed">新增大版位廣告輪播區塊，用於推廣異業合作或深度體驗活動（如試駕體驗），提升行銷曝光的效率與版位價值。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-lg mb-1">跨單位曝光：優惠活動清單</h4><p class="text-[var(--ink-soft)] leading-relaxed">整合訂閱車、長租、日租等不同事業單位的優惠活動於同一清單，讓每個營業單位都有機會在首頁獲得曝光機會。</p></div></div>
     </div>
   </div>
 </section>
@@ -544,9 +582,18 @@
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
 <!-- ============ 大標：設計反思 ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">設計反思</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="project-title mb-16 md:mb-24">設計反思</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
       <div>
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Structure</p>
@@ -770,6 +817,66 @@
     window.addEventListener('resize', handleResize);
     measureBadgeThresholds();
     updateProcessLine();
+  })();
+  // ============ 滾動視差 & 進場顯現／大標底線 ============
+  (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const revealSelectors = '.governing-line, .case-thumb, .numbered-item, .strategy-card, .info-table, .statement-title, .funnel-num, .funnel-arrow';
+    document.querySelectorAll(revealSelectors).forEach(el => el.classList.add('reveal'));
+    document.querySelectorAll('.strategy-card').forEach((el, i) => {
+      el.style.transitionDelay = (i % 5) * 70 + 'ms';
+    });
+    document.querySelectorAll('.case-thumb.contain-img').forEach(el => {
+      el.classList.remove('reveal');
+      el.classList.add('reveal-scale');
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    const underlineEls = Array.from(document.querySelectorAll('.title-underline')).map(el => ({
+      el,
+      wrap: el.closest('.title-line-wrap')
+    }));
+
+    if (parallaxEls.length || underlineEls.length) {
+      let ticking = false;
+      const clamp = (v, max) => Math.max(-max, Math.min(max, v));
+      const updateScrollFx = () => {
+        const vh = window.innerHeight;
+        parallaxEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax) || 0.15;
+          const max = parseFloat(el.dataset.parallaxMax) || 400;
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) * factor, max);
+          el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
+        underlineEls.forEach(({ el, wrap }) => {
+          const target = wrap || el;
+          const rect = target.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * 0.55)));
+          el.style.transform = `scaleX(${progress})`;
+        });
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+    }
   })();
 </script>
 </body>

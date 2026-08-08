@@ -86,8 +86,26 @@
   .btn-outline{border:1px solid var(--ink);color:var(--ink);transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
   .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
 
-  /* ---- Reveal ---- */
-  .reveal{opacity:1;transform:none;}
+  /* ---- Reveal / 滾動視差 / 大標底線 ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.is-visible{opacity:1;transform:translateY(0);}
+    .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal-scale.is-visible{opacity:1;transform:scale(1);}
+    [data-parallax]{will-change:transform;}
+  }
+  .divider-bg-dots{position:absolute;left:0;right:0;top:-340px;height:calc(100% + 680px);pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#d7d7db 1.5px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);}
+  .title-line-wrap{position:relative;display:inline-block;}
+  .title-underline{position:absolute;left:16pt;top:calc(100% + 4pt);height:4pt;width:100%;
+    background:linear-gradient(90deg,#00DDCD,#00ADEC);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform .12s linear;}
+  @media (prefers-reduced-motion: reduce){
+    .title-underline{transform:scaleX(1);transition:none;}
+  }
 
   /* ---- 圖片容器 ---- */
   .case-thumb{overflow:hidden;border-radius:16px;background:#3a3a3d;}
@@ -150,13 +168,8 @@
   .case-nav-card:hover .card-dot-grid{opacity:0;}
 
   /* ---- Hero dot-grid（由上至下淡出，透明度 100% → 0%） ---- */
-  .dot-grid{
-    position:absolute;inset:0;pointer-events:none;z-index:-1;
-    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
-    background-size:28px 28px;
-    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
-    mask-image:linear-gradient(to bottom, black 0%, transparent 100%);
-  }
+  .dot-grid{position:absolute;left:0;right:0;top:-280px;height:calc(100% + 560px);pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);mask-image:linear-gradient(to bottom, black 0%, transparent 100%);}
 
   /* ---- Process steps ---- */
   .process-badge{
@@ -171,9 +184,11 @@
   .process-card.active h3{color:var(--accent);}
   #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
 
-  /* ---- 色票卡 ---- */
-  .swatch{border-radius:12px;height:64px;display:flex;align-items:center;justify-content:center;}
-  .swatch p{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.03em;}
+  /* ---- 色票卡（Pantone 色票樣式：正方形、不隨版面拉伸，僅等比縮放） ---- */
+  .swatch-card{border-radius:4px;overflow:hidden;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;aspect-ratio:1/1;}
+  .swatch-card .swatch-color{flex:1;}
+  .swatch-card .swatch-code{padding:6% 8%;text-align:center;}
+  .swatch-card .swatch-code p{font-family:'IBM Plex Mono',monospace;font-size:clamp(9px,2.6vw,12px);letter-spacing:.02em;color:var(--ink);white-space:nowrap;}
 
   /* ---- 風格區塊底色 ---- */
   .style-panel{border-radius:24px;padding:32px;}
@@ -216,8 +231,8 @@
 </header>
 
 <!-- ============ HERO 標題區(左文、右圖) ============ -->
-<section class="relative pt-40 md:pt-56 pb-24 md:pb-32">
-  <div class="dot-grid"></div>
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32 overflow-hidden">
+  <div class="dot-grid" data-parallax="0.55" data-parallax-max="260"></div>
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
 
     <a href="works.html" class="reveal inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
@@ -255,7 +270,7 @@
           </div>
         </div>
       </div>
-      <div class="lg:order-2">
+      <div class="lg:order-2" data-parallax="-0.22" data-parallax-max="140">
         <div class="reveal case-thumb aspect-[16/9] w-full">
           <img src="assets/images/work-detail_03/hero-cover.jpg" alt="博晶醫電 AIoT運動APP 風格提案，三款App介面手機截圖">
         </div>
@@ -322,9 +337,13 @@
 </div>
 
 <!-- ============ 大標：如何開始？ ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="reveal project-title">如何開始？</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何開始？</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -350,57 +369,57 @@
       </table>
     </div>
 
-    <div class="relative mt-16 md:mt-24 md:min-h-[200vh]" id="processPinWrapper">
-    <div class="md:sticky md:top-0 md:h-screen md:flex md:flex-col md:justify-center">
-    <div class="mb-16 md:mb-24">
-      <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
+    <div class="relative mt-16 lg:mt-24 lg:min-h-[180vh]" id="processPinWrapper">
+    <div class="lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-col lg:justify-center">
+    <div class="mb-16 lg:mb-24">
+      <p class="reveal eyebrow mb-4 lg:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
       <p class="reveal text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
         本提案針對追求運動健康的行動裝置用戶，以使用者研究為基礎，替博晶醫電規劃三套差異化的視覺風格方向，實現親和、專業、科技並存的產品定位；完整流程從文獻資料的收斂彙整，走到高保真視覺稿的落地產出。
       </p>
     </div>
     <div class="relative" id="processTrack">
       <!-- 手機版：灰色垂直連接線 -->
-      <div id="processLineGrayMobile" class="md:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <div id="processLineGrayMobile" class="lg:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
       <!-- 手機版：藍色垂直連接線(隨滾動延伸) -->
-      <div id="processLineBlueMobile" class="md:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+      <div id="processLineBlueMobile" class="lg:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
 
       <!-- 桌機版：灰色水平連接線 -->
-      <div id="processLineGrayDesktop" class="hidden md:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <div id="processLineGrayDesktop" class="hidden lg:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
       <!-- 桌機版：藍色水平連接線(隨滾動延伸) -->
-      <div id="processLineBlueDesktop" class="hidden md:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+      <div id="processLineBlueDesktop" class="hidden lg:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
 
-      <div class="flex flex-col gap-8 md:grid md:grid-cols-5 md:gap-x-8 md:gap-y-0">
-        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-5 lg:gap-x-8 lg:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">01</div>
-          <div class="md:mt-8">
+          <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">研究文獻資料</h3>
             <p class="text-xs text-[var(--ink-soft)] leading-relaxed">文獻佐證：援引跑步相關健康研究，建立訴求立論基礎。</p>
           </div>
         </div>
-        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">02</div>
-          <div class="md:mt-8">
+          <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">設定目標</h3>
             <p class="text-xs text-[var(--ink-soft)] leading-relaxed">設計目標：收斂文獻洞察，訂定核心訴求方向。</p>
           </div>
         </div>
-        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">03</div>
-          <div class="md:mt-8">
+          <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">定義目標用戶</h3>
             <p class="text-xs text-[var(--ink-soft)] leading-relaxed">TA輪廓：歸納三種差異化目標用戶樣貌。</p>
           </div>
         </div>
-        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">04</div>
-          <div class="md:mt-8">
+          <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">規劃架構</h3>
             <p class="text-xs text-[var(--ink-soft)] leading-relaxed">資訊架構：平板 wireframe 驗證後，收斂至手機版型。</p>
           </div>
         </div>
-        <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">05</div>
-          <div class="md:mt-8">
+          <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">製作 mockup</h3>
             <p class="text-xs text-[var(--ink-soft)] leading-relaxed">高保真提案：依風格定位產出三套視覺稿。</p>
           </div>
@@ -412,15 +431,24 @@
   </div>
 </section>
 
+<div class="max-w-[1200px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
 <!-- ============ 設計目標宣言 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1200px] mx-auto px-8 md:px-16 text-center">
     <p class="reveal font-display font-semibold text-[var(--ink-faint)] tracking-wide mb-8">設計目標</p>
     <p class="reveal statement-title">
-      安排初階計畫，<br>協助跑者建立運動習慣，看見自我進步。
+      安排初階計畫，<br>協助跑者建立運動習慣，<br>看見自我進步。
     </p>
   </div>
 </section>
+
+<div class="max-w-[1200px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
 
 <!-- ============ 文獻查找 ============ -->
 <section class="relative py-24 md:py-32">
@@ -458,51 +486,51 @@
     </div>
 
     <div class="reveal grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-      <div class="persona-card text-center">
-        <img src="assets/images/work-detail_03/persona-a.jpg" alt="小資運動女" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;">
-        <h4 class="font-display font-semibold text-lg mb-1">風格 A・小資運動女</h4>
-        <p class="text-sm mb-4" style="color:var(--accent);">省錢、維持身材、喜愛可愛小物、健康舒壓</p>
+      <div class="persona-card text-center" style="background:#F18869;border:1px solid #E07E5F;">
+        <img src="assets/images/work-detail_03/persona-a.jpg" alt="小資運動女" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;border:2px solid rgba(255,255,255,.5);">
+        <h4 class="font-display font-semibold text-lg mb-1" style="color:#fff;">風格 A・小資運動女</h4>
+        <p class="text-sm mb-4" style="color:rgba(255,255,255,.85);">省錢、維持身材、喜愛可愛小物、健康舒壓</p>
         <div class="mx-auto" style="max-width:180px;">
           <svg viewBox="0 0 160 160" width="100%">
-            <line x1="40" y1="80" x2="120" y2="80" stroke="#e6e6e9" stroke-width="1"/>
-            <line x1="80" y1="30" x2="80" y2="130" stroke="#e6e6e9" stroke-width="1"/>
-            <text x="80" y="20" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
-            <text x="80" y="145" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
-            <text x="8" y="84" font-size="11" fill="#9a9aa1" font-family="IBM Plex Mono">感性</text>
-            <text x="152" y="84" font-size="11" fill="#9a9aa1" text-anchor="end" font-family="IBM Plex Mono">理性</text>
-            <circle cx="60" cy="107" r="6" fill="#F18869"/>
+            <line x1="40" y1="80" x2="120" y2="80" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="rgba(255,255,255,.35)" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="rgba(255,255,255,.65)" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="rgba(255,255,255,.65)" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="rgba(255,255,255,.65)" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="rgba(255,255,255,.65)" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="60" cy="107" r="6" fill="#fff" stroke="#F18869" stroke-width="2"/>
           </svg>
         </div>
       </div>
-      <div class="persona-card text-center">
-        <img src="assets/images/work-detail_03/persona-b.jpg" alt="運動猛男" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;">
-        <h4 class="font-display font-semibold text-lg mb-1">風格 B・運動猛男</h4>
-        <p class="text-sm mb-4" style="color:var(--accent);">維持身材、身材想被看到、成就感、挑戰自己</p>
+      <div class="persona-card text-center" style="background:#171B2E;border:1px solid #2A3150;">
+        <img src="assets/images/work-detail_03/persona-b.jpg" alt="運動猛男" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;border:2px solid rgba(255,255,255,.5);">
+        <h4 class="font-display font-semibold text-lg mb-1" style="color:#fff;">風格 B・運動猛男</h4>
+        <p class="text-sm mb-4" style="color:rgba(255,255,255,.85);">維持身材、身材想被看到、成就感、挑戰自己</p>
         <div class="mx-auto" style="max-width:180px;">
           <svg viewBox="0 0 160 160" width="100%">
-            <line x1="40" y1="80" x2="120" y2="80" stroke="#e6e6e9" stroke-width="1"/>
-            <line x1="80" y1="30" x2="80" y2="130" stroke="#e6e6e9" stroke-width="1"/>
-            <text x="80" y="20" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
-            <text x="80" y="145" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
-            <text x="8" y="84" font-size="11" fill="#9a9aa1" font-family="IBM Plex Mono">感性</text>
-            <text x="152" y="84" font-size="11" fill="#9a9aa1" text-anchor="end" font-family="IBM Plex Mono">理性</text>
-            <circle cx="79" cy="79" r="6" fill="#1D2339"/>
+            <line x1="40" y1="80" x2="120" y2="80" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="rgba(255,255,255,.55)" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="rgba(255,255,255,.55)" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="rgba(255,255,255,.55)" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="rgba(255,255,255,.55)" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="79" cy="79" r="6" fill="#E2FA40" stroke="#171B2E" stroke-width="2"/>
           </svg>
         </div>
       </div>
-      <div class="persona-card text-center">
-        <img src="assets/images/work-detail_03/persona-c.jpg" alt="頂客愛健康" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;">
-        <h4 class="font-display font-semibold text-lg mb-1">風格 C・頂客愛健康</h4>
-        <p class="text-sm mb-4" style="color:var(--accent);">喜歡質感、有品味、時尚、對自己有一定要求</p>
+      <div class="persona-card text-center" style="background:#1C1C1C;border:1px solid #333;">
+        <img src="assets/images/work-detail_03/persona-c.jpg" alt="頂客愛健康" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;border:2px solid rgba(255,255,255,.5);">
+        <h4 class="font-display font-semibold text-lg mb-1" style="color:#fff;">風格 C・頂客愛健康</h4>
+        <p class="text-sm mb-4" style="color:rgba(255,255,255,.85);">喜歡質感、有品味、時尚、對自己有一定要求</p>
         <div class="mx-auto" style="max-width:180px;">
           <svg viewBox="0 0 160 160" width="100%">
-            <line x1="40" y1="80" x2="120" y2="80" stroke="#e6e6e9" stroke-width="1"/>
-            <line x1="80" y1="30" x2="80" y2="130" stroke="#e6e6e9" stroke-width="1"/>
-            <text x="80" y="20" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
-            <text x="80" y="145" font-size="11" fill="#9a9aa1" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
-            <text x="8" y="84" font-size="11" fill="#9a9aa1" font-family="IBM Plex Mono">感性</text>
-            <text x="152" y="84" font-size="11" fill="#9a9aa1" text-anchor="end" font-family="IBM Plex Mono">理性</text>
-            <circle cx="98" cy="53" r="6" fill="#80C7A7"/>
+            <line x1="40" y1="80" x2="120" y2="80" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="rgba(255,255,255,.6)" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="rgba(255,255,255,.6)" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="rgba(255,255,255,.6)" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="rgba(255,255,255,.6)" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="98" cy="53" r="6" fill="#80C7A7" stroke="#1C1C1C" stroke-width="2"/>
           </svg>
         </div>
       </div>
@@ -602,45 +630,25 @@
 </div>
 
 <!-- ============ 大標：功能盤點與架構 ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="reveal project-title">功能盤點與架構</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">功能盤點與架構</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
-<!-- ============ 平板 Wireframe ============ -->
+<!-- ============ 盤點資訊 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>平板 Wireframe</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>盤點資訊</p>
     <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
-      以平板尺寸初步安排課程列表頁與活動開始頁的資訊層級：用戶個人資料、個人數據呈現、課程分類，以及運動中的體力值、心率、熱量消耗等重點身體數據。
+      以既有健身平板 App 的三個核心畫面（課程列表、課程說明、課程進行中）為對象，同步盤點資訊架構與畫面內容：先以條列方式拆解每個頁面的元件與層級，再回頭在實際畫面上標註哪些資訊需要重點呈現、哪些用戶資料與功能屬於次要或可捨去的項目，藉此釐清「數據呈現」「課程說明」「視覺資訊化」與「Call to Action」四類資訊的主從關係，作為後續延伸至 Mobile App 的資訊架構基礎。
     </p>
-    <div class="reveal case-thumb aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_03/tablet-wireframe.jpg" alt="平板尺寸的課程列表與活動開始頁 wireframe">
-    </div>
-  </div>
-</section>
-
-<!-- ============ 功能盤點與整理 ============ -->
-<section class="relative py-24 md:py-32">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>功能盤點與整理</p>
-    <div class="reveal max-w-3xl mb-16 md:mb-24">
-      <p class="governing-line mb-8">
-        以文件的方式重新梳理產品架構，藉此釐清功能面與資訊面的關係、排列出主要次要的層級關係，未來進入 UI 階段時能更有脈絡。
-      </p>
-      <ul class="space-y-3 text-[var(--ink-soft)]">
-        <li class="font-display font-bold text-[var(--ink)]">我的運動<span class="text-sm font-normal text-[var(--ink-faint)]">（略）</span></li>
-        <li class="font-display font-bold text-[var(--ink)]">AI 教練</li>
-        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程列表：身體數據（體力狀態／每日基礎代謝／建議每日消耗大卡）<span class="text-sm font-normal text-[var(--ink-soft)]">→ 數據呈現</span></li>
-        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程說明：課程圖片／課程名稱／消耗熱量／花費時間<span class="text-sm font-normal text-[var(--ink-soft)]">→ 課程說明</span></li>
-        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程內容：目標卡路里／運動時間預估／課程時間軸／達成效益<span class="text-sm font-normal text-[var(--ink-soft)]">→ 課程說明</span></li>
-        <li class="pl-6">— 操作：開始運動 <span class="text-sm">（Call to Action）</span></li>
-        <li class="pl-6 font-semibold" style="color:var(--accent);">— 課程進行中：體力值／心率／熱量消耗／課程時間軸／距離／速度<span class="text-sm font-normal text-[var(--ink-soft)]">→ 視覺資訊化</span></li>
-        <li class="pl-6">— 操作：結束運動 <span class="text-sm">（Call to Action，但主要目的是希望用戶完成運動，不需要特別強調此按鈕）</span></li>
-        <li class="font-display font-bold text-[var(--ink)]">挑戰訓練<span class="text-sm font-normal text-[var(--ink-faint)]">（略）</span></li>
-        <li class="font-display font-bold text-[var(--ink)]">其他設定<span class="text-sm font-normal text-[var(--ink-faint)]">（略）</span></li>
-      </ul>
+    <div class="reveal case-thumb aspect-[16/9] w-full mb-16 md:mb-24">
+      <img src="assets/images/work-detail_03/tablet-wireframe.jpg" alt="平板課程列表、課程說明、課程進行中畫面的資訊架構盤點與標註">
     </div>
 
     <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點設計</p>
@@ -676,7 +684,7 @@
 <!-- ============ App Wireframe 流程與架構設計 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>App Wireframe 流程與架構設計</p>
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>APP Wireframe（重點畫面）</p>
     <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
       將平板體驗收斂至手機端，針對小螢幕重構資訊層級，串接完整的跑步運動體驗流程。
     </p>
@@ -738,16 +746,20 @@
 </div>
 
 <!-- ============ 大標：視覺稿提案 ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="reveal project-title">視覺稿提案</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">視覺稿提案</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
 <!-- ============ 風格設定 ============ -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>風格設定策略</p>
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>視覺風格設定</p>
     <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
       本階段奠基於相同的產品架構與功能亮點，發展出三套差異化的視覺風格，以探索不同的品牌溝通面向。
     </p>
@@ -831,24 +843,27 @@
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>風格 A・小資運動女</p>
-    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
-      以溫暖的珊瑚橘為主色調，強調人味、親切與柔和的形象；透過放大的個人照片、口語化的課程分類，以及置底的圓形 Call to Action，塑造陪伴初階跑者跨出第一步的溫暖夥伴感。
-    </p>
-
-    <div class="reveal case-thumb aspect-[16/9] w-full mb-16 md:mb-24">
-      <img src="assets/images/work-detail_03/style-a-cover.jpg" alt="風格A介面與跑步情境照">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
+      <div class="lg:order-1">
+        <p class="text-[var(--ink)] text-[12pt] leading-loose">
+          以溫暖的珊瑚橘為主色調，強調人味、親切與柔和的形象；透過放大的個人照片、口語化的課程分類，以及置底的圓形 Call to Action，塑造陪伴初階跑者跨出第一步的溫暖夥伴感。
+        </p>
+      </div>
+      <div class="case-thumb aspect-[16/9] w-full lg:order-2">
+        <img src="assets/images/work-detail_03/style-a-cover.jpg" alt="風格A介面與跑步情境照">
+      </div>
     </div>
 
-    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch mb-16 md:mb-24">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
       <div class="case-thumb aspect-[16/9] w-full">
         <img src="assets/images/work-detail_03/style-a-mood.jpg" alt="風格A色票參考情境照片">
       </div>
-      <div class="flex flex-col gap-4 h-full">
-        <div class="swatch" style="background:#F18869;flex:1;height:auto;"><p style="color:#fff;">#F18869</p></div>
-        <div class="swatch" style="background:#F9E1D9;flex:1;height:auto;"><p style="color:#111113;">#F9E1D9</p></div>
-        <div class="swatch" style="background:#FAF0E6;border:1px solid var(--line);flex:1;height:auto;"><p style="color:#111113;">#FAF0E6</p></div>
-        <div class="swatch" style="background:#5786C2;flex:1;height:auto;"><p style="color:#fff;">#5786C2</p></div>
-        <div class="swatch" style="background:#E9C863;flex:1;height:auto;"><p style="color:#111113;">#E9C863</p></div>
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 content-start">
+        <div class="swatch-card"><div class="swatch-color" style="background:#F18869;"></div><div class="swatch-code"><p>#F18869</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#F9E1D9;"></div><div class="swatch-code"><p>#F9E1D9</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#FAF0E6;"></div><div class="swatch-code"><p>#FAF0E6</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#5786C2;"></div><div class="swatch-code"><p>#5786C2</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#E9C863;"></div><div class="swatch-code"><p>#E9C863</p></div></div>
       </div>
     </div>
 
@@ -875,26 +890,29 @@
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>風格 B・運動猛男</p>
-    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
-      黑底搭配螢光綠的高對比配色，強調速度感與科技感；以區塊化的資訊分層、直覺化的環形體力值呈現，訴求效率與成就感，鎖定想被看見、追求進步的運動男性形象。
-    </p>
-
-    <div class="reveal rounded-2xl overflow-hidden mb-16 md:mb-24" style="background:#1D2339;">
-      <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
-        <img src="assets/images/work-detail_03/style-b-cover.jpg" alt="風格B介面與跑鞋情境照">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
+      <div class="rounded-2xl overflow-hidden order-2 lg:order-1" style="background:#1D2339;">
+        <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
+          <img src="assets/images/work-detail_03/style-b-cover.jpg" alt="風格B介面與跑鞋情境照">
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <p class="text-[var(--ink)] text-[12pt] leading-loose">
+          黑底搭配螢光綠的高對比配色，強調速度感與科技感；以區塊化的資訊分層、直覺化的環形體力值呈現，訴求效率與成就感，鎖定想被看見、追求進步的運動男性形象。
+        </p>
       </div>
     </div>
 
-    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch mb-16 md:mb-24">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
       <div class="case-thumb aspect-[16/9] w-full">
         <img src="assets/images/work-detail_03/style-b-mood.jpg" alt="風格B色票參考情境照片">
       </div>
-      <div class="flex flex-col gap-4 h-full">
-        <div class="swatch" style="background:#FFFFFF;border:1px solid var(--line);flex:1;height:auto;"><p style="color:#111113;">#FFFFFF</p></div>
-        <div class="swatch" style="background:#E2FA40;flex:1;height:auto;"><p style="color:#111113;">#E2FA40</p></div>
-        <div class="swatch" style="background:#1D2339;flex:1;height:auto;"><p style="color:#fff;">#1D2339</p></div>
-        <div class="swatch" style="background:#121729;flex:1;height:auto;"><p style="color:#fff;">#121729</p></div>
-        <div class="swatch" style="background:#1C1C1C;flex:1;height:auto;"><p style="color:#fff;">#1C1C1C</p></div>
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 content-start">
+        <div class="swatch-card"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid var(--line);"></div><div class="swatch-code"><p>#FFFFFF</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#E2FA40;"></div><div class="swatch-code"><p>#E2FA40</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#1D2339;"></div><div class="swatch-code"><p>#1D2339</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#121729;"></div><div class="swatch-code"><p>#121729</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#1C1C1C;"></div><div class="swatch-code"><p>#1C1C1C</p></div></div>
       </div>
     </div>
 
@@ -923,26 +941,29 @@
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="reveal eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>風格 C・頂客愛健康</p>
-    <p class="reveal text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-16 md:mb-24">
-      以黑白灰為主的高質感配色，點綴薄荷綠強調重點操作；透過置中精簡的編排與細節刻度的儀表板，呈現專業、成熟、值得信賴的產品調性，貼近重視品味與質感的族群。
-    </p>
-
-    <div class="reveal rounded-2xl overflow-hidden mb-16 md:mb-24" style="background:#1C1C1C;">
-      <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
-        <img src="assets/images/work-detail_03/style-c-cover.jpg" alt="風格C介面與伸展運動情境照">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-16 md:mb-24">
+      <div class="lg:order-1">
+        <p class="text-[var(--ink)] text-[12pt] leading-loose">
+          以黑白灰為主的高質感配色，點綴薄荷綠強調重點操作；透過置中精簡的編排與細節刻度的儀表板，呈現專業、成熟、值得信賴的產品調性，貼近重視品味與質感的族群。
+        </p>
+      </div>
+      <div class="rounded-2xl overflow-hidden lg:order-2" style="background:#1C1C1C;">
+        <div class="case-thumb aspect-[16/9] w-full" style="border-radius:0;">
+          <img src="assets/images/work-detail_03/style-c-cover.jpg" alt="風格C介面與伸展運動情境照">
+        </div>
       </div>
     </div>
 
-    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch mb-16 md:mb-24">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
       <div class="case-thumb aspect-[16/9] w-full">
         <img src="assets/images/work-detail_03/style-c-mood.jpg" alt="風格C色票參考情境照片">
       </div>
-      <div class="flex flex-col gap-4 h-full">
-        <div class="swatch" style="background:#FFFFFF;border:1px solid var(--line);flex:1;height:auto;"><p style="color:#111113;">#FFFFFF</p></div>
-        <div class="swatch" style="background:#80C7A7;flex:1;height:auto;"><p style="color:#111113;">#80C7A7</p></div>
-        <div class="swatch" style="background:#D6D6D6;flex:1;height:auto;"><p style="color:#111113;">#D6D6D6</p></div>
-        <div class="swatch" style="background:#929292;flex:1;height:auto;"><p style="color:#fff;">#929292</p></div>
-        <div class="swatch" style="background:#1C1C1C;flex:1;height:auto;"><p style="color:#fff;">#1C1C1C</p></div>
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 content-start">
+        <div class="swatch-card"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid var(--line);"></div><div class="swatch-code"><p>#FFFFFF</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#80C7A7;"></div><div class="swatch-code"><p>#80C7A7</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#D6D6D6;"></div><div class="swatch-code"><p>#D6D6D6</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#929292;"></div><div class="swatch-code"><p>#929292</p></div></div>
+        <div class="swatch-card"><div class="swatch-color" style="background:#1C1C1C;"></div><div class="swatch-code"><p>#1C1C1C</p></div></div>
       </div>
     </div>
 
@@ -987,9 +1008,13 @@
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
 <!-- ============ 大標：設計反思 ============ -->
-<section class="relative pt-20 md:pt-28 pb-4">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <h2 class="reveal project-title">設計反思</h2>
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">設計反思</h2>
+      <span class="title-underline"></span>
+    </span>
   </div>
 </section>
 
@@ -1176,7 +1201,7 @@
     // 確保「線碰到標號」與「標號變色」的時機完全同步。
     function measureBadgeThresholds() {
       const trackRect = track.getBoundingClientRect();
-      const isDesktop = window.innerWidth >= 768;
+      const isDesktop = window.innerWidth >= 1024;
       badgeThresholds = Array.from(badges).map(badge => {
         const badgeRect = badge.getBoundingClientRect();
         if (isDesktop) {
@@ -1190,7 +1215,7 @@
     }
 
     function updateProcessLine() {
-      const isDesktop = window.innerWidth >= 768;
+      const isDesktop = window.innerWidth >= 1024;
       const vh = window.innerHeight;
       let progress;
 
@@ -1242,6 +1267,56 @@
     window.addEventListener('resize', handleResize);
     measureBadgeThresholds();
     updateProcessLine();
+  })();
+  // ============ 滾動視差 & 進場顯現／大標底線 ============
+  (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    const underlineEls = Array.from(document.querySelectorAll('.title-underline')).map(el => ({
+      el,
+      wrap: el.closest('.title-line-wrap')
+    }));
+
+    if (parallaxEls.length || underlineEls.length) {
+      let ticking = false;
+      const clamp = (v, max) => Math.max(-max, Math.min(max, v));
+      const updateScrollFx = () => {
+        const vh = window.innerHeight;
+        parallaxEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax) || 0.15;
+          const max = parseFloat(el.dataset.parallaxMax) || 400;
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) * factor, max);
+          el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
+        underlineEls.forEach(({ el, wrap }) => {
+          const target = wrap || el;
+          const rect = target.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * 0.55)));
+          el.style.transform = `scaleX(${progress})`;
+        });
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+    }
   })();
 </script>
 
