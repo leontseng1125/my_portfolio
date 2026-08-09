@@ -124,6 +124,7 @@
   /* ---- 圖片容器 ---- */
   .case-thumb{overflow:hidden;border-radius:16px;background:#2a2a2d;}
   .case-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+  .case-thumb.contain-img img{object-fit:contain;}
   .case-thumb img[src=""],
   .case-thumb img:not([src]){display:none;}
 
@@ -1450,6 +1451,16 @@
       <li>是否有未考量到的情境與脈絡？</li>
       <li>資訊單位與營業單位是否有其他的建議或想法？</li>
     </ol>
+  </div>
+</section>
+
+<!-- ============ 重點畫面總覽 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-8"><span class="eyebrow-dot"></span>重點畫面總覽</p>
+    <div class="reveal case-thumb contain-img aspect-[16/9] w-full">
+      <img src="assets/images/work-detail_02/overview-key-screens.jpg" onerror="this.style.display='none'" alt="新聞首頁提案重點畫面總覽">
+    </div>
   </div>
 </section>
 
