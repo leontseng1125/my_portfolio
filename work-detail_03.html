@@ -10,6 +10,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/loader.css">
 <style>
+/* ============ 頁面閱讀進度指示器 Reading Progress Bar ============ */
+#reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4pt;
+  background: linear-gradient(90deg, #00DDCD 0%, #00ADEC 100%);
+  z-index: 9999;
+  pointer-events: none;
+  will-change: width;
+}
+</style>
+<style>
   :root{
     color-scheme: light;
     --ink:#111113;
@@ -196,6 +210,9 @@
 </head>
 <body class="antialiased">
 
+<!-- ============ 頁面閱讀進度指示器 ============ -->
+<div id="reading-progress-bar" aria-hidden="true"></div>
+
 <!-- ============ 頁面載入動效 ============ -->
 <div id="page-loader" aria-hidden="true">
   <div class="loader-mark"></div>
@@ -203,6 +220,41 @@
   <span class="loader-label">Loading</span>
 </div>
 <script src="assets/js/loader.js"></script>
+<script>
+(function () {
+  var bar = document.getElementById('reading-progress-bar');
+  if (!bar) return;
+
+  var ticking = false;
+
+  // 每次都重新即時計算頁面可捲動高度，不快取，避免圖片 lazy load 、內容動態展開等導致高度變動時數字過時
+  function updateBar() {
+    var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    var progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+    progress = Math.min(100, Math.max(0, progress));
+    bar.style.width = progress + '%';
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateBar);
+      ticking = true;
+    }
+  }
+
+  function onResize() {
+    updateBar();
+  }
+
+  updateBar();
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize);
+  window.addEventListener('load', updateBar);
+})();
+</script>
 
 <!-- ============ NAVIGATION ============ -->
 <header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
