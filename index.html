@@ -71,6 +71,12 @@
   .nav-link.is-active{color:var(--accent);}
   .nav-link.is-active::after{width:100%;}
 
+  /* ---- 暫時停用:頁面背景灰色漸層 (mesh-light / manifesto-mesh) ---- */
+  .mesh-light, .manifesto-mesh{display:none;}
+
+  /* ---- 暫時停用:grain 雜訊層 ---- */
+  .grain{display:none;}
+
   /* ---- Grain overlay ---- */
   .grain{
     position:absolute;inset:0;
@@ -90,6 +96,19 @@
   .mesh-light::after{
     width:600px;height:600px;bottom:-300px;left:-240px;
     background:radial-gradient(circle at 60% 40%, #ececef 0%, #cccbd2 40%, transparent 70%);
+  }
+
+  /* ---- Mesh gradient, smaller variant (設計理念背景層用) ---- */
+  .manifesto-mesh{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1;}
+  .manifesto-mesh::before{
+    content:'';position:absolute;border-radius:50%;filter:blur(100px);
+    width:520px;height:520px;top:-140px;left:-180px;
+    background:radial-gradient(circle at 40% 40%, #ececef 0%, #d8d8dc 45%, transparent 70%);
+  }
+  .manifesto-mesh::after{
+    content:'';position:absolute;border-radius:50%;filter:blur(100px);
+    width:440px;height:440px;bottom:-160px;right:-140px;
+    background:radial-gradient(circle at 60% 40%, #f0f0f2 0%, #dcdce0 45%, transparent 70%);
   }
 
   /* ---- Mesh gradient signature (dark) ---- */
@@ -193,9 +212,6 @@
     line-height:1.35;
   }
   .manifesto-line{
-    opacity:0;
-    transform:translateY(24px);
-    will-change:opacity, transform;
     white-space:nowrap;
   }
   #manifestoLines{overflow:hidden;}
@@ -278,12 +294,15 @@
   </div>
 </header>
 
-<!-- ============ HERO SECTION ============ -->
-<section class="relative">
-  <div class="mesh-light"></div>
-  <div class="grain"></div>
+<!-- ============ HERO + 設計理念 共用背景 wrapper ============ -->
+<div class="relative">
   <div class="dot-grid"></div>
-  <div class="dot-grid-accent" style="background:var(--accent);top:18%;right:22%;"></div>
+
+  <!-- ============ HERO SECTION ============ -->
+  <section class="relative">
+    <div class="mesh-light"></div>
+    <div class="grain"></div>
+    <div class="dot-grid-accent" style="background:var(--accent);top:18%;right:22%;"></div>
   <div class="dot-grid-accent" style="background:var(--accent);top:42%;right:14%;"></div>
   <div class="dot-grid-accent" style="background:var(--ink);top:58%;right:26%;"></div>
 
@@ -314,7 +333,7 @@
       </p>
 
       <div class="flex flex-wrap items-center gap-6 flex-shrink-0">
-        <a href="#work" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        <a href="works.html" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
           看所有案例
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -328,36 +347,40 @@
 </section>
 
 <!-- ============ 敘事 / 設計初衷 ============ -->
-<section class="relative py-24 md:py-32">
+<section id="manifestoSection" class="relative py-24 md:py-32 overflow-hidden">
+  <div class="manifesto-mesh"></div>
+
   <div class="max-w-[1200px] mx-auto px-8 md:px-16">
-    <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>設計理念</p>
+    <div id="manifestoCard" class="manifesto-card relative rounded-3xl bg-[var(--surface)] border border-[var(--line)] shadow-[0_20px_60px_-30px_rgba(17,17,19,0.15)] px-6 py-10 md:px-16 md:py-20">
+      <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>設計理念</p>
 
-    <div class="space-y-2 md:space-y-4" id="manifestoLines">
-      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
-        我相信，
-      </p>
-      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
-        好的設計不止於視覺的驚豔，
-      </p>
-      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--accent);">
-        而是用設計思考打破框架，
-      </p>
-      <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
-        為產品探索更多可能性。
-      </p>
-    </div>
+      <div class="space-y-2 md:space-y-4" id="manifestoLines">
+        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
+          我相信，
+        </p>
+        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
+          好的設計不止於視覺的驚豔，
+        </p>
+        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--accent);">
+          而是用設計思考打破框架，
+        </p>
+        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
+          為產品探索更多可能性。
+        </p>
+      </div>
 
-    <div class="mt-16 max-w-2xl">
-      <p class="text-[var(--ink-soft)] leading-loose" style="font-size:12pt;">
-        走入真實情境，<br>從敏捷探索到跨團隊對齊。<br><br>我擅長以設計思維為核心，<br>在策略導向與落地執行之間，<br>用直覺且體貼的體驗，<br>為使用者與商業創造更多可能。
-      </p>
+      <div class="mt-16 max-w-2xl">
+        <p class="text-[var(--ink-soft)] leading-loose" style="font-size:12pt;">
+          走入真實情境，<br>從敏捷探索到跨團隊對齊。<br><br>我擅長以設計思維為核心，<br>在策略導向與落地執行之間，<br>用直覺且體貼的體驗，<br>為使用者與商業創造更多可能。
+        </p>
+      </div>
     </div>
   </div>
-</section>
+  </section>
+</div>
 
 <!-- ============ About / 關於我 ============ -->
 <section class="relative py-24 md:py-32">
-  <div class="dot-grid"></div>
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="mb-8 md:mb-16">
       <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>About</p>
@@ -921,64 +944,102 @@
     fitLines();
   })();
 
-  // 設計理念文字顯示：改用 IntersectionObserver，避免手動 scroll 計算
-  // 在版面尚未穩定（圖片/字型未載完）時量到錯誤位置、導致卡住不顯示的問題
+  // Hero 裝飾層視差：前景(圓點) 移動快，背景(mesh 光暈) 移動慢，營造層次感
+  // 僅在該區塊進入視窗時才監聽 scroll，離開視窗自動停止，避免不必要的效能耗損
   (function () {
     try {
-      const container = document.getElementById('manifestoLines');
-      if (!container) return;
-      const lines = Array.from(container.querySelectorAll('.manifesto-line'));
-      if (!lines.length) return;
+      const meshEl = document.querySelector('.mesh-light');
+      if (!meshEl) return;
+      const heroSection = meshEl.closest('section');
+      if (!heroSection) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-        lines.forEach(line => { line.style.opacity = '1'; line.style.transform = 'none'; });
-        return;
+      const layers = [
+        { el: meshEl, speed: 0.12 },                       // 背景光暈:最慢
+        ...Array.from(heroSection.querySelectorAll('.dot-grid-accent')).map((el, i) => ({
+          el, speed: 0.18 + i * 0.06                        // 前景圓點:較快,每顆速度略有差異增加層次
+        })),
+      ].filter(l => l.el);
+      if (!layers.length) return;
+
+      layers.forEach(l => { l.el.style.willChange = 'transform'; });
+
+      let ticking = false;
+      function update() {
+        const rect = heroSection.getBoundingClientRect();
+        const scrolled = -rect.top; // 已捲過該區塊頂端的距離
+        layers.forEach(({ el, speed }) => {
+          el.style.transform = `translate3d(0, ${(scrolled * speed).toFixed(1)}px, 0)`;
+        });
+        ticking = false;
+      }
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
       }
 
-      function reveal(line) {
-        line.style.opacity = '1';
-        line.style.transform = 'translateY(0)';
-      }
-
-      const observer = new IntersectionObserver((entries) => {
+      const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            reveal(entry.target);
-            observer.unobserve(entry.target);
+            window.addEventListener('scroll', onScroll, { passive: true });
+            update();
+          } else {
+            window.removeEventListener('scroll', onScroll);
           }
         });
-      }, { threshold: 0, rootMargin: '0px 0px -25% 0px' });
-
-      lines.forEach(line => observer.observe(line));
-
-      // 保險：頁面完全載入(圖片/字型就緒、版面已穩定)後，
-      // 針對「當下已經在視窗內卻還沒被標記顯示」的行，強制校正一次
-      function forceRevealVisible() {
-        const vh = window.innerHeight;
-        lines.forEach(line => {
-          if (line.style.opacity === '1') return;
-          const rect = line.getBoundingClientRect();
-          if (rect.top < vh && rect.bottom > 0) {
-            reveal(line);
-            observer.unobserve(line);
-          }
-        });
-      }
-      window.addEventListener('load', forceRevealVisible);
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(forceRevealVisible);
-      }
+      }, { threshold: 0 });
+      io.observe(heroSection);
     } catch (err) {
-      // 就算這段出錯，也不要讓後面(數字動畫等)的程式碼被中斷
-      console.error('manifesto reveal error:', err);
-      const container = document.getElementById('manifestoLines');
-      if (container) {
-        container.querySelectorAll('.manifesto-line').forEach(line => {
-          line.style.opacity = '1';
-          line.style.transform = 'none';
+      console.error('hero parallax error:', err);
+    }
+  })();
+
+  // 設計理念區塊視差：白卡片(文字)當前景，mesh 當背景，兩者做速度差
+  (function () {
+    try {
+      const section = document.getElementById('manifestoSection');
+      if (!section) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const layers = [
+        { el: section.querySelector('.manifesto-mesh'), speed: 0.08 }, // 背景光暈:慢
+        { el: document.getElementById('manifestoCard'), speed: 0.16 }, // 白卡片(文字):前景,較快
+      ].filter(l => l.el);
+      if (!layers.length) return;
+
+      layers.forEach(l => { l.el.style.willChange = 'transform'; });
+
+      let ticking = false;
+      function update() {
+        const rect = section.getBoundingClientRect();
+        const scrolled = -rect.top;
+        layers.forEach(({ el, speed }) => {
+          el.style.transform = `translate3d(0, ${(scrolled * speed).toFixed(1)}px, 0)`;
         });
+        ticking = false;
       }
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            window.addEventListener('scroll', onScroll, { passive: true });
+            update();
+          } else {
+            window.removeEventListener('scroll', onScroll);
+          }
+        });
+      }, { threshold: 0 });
+      io.observe(section);
+    } catch (err) {
+      console.error('manifesto parallax error:', err);
     }
   })();
 
