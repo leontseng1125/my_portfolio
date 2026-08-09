@@ -247,7 +247,7 @@
   <div class="loader-track"><div class="loader-bar"></div></div>
   <span class="loader-label">Loading</span>
 </div>
-<script src="assets/js/loader.js"></script>
+<script src="assets/js/loader.js" defer></script>
 
 <!-- ============ NAVIGATION ============ -->
 <header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
@@ -756,31 +756,34 @@
   const menuBtn = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   let menuOpen = false;
-  menuBtn.addEventListener('click', () => {
-    menuOpen = !menuOpen;
-    if (menuOpen) {
-      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
-      mobileMenu.style.opacity = '1';
-      navbar.classList.add('menu-open');
-    } else {
-      mobileMenu.style.maxHeight = '0px';
-      mobileMenu.style.opacity = '0';
-      navbar.classList.remove('menu-open');
-    }
-  });
-  document.querySelectorAll('#mobileMenu a').forEach(a => {
-    a.addEventListener('click', () => {
-      menuOpen = false;
-      mobileMenu.style.maxHeight = '0px';
-      mobileMenu.style.opacity = '0';
-      navbar.classList.remove('menu-open');
+  if (menuBtn && mobileMenu) {
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      if (menuOpen) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+        mobileMenu.style.opacity = '1';
+        navbar.classList.add('menu-open');
+      } else {
+        mobileMenu.style.maxHeight = '0px';
+        mobileMenu.style.opacity = '0';
+        navbar.classList.remove('menu-open');
+      }
     });
-  });
+    document.querySelectorAll('#mobileMenu a').forEach(a => {
+      a.addEventListener('click', () => {
+        menuOpen = false;
+        mobileMenu.style.maxHeight = '0px';
+        mobileMenu.style.opacity = '0';
+        navbar.classList.remove('menu-open');
+      });
+    });
+  }
 
   // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
   // Desktop: track is pinned (sticky, centered) while progress is driven by the outer buffer wrapper,
   // so the fill/highlight animation finishes before the section is allowed to scroll away.
   (function () {
+   try {
     const track = document.getElementById('processTrack');
     const pinWrapper = document.getElementById('processPinWrapper');
     if (!track) return;
@@ -863,6 +866,9 @@
     window.addEventListener('resize', handleResize);
     measureBadgeThresholds();
     updateProcessLine();
+   } catch (err) {
+    console.error('process line error:', err);
+   }
   })();
 
   // Manifesto lines: shrink-to-fit font-size so each line never wraps,
@@ -915,63 +921,65 @@
     fitLines();
   })();
 
-  // Scroll via IntersectionObserver
+  // 設計理念文字顯示：改用 IntersectionObserver，避免手動 scroll 計算
+  // 在版面尚未穩定（圖片/字型未載完）時量到錯誤位置、導致卡住不顯示的問題
   (function () {
-    const container = document.getElementById('manifestoLines');
-    if (!container) return;
-    const lines = Array.from(container.querySelectorAll('.manifesto-line'));
-    if (!lines.length) return;
+    try {
+      const container = document.getElementById('manifestoLines');
+      if (!container) return;
+      const lines = Array.from(container.querySelectorAll('.manifesto-line'));
+      if (!lines.length) return;
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      lines.forEach(line => { line.style.opacity = '1'; line.style.transform = 'none'; });
-      return;
-    }
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        lines.forEach(line => { line.style.opacity = '1'; line.style.transform = 'none'; });
+        return;
+      }
 
-    const done = new Array(lines.length).fill(false);
+      function reveal(line) {
+        line.style.opacity = '1';
+        line.style.transform = 'translateY(0)';
+      }
 
-    // 每一行各自的顯示進度:從「進入視窗下緣」(0) 到「捲到視窗中偏上處」(1)
-    function progressFor(line) {
-      const rect = line.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const start = vh * 0.92;
-      const end = vh * 0.55;
-      const raw = (start - rect.top) / (start - end);
-      return Math.min(1, Math.max(0, raw));
-    }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -25% 0px' });
 
-    function update() {
-      let allDone = true;
-      lines.forEach((line, i) => {
-        if (done[i]) return;
-        const p = progressFor(line);
-        if (p >= 1) {
-          done[i] = true;
+      lines.forEach(line => observer.observe(line));
+
+      // 保險：頁面完全載入(圖片/字型就緒、版面已穩定)後，
+      // 針對「當下已經在視窗內卻還沒被標記顯示」的行，強制校正一次
+      function forceRevealVisible() {
+        const vh = window.innerHeight;
+        lines.forEach(line => {
+          if (line.style.opacity === '1') return;
+          const rect = line.getBoundingClientRect();
+          if (rect.top < vh && rect.bottom > 0) {
+            reveal(line);
+            observer.unobserve(line);
+          }
+        });
+      }
+      window.addEventListener('load', forceRevealVisible);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(forceRevealVisible);
+      }
+    } catch (err) {
+      // 就算這段出錯，也不要讓後面(數字動畫等)的程式碼被中斷
+      console.error('manifesto reveal error:', err);
+      const container = document.getElementById('manifestoLines');
+      if (container) {
+        container.querySelectorAll('.manifesto-line').forEach(line => {
           line.style.opacity = '1';
-          line.style.transform = 'translateY(0)';
-        } else {
-          allDone = false;
-          line.style.opacity = String(p);
-          line.style.transform = `translateY(${(1 - p) * 24}px)`;
-        }
-      });
-      if (allDone) {
-        window.removeEventListener('scroll', onScroll);
-        window.removeEventListener('resize', onScroll);
+          line.style.transform = 'none';
+        });
       }
     }
-
-    let ticking = false;
-    function onScroll() {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(() => { update(); ticking = false; });
-      }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    update();
   })();
 
   // Count-up animation for stat numbers
