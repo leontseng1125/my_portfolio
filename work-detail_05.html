@@ -49,8 +49,9 @@
   .statement-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.4rem, 4vw, 2.75rem);line-height:1.4;letter-spacing:-0.01em;color:var(--accent);}
   .governing-line{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);line-height:1.5;letter-spacing:-0.01em;}
 
-  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease;}
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease, transform .35s ease;}
   #navbar:hover, #navbar.menu-open{background-color:rgba(250,250,250,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
+  #navbar.navbar-hidden{transform:translateY(-100%);}
   .nav-link{position:relative;color:var(--ink-soft);}
   .nav-link::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent);transition:width .3s ease;}
   .nav-link:hover{color:var(--ink);}
@@ -1016,20 +1017,60 @@
   const menuBtn = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   let menuOpen = false;
-  menuBtn.addEventListener('click', () => {
-    menuOpen = !menuOpen;
-    mobileMenu.style.maxHeight = menuOpen ? mobileMenu.scrollHeight + 'px' : '0px';
-    mobileMenu.style.opacity = menuOpen ? '1' : '0';
-    navbar.classList.toggle('menu-open', menuOpen);
-  });
-  document.querySelectorAll('#mobileMenu a').forEach(a => {
-    a.addEventListener('click', () => {
-      menuOpen = false;
+  function closeMobileMenu(instant) {
+    menuOpen = false;
+    if (instant) {
+      // 滾動觸發時:先關掉選單自己的 transition,讓它跟著 navbar 的滑出動作「一起」消失,
+      // 不要各自跑各自的動畫互相打架
+      mobileMenu.style.transition = 'none';
       mobileMenu.style.maxHeight = '0px';
       mobileMenu.style.opacity = '0';
-      navbar.classList.remove('menu-open');
-    });
+      void mobileMenu.offsetHeight; // 強制 reflow
+      mobileMenu.style.transition = '';
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+    }
+    navbar.classList.remove('menu-open');
+  }
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      navbar.classList.add('menu-open');
+    } else {
+      closeMobileMenu();
+    }
   });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => closeMobileMenu());
+  });
+
+  // Navbar auto-hide on scroll / show on scroll-stop
+  (function () {
+    const TOP_THRESHOLD = 50;   // scrollY 在此範圍內,navbar 永遠顯示
+    const STOP_DELAY = 300;     // 判定「滾動停止」的靜止時間 (ms)
+    let stopTimer = null;
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+
+      if (y < TOP_THRESHOLD) {
+        clearTimeout(stopTimer);
+        navbar.classList.remove('navbar-hidden');
+        return;
+      }
+
+      navbar.classList.add('navbar-hidden');
+      if (menuOpen) closeMobileMenu(true);
+
+      clearTimeout(stopTimer);
+      stopTimer = setTimeout(() => {
+        navbar.classList.remove('navbar-hidden');
+      }, STOP_DELAY);
+    }, { passive: true });
+  })();
 
   function animateCount(el, target, duration = 900) {
     const start = performance.now();

@@ -53,7 +53,7 @@
   }
 
   /* ---- Nav ---- */
-  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease;}
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease, transform .35s ease;}
   #navbar:hover,
   #navbar.menu-open{
     background-color:rgba(250,250,250,0.75);
@@ -61,6 +61,7 @@
     -webkit-backdrop-filter:blur(16px);
     border-bottom:1px solid var(--line);
   }
+  #navbar.navbar-hidden{transform:translateY(-100%);}
   .nav-link{position:relative; color:var(--ink-soft);}
   .nav-link::after{
     content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;
@@ -779,6 +780,23 @@
   const menuBtn = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
   let menuOpen = false;
+  function closeMobileMenu(instant) {
+    menuOpen = false;
+    if (instant) {
+      // 滾動觸發時:先關掉 max-height/opacity 自己的 transition,
+      // 讓選單跟著 navbar 的滑出動作「一起」消失,不要各自跑各自的動畫互相打架
+      mobileMenu.style.transition = 'none';
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      // 強制 reflow,確保上面的樣式先套用,再把 transition 還原,避免影響下次手動開關選單
+      void mobileMenu.offsetHeight;
+      mobileMenu.style.transition = '';
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+    }
+    navbar.classList.remove('menu-open');
+  }
   if (menuBtn && mobileMenu) {
     menuBtn.addEventListener('click', () => {
       menuOpen = !menuOpen;
@@ -787,20 +805,41 @@
         mobileMenu.style.opacity = '1';
         navbar.classList.add('menu-open');
       } else {
-        mobileMenu.style.maxHeight = '0px';
-        mobileMenu.style.opacity = '0';
-        navbar.classList.remove('menu-open');
+        closeMobileMenu();
       }
     });
     document.querySelectorAll('#mobileMenu a').forEach(a => {
-      a.addEventListener('click', () => {
-        menuOpen = false;
-        mobileMenu.style.maxHeight = '0px';
-        mobileMenu.style.opacity = '0';
-        navbar.classList.remove('menu-open');
-      });
+      a.addEventListener('click', () => closeMobileMenu());
     });
   }
+
+  // Navbar auto-hide on scroll / show on scroll-stop
+  (function () {
+    const TOP_THRESHOLD = 50;   // scrollY 在此範圍內,navbar 永遠顯示
+    const STOP_DELAY = 300;     // 判定「滾動停止」的靜止時間 (ms)
+    let stopTimer = null;
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+
+      // 頂端例外:永遠顯示,不進入隱藏邏輯
+      if (y < TOP_THRESHOLD) {
+        clearTimeout(stopTimer);
+        navbar.classList.remove('navbar-hidden');
+        return;
+      }
+
+      // 正在滾動:立即收起 navbar,若選單展開則「瞬時」一併收合(見 closeMobileMenu 註解)
+      navbar.classList.add('navbar-hidden');
+      if (menuOpen) closeMobileMenu(true);
+
+      // 重新計時,靜止 STOP_DELAY 後才顯示 navbar
+      clearTimeout(stopTimer);
+      stopTimer = setTimeout(() => {
+        navbar.classList.remove('navbar-hidden');
+      }, STOP_DELAY);
+    }, { passive: true });
+  })();
 
   // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
   // Desktop: track is pinned (sticky, centered) while progress is driven by the outer buffer wrapper,
