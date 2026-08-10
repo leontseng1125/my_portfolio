@@ -156,34 +156,62 @@
   .tag-pill{border:1px solid var(--line);color:var(--ink-soft);transition:border-color .35s ease, color .35s ease;}
   .work-card:hover .tag-pill{border-color:var(--accent);color:var(--accent);}
 
-  /* ---- Filter pills (works list only) ---- */
-  .filter-pill{
-    border:1px solid var(--line);color:var(--ink-soft);background:transparent;
-    transition:background-color .3s ease, color .3s ease, border-color .3s ease;
-    cursor:pointer;
-    white-space:nowrap;
+  /* ---- 案例類型 badge（縮圖左上角，跟年份 badge 對稱） ---- */
+  .mode-badge{
+    position:absolute;left:16px;top:16px;padding:4px 14px;border-radius:9999px;
+    background:rgba(255,255,255,0.92);font-family:'IBM Plex Mono',monospace;font-size:10px;
+    display:inline-flex;align-items:center;gap:6px;
   }
-  .filter-pill:hover{border-color:var(--ink);color:var(--ink);}
-  .filter-pill.is-active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .mode-badge-dot{width:6px;height:6px;border-radius:9999px;flex-shrink:0;}
+  .mode-badge.mode-a{color:#0468AF;} .mode-badge.mode-a .mode-badge-dot{background:#0468AF;}
+  .mode-badge.mode-b{color:#8a6d1d;} .mode-badge.mode-b .mode-badge-dot{background:#c9971f;}
+  .mode-badge.mode-c{color:#5b5b62;} .mode-badge.mode-c .mode-badge-dot{background:#9a9aa1;}
 
-  /* ---- Mobile: 2-row horizontal scroll for filter tabs ---- */
-  .filter-scroll{
-    scrollbar-width:none;
-    -ms-overflow-style:none;
-    grid-auto-columns:max-content;
+  /* ---- 篩選：下拉選單卡片式（單一觸發按鈕＋單選） ---- */
+  .dropdown-wrap{position:relative;display:inline-block;z-index:20;}
+  .dropdown-trigger{
+    display:inline-flex;align-items:center;gap:10px;
+    border:1px solid var(--line);color:var(--ink);background:var(--surface);cursor:pointer;
+    padding:12px 20px;border-radius:9999px;
+    transition:border-color .3s ease, box-shadow .3s ease;
+    min-width:220px;
   }
-  .filter-scroll::-webkit-scrollbar{display:none;}
-  .filter-scroll-wrap::after{
-    content:'';
-    position:absolute;
-    top:0; right:0; bottom:0;
-    width:32px;
-    background:linear-gradient(to right, transparent, var(--bg));
-    pointer-events:none;
+  .dropdown-trigger:hover{border-color:#c9c9cd;}
+  .dropdown-trigger.has-selection{border-color:var(--accent);}
+  .dropdown-trigger.is-open{border-color:var(--ink);box-shadow:0 4px 16px -4px rgba(17,17,19,.12);}
+  .dropdown-trigger .trigger-label{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:500;font-size:14px;flex:1;text-align:left;}
+  .dropdown-trigger.has-selection .trigger-label{color:var(--accent);}
+  .dropdown-trigger .chevron{transition:transform .3s ease;flex-shrink:0;color:var(--ink-faint);}
+  .dropdown-trigger.is-open .chevron{transform:rotate(180deg);}
+
+  .dropdown-panel{
+    position:absolute;left:0;top:calc(100% + 10px);z-index:30;
+    width:300px;max-width:min(300px, 88vw);
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    box-shadow:0 24px 48px -16px rgba(17,17,19,.18);
+    padding:8px;
+    max-height:340px;overflow-y:auto;
+    opacity:0;transform:translateY(-6px) scale(.98);pointer-events:none;
+    transition:opacity .22s ease, transform .22s ease;
   }
-  @media (min-width:768px){
-    .filter-scroll-wrap::after{display:none;}
+  .dropdown-panel.is-open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+  .dropdown-panel::-webkit-scrollbar{width:6px;}
+  .dropdown-panel::-webkit-scrollbar-thumb{background:var(--line);border-radius:9999px;}
+
+  .dropdown-item{
+    display:flex;align-items:center;gap:12px;width:100%;
+    padding:10px 12px;border-radius:12px;
+    color:var(--ink-soft);background:transparent;cursor:pointer;border:none;text-align:left;
+    font-family:'Noto Sans TC','Inter',sans-serif;font-size:14px;
+    transition:background-color .2s ease, color .2s ease;
   }
+  .dropdown-item:hover{background:#f3f3f4;color:var(--ink);}
+  .dropdown-item.is-selected{background:rgba(4,104,175,0.07);color:var(--accent);font-weight:600;}
+  .dropdown-item .item-icon{flex-shrink:0;width:18px;height:18px;color:var(--ink-faint);}
+  .dropdown-item.is-selected .item-icon{color:var(--accent);}
+  .dropdown-item .item-check{margin-left:auto;flex-shrink:0;opacity:0;}
+  .dropdown-item.is-selected .item-check{opacity:1;}
+  .dropdown-divider{height:1px;background:var(--line);margin:6px 8px;}
 
   /* mobile menu */
   #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
@@ -267,26 +295,89 @@
       </div>
     </div>
 
-    <!-- 分類篩選 -->
-    <div class="filter-scroll-wrap relative -mx-8 md:mx-0">
-      <div class="reveal filter-scroll grid grid-flow-col grid-rows-2 gap-2 overflow-x-auto pb-1 px-8 md:px-0 md:flex md:flex-wrap md:overflow-visible md:pb-0 mb-8 md:mb-16">
-        <button class="filter-pill is-active font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="all">全部</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="design-strategy">設計策略</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="research-analysis">分析研究</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="information-architecture">資訊架構</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="ux-planning">UX規劃</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="ui-design">UI設計</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="design-system">Design system</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="project-management">專案管理</button>
-        <button class="filter-pill font-display text-sm font-medium px-6 py-2 rounded-full" data-filter="visual-design">視覺設計</button>
+    <!-- 篩選：下拉選單卡片式（案例類型＋技能，單選、不分組） -->
+    <div class="reveal dropdown-wrap mb-8 md:mb-16">
+      <button id="filterTrigger" class="dropdown-trigger">
+        <span class="trigger-label" id="filterTriggerLabel">全部案例</span>
+        <svg class="chevron" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div id="filterPanel" class="dropdown-panel">
+        <button class="dropdown-item is-selected" data-kind="all" data-value="all">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H14M2 12H14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          全部
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="dropdown-divider"></div>
+
+        <button class="dropdown-item" data-kind="type" data-value="mode-a">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2L2 5.5L8 9L14 5.5L8 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M2 10.5L8 14L14 10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          深度案例
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="type" data-value="mode-b">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/></svg>
+          聚焦解法
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="type" data-value="mode-c">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 10.5L5.5 7.5L8 9.5L11 6L14 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          圖說速覽
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="dropdown-divider"></div>
+
+        <button class="dropdown-item" data-kind="skill" data-value="design-strategy">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 2V8L11 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          設計策略
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="skill" data-value="research-analysis">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10.3 10.3L14 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          分析研究
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="skill" data-value="information-architecture">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><rect x="6" y="2" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="10" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="10" y="10" width="4" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M8 6V8M8 8H4V10M8 8H12V10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          資訊架構
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="skill" data-value="ux-planning">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><path d="M2 12C2 12 4 4 8 4C12 4 14 12 14 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="4" r="1.4" stroke="currentColor" stroke-width="1.2"/></svg>
+          UX規劃
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="skill" data-value="ui-design">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="2.5" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 6.5H14" stroke="currentColor" stroke-width="1.3"/></svg>
+          UI設計
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="skill" data-value="design-system">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
+          Design system
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="skill" data-value="project-management">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="2.5" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 8L7.2 9.7L10.5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          專案管理
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dropdown-item" data-kind="skill" data-value="visual-design">
+          <svg class="item-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2C4.7 2 2 4.7 2 8C2 10.5 3.9 12.4 6 12.4C6.6 12.4 7 12 7 11.4C7 11 6.8 10.7 6.8 10.4C6.8 9.9 7.2 9.5 7.7 9.5H9.5C11.4 9.5 14 8.4 14 5.8C14 3.6 11.3 2 8 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="5.2" cy="6.5" r=".8" fill="currentColor"/><circle cx="8" cy="4.8" r=".8" fill="currentColor"/><circle cx="10.8" cy="6.5" r=".8" fill="currentColor"/></svg>
+          視覺設計
+          <svg class="item-check" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
     </div>
 
     <div id="workGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 items-start">
-      <a href="work-detail_01.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning" style="transition-delay:.05s;">
+      <a href="work-detail_01.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis ux-planning" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-carshare-service-design-cover.jpg" alt="GoSmart-共享車 創新服務設計縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2026</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -301,10 +392,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning design-system" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="ux-planning design-system" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-membership-design-system-cover.jpg" alt="GoSmart-會員與視覺元件系統縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2025</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -318,10 +410,11 @@
           </div>
         </div>
       </a>
-      <a href="work-detail_04.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy information-architecture ux-planning ui-design" style="transition-delay:.1s;">
+      <a href="work-detail_04.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="design-strategy information-architecture ux-planning ui-design" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-2-0-homepage-redesign-cover.jpg" alt="GoSmart-2.0首頁改版縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -337,10 +430,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="visual-design">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gosmart-mobility-brand-logo-cover.jpg" alt="GoSmart — 出行品牌 Logo 設計縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -353,10 +447,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="information-architecture ux-planning design-system" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="information-architecture ux-planning design-system" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/shenma-fleet-dispatch-app-cover.jpg" alt="神馬維運 — 企業級營業車輛調度管理 APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -371,10 +466,11 @@
           </div>
         </div>
       </a>
-      <a href="work-detail_06.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ux-planning ui-design project-management" style="transition-delay:.1s;">
+      <a href="work-detail_06.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="design-strategy ux-planning ui-design project-management" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/capital-wealth-management-website-cover.jpg" alt="群益證券-財富管理部 官方網站改版縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -390,10 +486,11 @@
           </div>
         </div>
       </a>
-      <a href="work-detail_02.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning ui-design">
+      <a href="work-detail_02.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis ux-planning ui-design">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-news-redesign-cover.jpg" alt="TVBS-數位新聞媒體 改版提案縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2023</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -409,10 +506,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis ux-planning ui-design" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="research-analysis ux-planning ui-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-health-ai-assistant-cover.jpg" alt="TVBS 健康2.0-AI助理人設與導入應用縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2023</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -427,10 +525,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ux-planning ui-design" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="design-strategy ux-planning ui-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-health-website-redesign-cover.jpg" alt="TVBS 健康2.0-官方網站 改版提案縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2023</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -445,10 +544,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="research-analysis" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/tvbs-health-user-interview-report-cover.jpg" alt="TVBS 健康2.0-使用者訪談與成果報告縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2023</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -461,10 +561,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ui-design" style="transition-delay:.1s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="design-strategy ui-design" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/gamania-einvoice-style-proposal-cover.jpg" alt="遊戲橘子— 發票載具 風格提案縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2022</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -478,10 +579,11 @@
           </div>
         </div>
       </a>
-      <a href="work-detail_03.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ui-design" style="transition-delay:.05s;">
+      <a href="work-detail_03.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy ui-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/biomedic-aiot-sports-app-cover.jpg" alt="博晶醫電-AIoT運動APP 風格提案縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2020</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -495,10 +597,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.1s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="ux-planning ui-design" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/jialun-smart-medical-product-cover.jpg" alt="佳綸生技-智慧醫療相關產品縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2019-2020</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -512,10 +615,11 @@
           </div>
         </div>
       </a>
-      <a href="work-detail_05.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis information-architecture project-management ui-design" style="transition-delay:.1s;">
+      <a href="work-detail_05.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis information-architecture project-management ui-design" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/dozze-sleep-tracking-app-cover.jpg" alt="Dozze — 智能睡眠監測 APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2019</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -532,10 +636,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="ux-planning ui-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/smart-hospital-app-cover.jpg" alt="Smart TV 智慧醫院APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2019</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -549,10 +654,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design information-architecture">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="ux-planning ui-design information-architecture">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-bobee-tracker-app-cover.jpg" alt="遠傳 Bobee-隨身定位裝置與防丟 APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2018</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -567,10 +673,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design information-architecture" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="ux-planning ui-design information-architecture" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/odo-heart-rate-band-app-cover.jpg" alt="歐豆 -心律手環智能監測 APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2017</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -585,10 +692,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis ux-planning ui-design design-strategy" style="transition-delay:.1s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="research-analysis ux-planning ui-design design-strategy" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-friday-wallet-app-cover.jpg" alt="遠傳 friDay — 行動數位錢包 APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2017</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -605,10 +713,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.1s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="ux-planning ui-design" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/beauty-stylist-matching-app-cover.jpg" alt="Beauty-美容美髮設計師媒合APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2017</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -622,10 +731,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="research-analysis" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-friday-wallet-user-interview-report-cover.jpg" alt="遠傳 friDay錢包-使用者訪談與成果報告縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2017</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -638,10 +748,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="research-analysis ux-planning ui-design information-architecture">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="research-analysis ux-planning ui-design information-architecture">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/fetnet-smart-home-iot-platform-cover.jpg" alt="遠傳 智慧家庭 — IoT 裝置控制平台縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2016</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -658,10 +769,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ui-design" style="transition-delay:.1s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="ui-design" style="transition-delay:.1s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/cht-responsive-website-redesign-cover.jpg" alt="中華電信 — 官方網站響應式體驗改版縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2016</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -674,10 +786,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning ui-design" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="ux-planning ui-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/aimeike-ecommerce-app-cover.jpg" alt="愛魅客-電商APP縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2016</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -691,10 +804,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="visual-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/jieprint-logo-branding-cover.jpg" alt="捷可印-Logo & 品牌設計縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2016</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -707,10 +821,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="visual-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/aoge-design-logo-branding-cover.jpg" alt="奧革設計-Logo & 品牌設計縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2015</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -723,10 +838,11 @@
           </div>
         </div>
       </a>
-      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="visual-design" style="transition-delay:.05s;">
+      <a href="works.html" class="work-card reveal group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-c" data-category="visual-design" style="transition-delay:.05s;">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/works/dianzibao-logo-branding-cover.jpg" alt="電子豹-Logo & 品牌設計縮圖">
           <div class="work-thumb-overlay"></div>
+          <div class="mode-badge mode-c"><span class="mode-badge-dot"></span>圖說速覽</div>
           <div class="work-year-badge">2015</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -864,26 +980,53 @@
   }, { threshold: 0.05, rootMargin: '0px 0px -10px 0px' });
   revealEls.forEach(el => io.observe(el));
 
-  // Category filter (client-side show/hide)
-  const filterButtons = document.querySelectorAll('.filter-pill');
+  // Category filter (dropdown, single-select, flat list of 案例類型＋技能)
+  const filterTrigger = document.getElementById('filterTrigger');
+  const filterTriggerLabel = document.getElementById('filterTriggerLabel');
+  const filterPanel = document.getElementById('filterPanel');
+  const filterItems = document.querySelectorAll('.dropdown-item');
   const workCards = document.querySelectorAll('#workGrid .work-card');
   const emptyState = document.getElementById('emptyState');
+  const filterWrap = document.querySelector('.dropdown-wrap');
 
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('is-active'));
-      btn.classList.add('is-active');
+  function openFilterPanel() {
+    filterPanel.classList.add('is-open');
+    filterTrigger.classList.add('is-open');
+  }
+  function closeFilterPanel() {
+    filterPanel.classList.remove('is-open');
+    filterTrigger.classList.remove('is-open');
+  }
+  filterTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    filterPanel.classList.contains('is-open') ? closeFilterPanel() : openFilterPanel();
+  });
+  document.addEventListener('click', (e) => {
+    if (!filterWrap.contains(e.target)) closeFilterPanel();
+  });
 
-      const category = btn.dataset.filter;
+  filterItems.forEach(item => {
+    item.addEventListener('click', () => {
+      filterItems.forEach(i => i.classList.remove('is-selected'));
+      item.classList.add('is-selected');
+
+      const kind = item.dataset.kind;
+      const value = item.dataset.value;
+      const labelText = item.childNodes[1] ? item.childNodes[1].textContent.trim() : item.textContent.trim();
+      filterTriggerLabel.textContent = kind === 'all' ? '全部案例' : labelText;
+      filterTrigger.classList.toggle('has-selection', kind !== 'all');
+
       let visibleCount = 0;
-
       workCards.forEach(card => {
-        const match = category === 'all' || card.dataset.category.split(' ').includes(category);
+        let match = true;
+        if (kind === 'type') match = card.dataset.type === value;
+        if (kind === 'skill') match = card.dataset.category.split(' ').includes(value);
         card.style.display = match ? '' : 'none';
         if (match) visibleCount++;
       });
 
       emptyState.classList.toggle('hidden', visibleCount !== 0);
+      closeFilterPanel();
     });
   });
 </script>
