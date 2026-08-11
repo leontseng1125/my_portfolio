@@ -82,6 +82,12 @@
 
   .tag-pill{border:1px solid var(--line);color:var(--ink-soft);}
 
+  /* ---- 色票卡（Pantone 色票樣式：正方形、不隨版面拉伸，僅等比縮放） ---- */
+  .swatch-card{border-radius:4px;overflow:hidden;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;aspect-ratio:1/1;}
+  .swatch-card .swatch-color{flex:1;}
+  .swatch-card .swatch-code{padding:6% 8%;text-align:center;}
+  .swatch-card .swatch-code p{font-family:'IBM Plex Mono',monospace;font-size:clamp(9px,2.6vw,12px);letter-spacing:.02em;color:var(--ink);white-space:nowrap;}
+
   .page-top-link{transition:color .3s ease;}
   .page-top-link:hover{color:#fff;}
   .page-top-link:hover .page-top-line{background:var(--accent);}
@@ -430,8 +436,15 @@
         <p class="text-sm text-[var(--ink-faint)]">專案進入 UI 設計階段後整理的視覺規範，涵蓋字體階層與按鈕、輸入框等元件狀態，方便團隊溝通與後續交接。</p>
       </div>
       <div>
-        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
-          <img src="assets/images/work-detail_08/work08_s07_color-palette.jpg" alt="主色與輔色色票規範">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 content-start mb-4">
+          <div class="swatch-card"><div class="swatch-color" style="background:#4CAEDA;"></div><div class="swatch-code"><p>#4CAEDA</p></div></div>
+          <div class="swatch-card"><div class="swatch-color" style="background:#1D5C7A;"></div><div class="swatch-code"><p>#1D5C7A</p></div></div>
+          <div class="swatch-card"><div class="swatch-color" style="background:#1D4765;"></div><div class="swatch-code"><p>#1D4765</p></div></div>
+          <div class="swatch-card"><div class="swatch-color" style="background:#11304C;"></div><div class="swatch-code"><p>#11304C</p></div></div>
+          <div class="swatch-card"><div class="swatch-color" style="background:#66B852;"></div><div class="swatch-code"><p>#66B852</p></div></div>
+          <div class="swatch-card"><div class="swatch-color" style="background:#F2DF83;"></div><div class="swatch-code"><p>#F2DF83</p></div></div>
+          <div class="swatch-card"><div class="swatch-color" style="background:#C42828;"></div><div class="swatch-code"><p>#C42828</p></div></div>
+          <div class="swatch-card"><div class="swatch-color" style="background:#951001;"></div><div class="swatch-code"><p>#951001</p></div></div>
         </div>
         <p class="text-sm text-[var(--ink-faint)]">主色與輔色色票，統一 App 與智慧電視介面的視覺語彙。</p>
       </div>
