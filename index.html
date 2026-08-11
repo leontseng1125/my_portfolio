@@ -187,17 +187,6 @@
   .tag-pill{border:1px solid var(--line);color:var(--ink-soft);transition:border-color .35s ease, color .35s ease;}
   .work-card:hover .tag-pill{border-color:var(--accent);color:var(--accent);}
 
-  /* ---- 案例類型 badge（縮圖左上角，跟年份 badge 對稱） ---- */
-  .mode-badge{
-    position:absolute;left:16px;top:16px;padding:4px 14px;border-radius:9999px;
-    background:rgba(255,255,255,0.92);font-family:'IBM Plex Mono',monospace;font-size:10px;
-    display:inline-flex;align-items:center;gap:6px;
-  }
-  .mode-badge-dot{width:6px;height:6px;border-radius:9999px;flex-shrink:0;}
-  .mode-badge.mode-a{color:#0468AF;} .mode-badge.mode-a .mode-badge-dot{background:#0468AF;}
-  .mode-badge.mode-b{color:#8a6d1d;} .mode-badge.mode-b .mode-badge-dot{background:#c9971f;}
-  .mode-badge.mode-c{color:#5b5b62;} .mode-badge.mode-c .mode-badge-dot{background:#9a9aa1;}
-
   /* ---- Process steps ---- */
   .process-badge{
     width:32px;height:32px;border-radius:9999px;flex-shrink:0;
@@ -547,11 +536,10 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 items-start">
 
-      <a href="work-detail_01.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis ux-planning">
+      <a href="work-detail_01.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-carshare-service-design-cover.jpg" alt="GoSmart-共享車 創新服務設計縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2026</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -567,11 +555,10 @@
         </div>
       </a>
 
-      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="ux-planning design-system">
+      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="ux-planning design-system">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-membership-design-system-cover.jpg" alt="GoSmart-會員與視覺元件系統縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2025</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -586,11 +573,10 @@
         </div>
       </a>
 
-      <a href="work-detail_04.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="design-strategy information-architecture ux-planning ui-design">
+      <a href="work-detail_04.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy information-architecture ux-planning ui-design">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-2-0-homepage-redesign-cover.jpg" alt="GoSmart-2.0首頁改版縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -607,11 +593,10 @@
         </div>
       </a>
 
-      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="information-architecture ux-planning design-system">
+      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="information-architecture ux-planning design-system">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/shenma-fleet-dispatch-app-cover.jpg" alt="神馬維運 — 企業級營業車輛調度管理 APP縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -627,11 +612,10 @@
         </div>
       </a>
 
-      <a href="work-detail_02.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis ux-planning ui-design">
+      <a href="work-detail_02.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis ux-planning ui-design">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/tvbs-news-redesign-cover.jpg" alt="TVBS-數位新聞媒體 改版提案縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2023</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -648,11 +632,10 @@
         </div>
       </a>
 
-      <a href="work-detail_03.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy ui-design">
+      <a href="work-detail_03.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ui-design">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/biomedic-aiot-sports-app-cover.jpg" alt="博晶醫電-AIoT運動APP 風格提案縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2020</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -667,11 +650,10 @@
         </div>
       </a>
 
-      <a href="work-detail_05.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis information-architecture project-management ui-design">
+      <a href="work-detail_05.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy research-analysis information-architecture project-management ui-design">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/dozze-sleep-tracking-app-cover.jpg" alt="Dozze — 智能睡眠監測 APP縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2019</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
@@ -689,11 +671,10 @@
         </div>
       </a>
 
-      <a href="work-detail_06.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="design-strategy ux-planning ui-design project-management">
+      <a href="work-detail_06.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-category="design-strategy ux-planning ui-design project-management">
         <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/capital-wealth-management-website-cover.jpg" alt="群益證券-財富管理部 官方網站改版縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
-          <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
