@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="is-loading">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>GoSmart－會員與視覺元件系統 ｜ 曾翊凱 Leon Tseng</title>
+<link rel="icon" href="assets/images/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16.png">
+<link rel="apple-touch-icon" href="assets/images/favicon/apple-touch-icon.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loader.css">
+<style>
+/* ============ 頁面閱讀進度指示器 Reading Progress Bar ============ */
+#reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4pt;
+  background: linear-gradient(90deg, #00DDCD 0%, #00ADEC 100%);
+  z-index: 9999;
+  pointer-events: none;
+  will-change: width;
+}
+</style>
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#111113;
+    --ink-soft:#5b5b62;
+    --ink-faint:#9a9aa1;
+    --line:#e6e6e9;
+    --bg:#fafafa;
+    --surface:#ffffff;
+    --dark:#0b0b0c;
+    --accent:#0468AF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{font-family:'Noto Sans TC','Inter',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+  .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:14px;color:var(--ink);}
+  .eyebrow-dot{width:8px;height:8px;background:var(--ink);flex-shrink:0;}
+
+  .project-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:900;font-size:clamp(2rem, 6.5vw, 5.5rem);line-height:1.05;letter-spacing:-0.02em;}
+  .subsection-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.75rem, 4vw, 3rem);line-height:1.15;letter-spacing:-0.01em;}
+  .statement-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.4rem, 4vw, 2.75rem);line-height:1.4;letter-spacing:-0.01em;color:var(--accent);}
+  .governing-line{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);line-height:1.5;letter-spacing:-0.01em;}
+
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease, transform .35s ease;}
+  #navbar:hover{background-color:rgba(250,250,250,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
+  #navbar.navbar-hidden{transform:translateY(-100%);}
+  .nav-link{position:relative;color:var(--ink-soft);}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent);transition:width .3s ease;}
+  .nav-link:hover{color:var(--ink);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.is-active{color:var(--accent);}
+  .nav-link.is-active::after{width:100%;}
+  #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
+
+  .btn-primary{background:var(--ink);color:#fff;transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
+  .btn-outline{border:1px solid var(--ink);color:var(--ink);transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
+  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+
+  .case-thumb{overflow:hidden;border-radius:16px;background:var(--surface);}
+  .case-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+  .case-thumb.contain-img img{object-fit:contain;}
+  .img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;
+    background:repeating-linear-gradient(135deg, #eeeeef, #eeeeef 10px, #f5f5f6 10px, #f5f5f6 20px);
+    color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.7;}
+
+  .info-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .info-table th{text-align:left;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;color:var(--ink);border-bottom:1px solid var(--ink);padding:8px 12px;white-space:nowrap;}
+  .info-table td{border-bottom:1px solid var(--line);padding:8px 12px;color:var(--ink-soft);vertical-align:top;}
+  .info-table td.num{font-family:'IBM Plex Mono',monospace;color:var(--ink);white-space:nowrap;}
+  .info-table tr:last-child td{border-bottom:none;}
+
+  .numbered-item{display:flex;gap:20px;align-items:flex-start;}
+  .numbered-badge{flex-shrink:0;width:32px;height:32px;border-radius:9999px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:14px;}
+
+  .tag-pill{border:1px solid var(--line);color:var(--ink-soft);}
+
+  .page-top-link{transition:color .3s ease;}
+  .page-top-link:hover{color:#fff;}
+  .page-top-link:hover .page-top-line{background:var(--accent);}
+  .page-top-line{transition:background-color .3s ease;}
+  .vertical-text{writing-mode:vertical-rl;text-orientation:mixed;}
+
+  .case-nav-card{border:1px solid var(--line);transition:border-color .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;}
+  .case-nav-card:hover{border-color:#d4d4d9;transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(17,17,19,.18);}
+  .case-nav-card:hover .case-nav-arrow{transform:translateX(4px);}
+  .case-nav-arrow{transition:transform .3s cubic-bezier(.2,.7,.2,1);}
+  .case-nav-card .card-dot-grid{position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:20px 20px;opacity:1;
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);transition:opacity .35s ease;}
+  .case-nav-card:hover .card-dot-grid{opacity:0;}
+
+  .dot-grid{position:absolute;left:0;right:0;top:-280px;height:calc(100% + 560px);pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);mask-image:linear-gradient(to bottom, black 0%, transparent 100%);}
+
+  /* ---- Reveal / 滾動視差 / 大標底線 ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.is-visible{opacity:1;transform:translateY(0);}
+    .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal-scale.is-visible{opacity:1;transform:scale(1);}
+    [data-parallax]{will-change:transform;}
+  }
+  .divider-bg-dots{position:absolute;left:0;right:0;top:-340px;height:calc(100% + 680px);pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#d7d7db 1.5px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);}
+  .title-line-wrap{position:relative;display:inline-block;}
+  .title-underline{position:absolute;left:16pt;top:calc(100% + 4pt);height:4pt;width:100%;
+    background:linear-gradient(90deg,#00DDCD,#00ADEC);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform .12s linear;}
+  @media (prefers-reduced-motion: reduce){
+    .title-underline{transform:scaleX(1);transition:none;}
+  }
+
+  /* ---- 本專案設計流程 ---- */
+  .process-badge{
+    width:32px;height:32px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--ink);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);
+    position:relative;z-index:10;transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .process-badge.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .process-card h3{transition:color .3s ease;}
+  .process-card.active h3{color:var(--accent);}
+  #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ 頁面閱讀進度指示器 ============ -->
+<div id="reading-progress-bar" aria-hidden="true"></div>
+
+<!-- ============ 頁面載入動效 ============ -->
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-mark"></div>
+  <div class="loader-track"><div class="loader-bar"></div></div>
+  <span class="loader-label">Loading</span>
+</div>
+<script src="assets/js/loader.js"></script>
+<script>
+(function () {
+  var bar = document.getElementById('reading-progress-bar');
+  if (!bar) return;
+
+  var ticking = false;
+
+  function updateBar() {
+    var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    var progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+    progress = Math.min(100, Math.max(0, progress));
+    bar.style.width = progress + '%';
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateBar);
+      ticking = true;
+    }
+  }
+
+  function onResize() {
+    updateBar();
+  }
+
+  updateBar();
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize);
+  window.addEventListener('load', updateBar);
+})();
+</script>
+
+<!-- ============ NAVIGATION ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
+  <span id="top" class="absolute -top-1"></span>
+  <nav class="max-w-[1600px] mx-auto flex items-center justify-between px-8 md:px-16 py-8">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/images/shared/logo-mark.png" alt="LT. logo" class="h-7 w-auto">
+    </a>
+    <div class="hidden md:flex items-center gap-16">
+      <a href="index.html" class="nav-link font-display text-sm tracking-wide">首頁</a>
+      <a href="works.html" class="nav-link is-active font-display text-sm tracking-wide">所有案例</a>
+      <a href="about.html" class="nav-link font-display text-sm tracking-wide">關於我</a>
+    </div>
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
+      <span class="block w-6 h-px bg-[var(--ink)]"></span>
+      <span class="block w-4 h-px bg-[var(--ink)]"></span>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 opacity-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--line)]">
+    <div class="flex flex-col px-8 py-8 gap-8 font-display text-base">
+      <a href="index.html" class="nav-link">首頁</a>
+      <a href="works.html" class="nav-link is-active">所有案例</a>
+      <a href="about.html" class="nav-link">關於我</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO 標題區(左文、右圖) ============ -->
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32 overflow-hidden">
+  <div class="dot-grid" data-parallax="0.55" data-parallax-max="260"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+
+    <a href="works.html" class="inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      回到作品總覽
+    </a>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div class="lg:order-1">
+        <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>WORK・會員服務</p>
+        <h1 class="project-title mb-4 md:mb-8">GoSmart－會員與視覺元件系統</h1>
+        <p class="text-[var(--ink-soft)] leading-loose mb-16 md:mb-24" style="font-size:12pt;">
+          格上 GoSmart 過去雖已建置會員系統，但一直沒有深入規劃會員分級的實際運營。這次由行銷單位訂定銅、銀、金、黑四級會員制度後，我負責將分級規則轉譯為統一的鑰匙識別系統與視覺規範，並在共享車、日租等服務團隊之間協調討論，將權益逐一落地進不同服務的預訂流程。
+        </p>
+        <div class="border-t border-[var(--line)]">
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">合作對象</p>
+            <p class="text-[var(--ink-soft)]">格上 GoSmart</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案時間</p>
+            <p class="text-[var(--ink-soft)]">2025</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案類型</p>
+            <p class="text-[var(--ink-soft)]">App</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">負責內容</p>
+            <p class="text-[var(--ink-soft)]">UX規劃、Design System</p>
+          </div>
+        </div>
+      </div>
+      <div class="lg:order-2" data-parallax="-0.22" data-parallax-max="140">
+        <div class="case-thumb contain-img aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_11/work11_s01_account-tier-states.jpg" alt="GoSmart App帳戶頁依銅、銀、金、黑鑰匙會員等級呈現對應的視覺識別與權益資訊">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)] mt-4">帳戶頁依會員等級切換主視覺色彩與圖騰，是整套識別系統的起點。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 成果與結論（結論先行） ============ -->
+<section class="relative py-24 md:py-32" style="background:var(--surface);">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot" style="background:var(--accent);"></span><span style="color:var(--accent);">成果與結論</span></p>
+    <div class="max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        本專案為 GoSmart 建立一套跨服務的會員等級識別系統，統一定義銅、銀、金、黑四種鑰匙身份的視覺語言與互動邏輯，並將對應權益完整整合進共享車與日租兩大服務的預訂流程，讓會員體驗第一次在不同服務別之間保持一致。
+      </p>
+    </div>
+
+    <div class="stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-10 sm:gap-24">
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="4" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">種</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">鑰匙會員身份狀態</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="3" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">項</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">服務流程完整整合</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="94" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">%</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">行銷單位提案滿意度</p>
+        </div>
+      </div>
+    </div>  </div>
+</section>
+
+<!-- ============ 本專案重點 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1200px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點</p>
+    <div class="max-w-2xl">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        格上 GoSmart 雖然原先就有會員系統，但過去並未針對會員分級進行深入的企劃與運營，各服務線也沒有依會員身份呈現差異化的內容。這次由行銷單位規劃導入銅、銀、金、黑四級會員制度後，這個任務的難處不在於新增一個「會員頁面」，而是要讓等級識別滲透進共享車、日租等既有服務的每一個操作環節。我在專案中扮演不同服務別團隊之間的溝通橋樑，逐一釐清共享車、日租等各服務別在會員識別、權益顯示、操作互動上各自會遇到的狀況，再收斂成一套可共用的識別系統與整合原則，最後落地到實際畫面。
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 大標：如何開始？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何開始？</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ 本專案設計流程 ============ -->
+<section class="relative py-12 md:py-16">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="relative lg:min-h-[180vh]" id="processPinWrapper">
+    <div class="lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-col lg:justify-center">
+    <div class="mb-16 md:mb-24">
+      <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
+      <p class="text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
+        本專案沒有另外安排前期使用者研究，而是以行銷單位既定的會員制度規劃為起點，直接展開跨單位盤點與識別系統定義，逐步收斂出可落地到各服務別的整合原則。
+      </p>
+    </div>
+
+    <div class="relative" id="processTrack">
+      <div id="processLineGrayMobile" class="lg:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <div id="processLineBlueMobile" class="lg:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+
+      <div id="processLineGrayDesktop" class="hidden lg:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <div id="processLineBlueDesktop" class="hidden lg:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+
+      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-4 lg:gap-x-4 lg:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">01</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">盤點各服務現況</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">檢視共享車、日租、App 帳戶頁等既有介面，釐清哪些畫面需要納入會員身份呈現。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">02</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">定義等級識別系統</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">訂定銅、銀、金、黑鑰匙的視覺語言與識別規則，作為跨服務共用的設計基礎。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">03</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">訂定各服務別整合原則</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">與共享車、日租團隊逐一討論會員權益在各自流程中的顯示時機與互動方式。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">04</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">逐一設計落地</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">依原則產出各服務別的實際畫面，並持續與各單位確認可行性與一致性。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 設計挑戰（三詞式重點卡片） ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計挑戰</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      會員識別橫跨行銷單位定義的四種鑰匙等級，也橫跨共享車、日租等既有服務，這個任務的核心不是新增一個畫面，而是解決三個彼此牽動的挑戰。
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Bridge</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">跨單位協調</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">在共享車、日租等不同服務別團隊之間釐清規則、對齊共識，是落地前必須先解決的溝通課題。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Extend</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">跨流程延伸</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">把單一識別系統延伸進共享車、日租等既有服務的完整預訂流程，而非只是新增一個會員頁面。</p>
+      </div>
+      <div>
+        <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Consistency</p>
+        <h3 class="font-display font-black text-4xl md:text-5xl my-4">體驗一致性</h3>
+        <p class="text-[var(--accent)] mb-4">◆</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">確保會員身份在不同服務、不同畫面之間，維持一致的視覺語言與互動邏輯。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 大標：如何落地？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何落地？</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ 現況與問題 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>現況與問題</p>
+    <p class="governing-line max-w-3xl">
+      GoSmart 過去雖然已有會員系統，但沒有深入規劃會員分級的實際運營，帳戶頁、好康專區、共享車與日租流程也各自只呈現單一版本，無法依會員等級提供差異化的內容與權益。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 設計目標 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計目標</p>
+    <p class="governing-line max-w-3xl">
+      建立一套跨服務共用的會員識別系統，讓銅、銀、金、黑四種身份能延伸進每個既有服務流程，並讓各單位都能依循同一套原則，獨立擴充後續功能。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 概念解法 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>概念解法</p>
+    <p class="governing-line max-w-3xl">
+      以「先定義識別、再逐一整合」的順序展開：先建立獨立於任何服務別的鑰匙識別系統與視覺規範，再依共享車、日租的既有流程節點，逐一設計權益顯示與互動邏輯，下方依此順序展開三個階段的設計細節。
+    </p>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ S01 建立會員識別系統（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">01</span>
+      <h2 class="subsection-title">建立會員識別系統</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 建立會員識別系統 > 設計說明 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      以帳戶頁作為識別系統的核心試驗場，定義銅、銀、金、黑四種鑰匙等級各自的主色、圖騰與累計說明文字，並延伸進 App 內的好康專區，作為後續套用到其他服務的視覺基礎。
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16 md:mb-24">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_11/work11_s01_account-tier-states.jpg" alt="帳戶頁依銅、銀、金、黑鑰匙會員等級切換主視覺色彩、圖騰與累計金額資訊">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">帳戶頁依鑰匙等級切換主視覺色彩與圖騰，並在卡片內呈現當期累計金額與回饋里程。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_11/work11_s01_benefits-zone-tiers.jpg" alt="App內好康專區依銅、銀、金會員等級顯示對應的專屬優惠與升等權益">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">好康專區依會員等級顯示對應的專屬優惠與升等權益，是識別系統延伸到功能頁面的第一個場景。</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">統一視覺語言</h4><p class="text-[var(--ink-soft)] leading-relaxed">四種鑰匙各自定義主色與圖騰，讓用戶一眼辨識自己的等級，也讓後續各服務別套用時有共同依據。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">可延伸的元件庫</h4><p class="text-[var(--ink-soft)] leading-relaxed">識別系統以元件而非單一頁面設計，確保同一套視覺語言能套用進不同服務、不同版位的畫面。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ S02 共享車服務整合（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">02</span>
+      <h2 class="subsection-title">共享車服務整合</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 共享車服務整合 > 設計說明 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      共享車流程原本只呈現單一租金，本次在地圖、預約、方案比較頁逐一加入等級標籤與對應折抵金額，並在確認頁提供權益使用的 bottom sheet，讓用戶清楚知道自己享有哪些權益、還剩多少可用次數。
+    </p>
+
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_11/work11_s02_same-station-pricing.jpg" alt="共享車同站租還流程依銀、金、黑鑰匙會員等級呈現不同折扣方案與無會員版本的價格對照">
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">同站租還流程依會員等級呈現不同折扣方案，銀／金／黑鑰匙與無會員版本並列呈現價差。</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16 md:mb-24">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_11/work11_s02_map-to-detail-flow.jpg" alt="從共享車地圖頁選擇車輛進入車輛明細頁，等級折扣延續呈現於預約按鈕上方">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">從地圖頁選擇車輛進入明細頁，等級折扣與已享用的權益狀態會延續呈現於預約按鈕上方。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_11/work11_s02_benefit-sheet-carshare.jpg" alt="共享車會員專屬權益bottom sheet，列出免費升級車型與安心免責的使用開關與可用次數">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">點擊已享用權益區塊會開啟 bottom sheet，列出會員專屬權益的使用開關與可用次數。</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">折扣即時可見</h4><p class="text-[var(--ink-soft)] leading-relaxed">在瀏覽階段就顯示等級折抵金額，用戶不需進到結帳頁才發現優惠。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">權益可選擇性套用</h4><p class="text-[var(--ink-soft)] leading-relaxed">部分權益（如免費升級車型）提供開關讓用戶自行決定是否使用，避免非必要地消耗可用次數。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ S03 日租服務整合（章節標題） ============ -->
+<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">03</span>
+      <h2 class="subsection-title">日租服務整合</h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 日租服務整合 > 設計說明 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
+    <p class="governing-line max-w-3xl mb-16 md:mb-24">
+      日租流程的服務節點更多，除了車輛列表頁的等級價格差異，還包含加購配件、指定地點取還車、到府／非門市取還等專屬權益，本次依訂車流程的每個步驟逐一比對，並加入對應的會員權益設定。
+    </p>
+
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_11/work11_s03_vehicle-card-tiers.jpg" alt="日租車輛列表卡片依無權益銅鑰匙、銀鑰匙、金鑰匙、黑鑰匙會員等級呈現不同起訂價格">
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">車輛列表卡片依會員等級呈現不同起訂價格，無權益（銅鑰匙）與銀／金／黑鑰匙的價差一目瞭然。</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16 md:mb-24">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_11/work11_s03_default-upgrade-tier.jpg" alt="符合升等資格的會員於加選配件頁自動帶入車型升級優惠">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">符合升等資格的會員於加選配件頁會自動帶入車型升級優惠，不需額外操作即可享用。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_11/work11_s03_addon-flow-structure.jpg" alt="加選配件頁依是否指定取還車地點分成兩種流程結構，皆顯示已套用的會員專屬權益">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">加選配件頁依是否指定取還車地點分成兩種流程，兩者皆會顯示已套用的會員專屬權益。</p>
+      </div>
+    </div>
+
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_11/work11_s03_benefit-sheet-daily.jpg" alt="日租會員專屬權益bottom sheet依銀、金、黑鑰匙呈現不同可用次數與服務內容，黑鑰匙額外開放尊榮取還車">
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">日租的會員專屬權益 bottom sheet 依銀／金／黑鑰匙呈現不同可用次數與服務內容，黑鑰匙額外開放尊榮取還車服務。</p>
+
+    <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_11/work11_s03_location-benefit-sheet-flow.jpg" alt="黑鑰匙會員從bottom sheet填寫指定取還車地點，完成後自動更新回訂車流程的權益使用狀態">
+    </div>
+    <p class="text-xs text-[var(--ink-faint)] mb-16 md:mb-24">黑鑰匙會員可從 bottom sheet 直接填寫指定取還車地點，完成後會自動更新回訂車流程的權益使用狀態。</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">依等級開放差異化服務</h4><p class="text-[var(--ink-soft)] leading-relaxed">黑鑰匙獨有的「尊榮取還車」等高價值服務只在對應等級開放，強化等級之間的權益落差。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">流程無縫銜接</h4><p class="text-[var(--ink-soft)] leading-relaxed">從 bottom sheet 填寫的地點資訊會直接回寫到主流程，避免用戶重複輸入或流程中斷。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+  <div class="flex justify-center" style="margin-top:48pt;">
+    <img src="assets/images/shared/logo-mark-divider.png" alt="Kai Logo" style="width:42.5px;height:24px;">
+  </div>
+</div>
+
+<!-- ============ 上一個 / 下一個案例 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="flex flex-col sm:flex-row gap-6 justify-between mb-20 md:mb-40">
+      <a href="work-detail_10.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">上一個案例</p>
+          <div class="flex items-center justify-between gap-4">
+            <span class="case-nav-arrow flex-shrink-0" style="transform:scaleX(-1);"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h3 class="font-display font-semibold text-lg">案例 10（尚未製作）</h3>
+          </div>
+        </div>
+      </a>
+      <a href="work-detail_12.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4 text-right">下一個案例</p>
+          <div class="flex items-center justify-between gap-4 flex-row-reverse">
+            <h3 class="font-display font-semibold text-lg">案例 12（尚未製作）</h3>
+            <span class="case-nav-arrow flex-shrink-0"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+      <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        返回列表
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="mailto:rekaileon1125@gmail.com" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        合作邀約
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative overflow-hidden bg-[var(--ink)] text-white">
+  <a href="#top" class="page-top-link hidden md:flex flex-col items-center gap-4 absolute right-8 md:right-16 top-16">
+    <span class="page-top-line w-px h-16 bg-white/20"></span>
+    <span class="vertical-text font-mono text-[10px] tracking-[0.3em] text-white/50">PAGE TOP</span>
+  </a>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 pt-12 pb-8">
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-24 mb-12 md:mb-24">
+      <div class="flex flex-col gap-1">
+        <img src="assets/images/shared/logo-mark-white.png" alt="Logo" class="h-7 w-auto self-start" style="margin-bottom:4pt;">
+        <span class="font-display font-semibold text-white"><span class="text-lg">曾翊凱</span></span>
+        <p class="font-display text-sm text-white/60">個人作品集</p>
+      </div>
+      <div class="flex flex-col gap-6 font-display text-sm">
+        <a href="index.html" class="text-white/70 hover:text-white transition-colors duration-300">首頁</a>
+        <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
+        <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
+        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          合作邀約
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
+      <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  function closeMobileMenu(instant) {
+    menuOpen = false;
+    if (instant) {
+      mobileMenu.style.transition = 'none';
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      void mobileMenu.offsetHeight;
+      mobileMenu.style.transition = '';
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+    }
+    navbar.classList.remove('menu-open');
+  }
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      navbar.classList.add('menu-open');
+    } else {
+      closeMobileMenu();
+    }
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => closeMobileMenu());
+  });
+
+  // Navbar auto-hide on scroll / show on scroll-stop
+  (function () {
+    const TOP_THRESHOLD = 50;
+    const STOP_DELAY = 300;
+    let stopTimer = null;
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+
+      if (y < TOP_THRESHOLD) {
+        clearTimeout(stopTimer);
+        navbar.classList.remove('navbar-hidden');
+        return;
+      }
+
+      navbar.classList.add('navbar-hidden');
+      if (menuOpen) closeMobileMenu(true);
+
+      clearTimeout(stopTimer);
+      stopTimer = setTimeout(() => {
+        navbar.classList.remove('navbar-hidden');
+      }, STOP_DELAY);
+    }, { passive: true });
+  })();
+
+  function animateCount(el, target, duration = 900) {
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll('.stats-row').forEach(row => {
+    const statNumbers = row.querySelectorAll('.stat-number');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          statNumbers.forEach(el => animateCount(el, parseInt(el.dataset.target, 10)));
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
+    statsObserver.observe(row);
+  });
+
+  // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
+  (function () {
+    const track = document.getElementById('processTrack');
+    const pinWrapper = document.getElementById('processPinWrapper');
+    if (!track) return;
+
+    const grayDesktop = document.getElementById('processLineGrayDesktop');
+    const blueDesktop = document.getElementById('processLineBlueDesktop');
+    const grayMobile = document.getElementById('processLineGrayMobile');
+    const blueMobile = document.getElementById('processLineBlueMobile');
+    const badges = track.querySelectorAll('.process-badge');
+
+    let badgeThresholds = [];
+
+    function measureBadgeThresholds() {
+      const trackRect = track.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 1024;
+      badgeThresholds = Array.from(badges).map(badge => {
+        const badgeRect = badge.getBoundingClientRect();
+        if (isDesktop) {
+          const lineWidth = grayDesktop ? grayDesktop.offsetWidth : trackRect.width;
+          return lineWidth > 0 ? (badgeRect.left - trackRect.left) / lineWidth : 0;
+        } else {
+          const lineHeight = grayMobile ? grayMobile.offsetHeight : trackRect.height;
+          return lineHeight > 0 ? (badgeRect.top - trackRect.top) / lineHeight : 0;
+        }
+      });
+    }
+
+    function updateProcessLine() {
+      const isDesktop = window.innerWidth >= 1024;
+      const vh = window.innerHeight;
+      let progress;
+
+      if (isDesktop && pinWrapper) {
+        const wrapRect = pinWrapper.getBoundingClientRect();
+        const scrollable = wrapRect.height - vh;
+        progress = scrollable > 0 ? (-wrapRect.top) / scrollable : 1;
+      } else {
+        const rect = track.getBoundingClientRect();
+        progress = (vh / 2 - rect.top) / rect.height;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+
+      if (grayDesktop && blueDesktop) {
+        blueDesktop.style.width = (grayDesktop.offsetWidth * progress) + 'px';
+      }
+      if (grayMobile && blueMobile) {
+        blueMobile.style.height = (grayMobile.offsetHeight * progress) + 'px';
+      }
+
+      badges.forEach((badge, i) => {
+        const threshold = badgeThresholds[i] !== undefined ? badgeThresholds[i] : i / (badges.length - 1);
+        const card = badge.closest('.process-card');
+        if (progress >= threshold - 0.002) {
+          badge.classList.add('active');
+          if (card) card.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+          if (card) card.classList.remove('active');
+        }
+      });
+    }
+
+    function handleResize() {
+      measureBadgeThresholds();
+      updateProcessLine();
+    }
+
+    let processScrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!processScrollTicking) {
+        processScrollTicking = true;
+        requestAnimationFrame(function () {
+          updateProcessLine();
+          processScrollTicking = false;
+        });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', handleResize);
+    measureBadgeThresholds();
+    updateProcessLine();
+  })();
+  // ============ 滾動視差 & 進場顯現／大標底線 ============
+  (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const revealSelectors = '.governing-line, .case-thumb, .numbered-item, .strategy-card, .info-table, .statement-title, .funnel-num, .funnel-arrow';
+    document.querySelectorAll(revealSelectors).forEach(el => el.classList.add('reveal'));
+    document.querySelectorAll('.strategy-card').forEach((el, i) => {
+      el.style.transitionDelay = (i % 5) * 70 + 'ms';
+    });
+    document.querySelectorAll('.case-thumb.contain-img').forEach(el => {
+      el.classList.remove('reveal');
+      el.classList.add('reveal-scale');
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    const underlineEls = Array.from(document.querySelectorAll('.title-underline')).map(el => ({
+      el,
+      wrap: el.closest('.title-line-wrap')
+    }));
+
+    if (parallaxEls.length || underlineEls.length) {
+      let ticking = false;
+      const clamp = (v, max) => Math.max(-max, Math.min(max, v));
+      const updateScrollFx = () => {
+        const vh = window.innerHeight;
+        parallaxEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax) || 0.15;
+          const max = parseFloat(el.dataset.parallaxMax) || 400;
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) * factor, max);
+          el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
+        underlineEls.forEach(({ el, wrap }) => {
+          const target = wrap || el;
+          const rect = target.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * 0.55)));
+          el.style.transform = `scaleX(${progress})`;
+        });
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+    }
+  })();
+</script>
+</body>
+</html>
