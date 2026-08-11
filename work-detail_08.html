@@ -269,188 +269,150 @@
 
 <!--
   ============================================================
-  案例圖說章節（S01–S08）
+  案例圖說章節（S01–S06）
+  S01–S03 為整併後的功能特色章節，採多圖橫向版型（版型 C）
+  部分畫面待新圖完成後替換，已於註解標明
   ============================================================
 -->
 
-<!-- ============ S01 院內資訊 ============ -->
+<!-- ============ S01 院內資訊與衛教揭露 ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="flex items-center gap-5 md:gap-6 flex-wrap">
       <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">01</span>
-      <h2 class="subsection-title">院內資訊</h2>
+      <h2 class="subsection-title">院內資訊與衛教揭露</h2>
       <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">資訊架構</span>
     </div>
   </div>
 </section>
 
-<!-- 版型 B：左右並排雙圖＋各自圖說 -->
+<!-- 版型 C：多圖橫向組圖＋圖說（6 張，手機橫向滑動／桌機格狀排列） -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s01_hospital-detail.jpg" alt="院所詳細資訊頁，整合天氣、聯絡方式與快速連結">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">病患可查看所在院區的基本資訊、即時天氣與快速聯繫入口。</p>
+    <div class="flex sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto sm:overflow-visible -mx-8 px-8 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none scroll-pl-8 sm:scroll-pl-0">
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s01_hospital-detail.jpg" alt="院所詳細資訊頁，整合天氣、聯絡方式與快速連結"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">院所基本資訊</p>
       </div>
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s01_hospital-list.jpg" alt="院內消息與衛教文章列表">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">院內公告與影音圖文消息列表，方便病患隨時掌握院內動態。</p>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s01_hospital-list.jpg" alt="院內消息與衛教文章列表"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">院內消息列表</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s04_education-list.jpg" alt="依分類呈現的衛教文章列表"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">衛教文章列表</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s01_article-detail.jpg" alt="衛教文章詳情頁"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">衛教文章詳情</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s01_report-list.jpg" alt="檢查報告分類列表"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">檢查報告分類</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s04_report-detail.jpg" alt="檢驗報告明細，含數值與參考範圍"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">檢驗報告明細</p>
       </div>
     </div>
+    <p class="text-sm text-[var(--ink-faint)] max-w-2xl mt-8">從院所基本資訊、院內消息公告、衛教文章，到檢查報告的分類與明細，讓病患一站掌握就醫相關資訊。</p>
   </div>
 </section>
 
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
-<!-- ============ S02 醫病即時通訊 ============ -->
+<!-- ============ S02 醫病溝通與病患回饋 ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="flex items-center gap-5 md:gap-6 flex-wrap">
       <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">02</span>
-      <h2 class="subsection-title">醫病即時通訊</h2>
+      <h2 class="subsection-title">醫病溝通與病患回饋</h2>
       <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">溝通平台</span>
     </div>
   </div>
 </section>
 
-<!-- 版型 B：左右並排雙圖＋各自圖說 -->
+<!-- 版型 C：多圖橫向組圖＋圖說（5 張，手機橫向滑動／桌機格狀排列） -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s02_message-inbox.jpg" alt="與醫護人員的訊息列表頁">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">病患可查看與醫護人員的對話紀錄，並直接發起通話。</p>
+    <div class="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto sm:overflow-visible -mx-8 px-8 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none scroll-pl-8 sm:scroll-pl-0">
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s02_signup.jpg" alt="帳號註冊與驗證流程"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">註冊與驗證</p>
       </div>
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s02_message-thread.jpg" alt="一對一對話介面">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">一對一對話介面，支援語音／視訊通話與已讀狀態顯示。</p>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s02_message-inbox.jpg" alt="與醫護人員的訊息列表頁"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">訊息列表</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s02_message-thread.jpg" alt="一對一對話介面"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">即時對話</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s03_pain-diagram.jpg" alt="疼痛部位標記工具，人體正面圖"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">疼痛部位標記</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s03_satisfaction-survey.jpg" alt="護理滿意度問卷，單選題形式"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">滿意度問卷</p>
       </div>
     </div>
+    <p class="text-sm text-[var(--ink-faint)] max-w-2xl mt-8">從註冊登入、與醫護人員即時對話，到疼痛回報與出院滿意度問卷，串起病患在整個就醫歷程中的溝通與回饋管道。</p>
   </div>
 </section>
 
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
-<!-- ============ S03 疼痛回報與滿意度問卷 ============ -->
+<!-- ============ S03 智慧電視控制與配對 ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="flex items-center gap-5 md:gap-6 flex-wrap">
       <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">03</span>
-      <h2 class="subsection-title">疼痛回報與滿意度問卷</h2>
-      <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">病患回饋</span>
-    </div>
-  </div>
-</section>
-
-<!-- 版型 B：左右並排雙圖＋各自圖說 -->
-<section class="relative py-24 md:py-32">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s03_pain-diagram.jpg" alt="疼痛部位標記工具，人體正面圖">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">人體圖疼痛標記工具，病患可直接點選部位回報症狀。</p>
-      </div>
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s03_satisfaction-survey.jpg" alt="護理滿意度問卷，單選題形式">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">出院後滿意度問卷，以單選題蒐集病患對護理服務的感受。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
-
-<!-- ============ S04 衛教資訊與檢查報告 ============ -->
-<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">04</span>
-      <h2 class="subsection-title">衛教資訊與檢查報告</h2>
-      <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">資訊揭露</span>
-    </div>
-  </div>
-</section>
-
-<!-- 版型 B：左右並排雙圖＋各自圖說 -->
-<section class="relative py-24 md:py-32">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s04_education-list.jpg" alt="依分類呈現的衛教文章列表">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">依分類呈現的衛教文章列表，提供飲食與保健相關知識。</p>
-      </div>
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:360px;">
-          <img src="assets/images/work-detail_08/work08_s04_report-detail.jpg" alt="檢驗報告明細，含數值與參考範圍">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">檢驗報告明細，呈現數值、參考範圍與異常提示色塊。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
-
-<!-- ============ S05 智慧電視控制與配對 ============ -->
-<section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
-  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">05</span>
       <h2 class="subsection-title">智慧電視控制與配對</h2>
       <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">跨裝置整合</span>
     </div>
   </div>
 </section>
 
-<!-- 版型 D：三圖組合，左一右二（上下）＋各自圖說 -->
+<!-- 版型 C：多圖橫向組圖＋圖說（5 張，手機橫向滑動／桌機格狀排列） -->
+<!-- TODO：後 2 張（placeholder-04 / placeholder-05）暫用既有畫面替代，待新圖完成後替換 -->
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-start">
-      <div>
-        <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:400px;">
-          <img src="assets/images/work-detail_08/work08_s05_tv-remote.jpg" alt="智慧電視遙控器主畫面">
-        </div>
-        <p class="text-sm text-[var(--ink-faint)]">病房智慧電視遙控器主畫面，整合方向鍵、頻道與快捷功能。</p>
+    <div class="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto sm:overflow-visible -mx-8 px-8 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none scroll-pl-8 sm:scroll-pl-0">
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s05_tv-remote.jpg" alt="智慧電視遙控器主畫面"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">遙控器主畫面</p>
       </div>
-      <div class="flex flex-col gap-8">
-        <div>
-          <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:400px;">
-            <img src="assets/images/work-detail_08/work08_s05_tv-volume.jpg" alt="音量與頻道調整面板">
-          </div>
-          <p class="text-sm text-[var(--ink-faint)]">音量與頻道快捷調整面板。</p>
-        </div>
-        <div>
-          <div class="case-thumb aspect-[9/16] w-full mb-4" style="max-width:400px;">
-            <img src="assets/images/work-detail_08/work08_s05_settings-pairing.jpg" alt="帳號設定與電視配對選單">
-          </div>
-          <p class="text-sm text-[var(--ink-faint)]">帳號設定選單，內含與病房電視的配對功能。</p>
-        </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s05_tv-volume.jpg" alt="音量與頻道調整面板"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">音量／頻道快捷</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s05_settings-pairing.jpg" alt="帳號設定與電視配對選單"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">帳號與配對設定</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <!-- TODO：待新圖替換 -->
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s03_placeholder-04.jpg" alt="【待補圖：畫面 4 說明】"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">〔待補圖〕</p>
+      </div>
+      <div class="w-36 flex-shrink-0 sm:w-auto snap-start">
+        <!-- TODO：待新圖替換 -->
+        <div class="case-thumb aspect-[9/16] w-full mb-4"><img src="assets/images/work-detail_08/work08_s03_placeholder-05.jpg" alt="【待補圖：畫面 5 說明】"></div>
+        <p class="text-sm text-[var(--ink-faint)] text-center">〔待補圖〕</p>
       </div>
     </div>
+    <p class="text-sm text-[var(--ink-faint)] max-w-2xl mt-8">病房智慧電視遙控器整合方向鍵、音量頻道快捷與帳號配對功能，讓 App 與病房電視雙螢互動。</p>
   </div>
 </section>
 
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
-<!-- ============ S06 重點畫面總覽 ============ -->
+<!-- ============ S04 重點畫面總覽 ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">06</span>
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">04</span>
       <h2 class="subsection-title">重點畫面總覽</h2>
       <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">Overview</span>
     </div>
@@ -469,11 +431,11 @@
 
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
-<!-- ============ S07 視覺規範與設計系統 ============ -->
+<!-- ============ S05 視覺規範與設計系統 ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">07</span>
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">05</span>
       <h2 class="subsection-title">視覺規範與設計系統</h2>
       <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">UI Style Guide</span>
     </div>
@@ -502,11 +464,11 @@
 
 <div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
 
-<!-- ============ S08 跨團隊溝通與交付文件 ============ -->
+<!-- ============ S06 跨團隊溝通與交付文件 ============ -->
 <section class="relative pt-16 pb-4 md:pt-20 md:pb-6">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="flex items-center gap-5 md:gap-6 flex-wrap">
-      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">08</span>
+      <span class="font-mono text-sm md:text-base font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:52px;height:52px;border:2px solid var(--accent);color:var(--accent);">06</span>
       <h2 class="subsection-title">跨團隊溝通與交付文件</h2>
       <span class="tag-pill text-xs font-mono px-3 py-1 rounded-full">Handoff</span>
     </div>
@@ -529,22 +491,22 @@
 <section class="relative py-24 md:py-32">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="flex flex-col sm:flex-row gap-6 justify-between mb-20 md:mb-40">
-      <a href="work-detail_XX.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+      <a href="work-detail_07.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
         <div class="card-dot-grid"></div>
         <div class="relative z-10">
           <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">上一個案例</p>
           <div class="flex items-center justify-between gap-4">
             <span class="case-nav-arrow flex-shrink-0" style="transform:scaleX(-1);"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <h3 class="font-display font-semibold text-lg">假字上一案例名稱</h3>
+            <h3 class="font-display font-semibold text-lg">佳綸生技-智慧醫療相關產品</h3>
           </div>
         </div>
       </a>
-      <a href="work-detail_XX.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+      <a href="work-detail_09.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
         <div class="card-dot-grid"></div>
         <div class="relative z-10">
           <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4 text-right">下一個案例</p>
           <div class="flex items-center justify-between gap-4 flex-row-reverse">
-            <h3 class="font-display font-semibold text-lg">假字下一案例名稱</h3>
+            <h3 class="font-display font-semibold text-lg">GoSmart- LOGO 設計</h3>
             <span class="case-nav-arrow flex-shrink-0"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           </div>
         </div>
