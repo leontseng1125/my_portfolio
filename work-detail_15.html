@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="is-loading">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>遊戲橘子-發票載具 風格提案 ｜ 曾翊凱 Leon Tseng</title>
+<link rel="icon" href="assets/images/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16.png">
+<link rel="apple-touch-icon" href="assets/images/favicon/apple-touch-icon.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loader.css">
+<style>
+/* ============ 頁面閱讀進度指示器 Reading Progress Bar ============ */
+#reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4pt;
+  background: linear-gradient(90deg, #00DDCD 0%, #00ADEC 100%);
+  z-index: 9999;
+  pointer-events: none;
+  will-change: width;
+}
+</style>
+<style>
+  :root{
+    color-scheme: light;
+    --ink:#111113;
+    --ink-soft:#5b5b62;
+    --ink-faint:#9a9aa1;
+    --line:#e6e6e9;
+    --bg:#fafafa;
+    --surface:#ffffff;
+    --dark:#0b0b0c;
+    --dark-line:#2a2a2d;
+    --dark-soft:#9d9da3;
+    --accent:#0468AF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    font-family:'Noto Sans TC','Inter',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
+  .font-mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---- Eyebrow ---- */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:14px;color:var(--ink);
+  }
+  .eyebrow-dot{width:8px;height:8px;background:var(--ink);flex-shrink:0;}
+  .eyebrow-accent{color:var(--accent);}
+
+  /* ---- Titles ---- */
+  .project-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:900;font-size:clamp(2rem, 6.5vw, 5.5rem);
+    line-height:1.05;letter-spacing:-0.02em;
+  }
+  .subsection-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:clamp(1.75rem, 4vw, 3rem);
+    line-height:1.15;letter-spacing:-0.01em;
+  }
+  .statement-title{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:clamp(1.5rem, 4.5vw, 3rem);
+    line-height:1.4;letter-spacing:-0.01em;color:var(--accent);
+  }
+  .governing-line{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);
+    line-height:1.5;letter-spacing:-0.01em;
+  }
+
+  /* ---- Nav ---- */
+  #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease, transform .35s ease;}
+  #navbar.navbar-hidden{transform:translateY(-100%);}
+  #navbar:hover{
+    background-color:rgba(250,250,250,0.75);
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-link{position:relative; color:var(--ink-soft);}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--accent);transition:width .3s ease;}
+  .nav-link:hover{color:var(--ink);}
+  .nav-link:hover::after{width:100%;}
+  .nav-link.is-active{color:var(--accent);}
+  .nav-link.is-active::after{width:100%;}
+  #mobileMenu{transition:max-height .4s ease, opacity .3s ease;}
+
+  /* ---- Buttons ---- */
+  .btn-primary{background:var(--ink);color:#fff;transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
+  .btn-outline{border:1px solid var(--ink);color:var(--ink);transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
+  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+
+  /* ---- Reveal / 滾動視差 / 大標底線 ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.is-visible{opacity:1;transform:translateY(0);}
+    .reveal-scale{opacity:0;transform:scale(.95);transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);}
+    .reveal-scale.is-visible{opacity:1;transform:scale(1);}
+    [data-parallax]{will-change:transform;}
+  }
+  .divider-bg-dots{position:absolute;left:0;right:0;top:-340px;height:calc(100% + 680px);pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,#d7d7db 1.5px,transparent 1.5px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 55% 90% at 15% 50%, black 0%, transparent 72%);}
+  .title-line-wrap{position:relative;display:inline-block;}
+  .title-underline{position:absolute;left:16pt;top:calc(100% + 4pt);height:4pt;width:100%;
+    background:linear-gradient(90deg,#00DDCD,#00ADEC);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform .12s linear;}
+  @media (prefers-reduced-motion: reduce){
+    .title-underline{transform:scaleX(1);transition:none;}
+  }
+
+  /* ---- 圖片容器 ---- */
+  .case-thumb{overflow:hidden;border-radius:16px;background:#3a3a3d;}
+  .case-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+  .case-thumb.contain-img{background:#eceef0;}
+  .case-thumb.contain-img img{object-fit:contain;}
+
+  /* ---- 資料表格 ---- */
+  .info-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .info-table th{
+    text-align:left;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;
+    color:var(--ink);border-bottom:1px solid var(--ink);padding:8px 12px;white-space:nowrap;
+  }
+  .info-table td{border-bottom:1px solid var(--line);padding:8px 12px;color:var(--ink-soft);vertical-align:top;}
+  .info-table td.num{font-family:'IBM Plex Mono',monospace;color:var(--ink);white-space:nowrap;}
+
+  /* ---- 編號重點(藍色圓形數字) ---- */
+  .numbered-item{display:flex;gap:20px;align-items:flex-start;}
+  .numbered-badge{
+    flex-shrink:0;width:32px;height:32px;border-radius:9999px;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:14px;
+  }
+
+  /* ---- 流程卡 ---- */
+  .flow-step{border:1px solid var(--accent);border-radius:12px;padding:16px 20px;background:var(--accent);}
+  .flow-step p{color:#ffffff;}
+
+  /* ---- Tag pill ---- */
+  .tag-pill{border:1px solid var(--line);color:var(--ink-soft);}
+
+  /* ---- Persona 卡片 ---- */
+  .persona-card{border:1px solid var(--line);border-radius:16px;padding:24px;background:var(--surface);}
+
+  /* ---- 方案編號徽章 ---- */
+  .section-badge{
+    width:52px;height:52px;border-radius:9999px;flex-shrink:0;
+    border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;color:var(--accent);
+  }
+
+  /* ---- Page top link ---- */
+  .page-top-link{transition:color .3s ease;}
+  .page-top-link:hover{color:#fff;}
+  .page-top-link:hover .page-top-line{background:var(--accent);}
+  .page-top-line{transition:background-color .3s ease;}
+  .vertical-text{writing-mode:vertical-rl;text-orientation:mixed;}
+
+  /* ---- Case nav card ---- */
+  .case-nav-card{border:1px solid var(--line);transition:border-color .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;}
+  .case-nav-card:hover{border-color:#d4d4d9;transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(17,17,19,.18);}
+  .case-nav-card:hover .case-nav-arrow{transform:translateX(4px);}
+  .case-nav-arrow{transition:transform .3s cubic-bezier(.2,.7,.2,1);}
+  .case-nav-card .card-dot-grid{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);
+    background-size:20px 20px;
+    opacity:1;
+    -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);
+    mask-image:linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.2) 100%);
+    transition:opacity .35s ease;
+  }
+  .case-nav-card:hover .card-dot-grid{opacity:0;}
+
+  /* ---- Hero dot-grid ---- */
+  .dot-grid{position:absolute;left:0;right:0;top:-280px;height:calc(100% + 560px);pointer-events:none;z-index:-1;background-image:radial-gradient(circle,#d7d7db 1.3px,transparent 1.3px);background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, transparent 100%);mask-image:linear-gradient(to bottom, black 0%, transparent 100%);}
+
+  /* ---- Process steps ---- */
+  .process-badge{
+    width:32px;height:32px;border-radius:9999px;flex-shrink:0;
+    border:1px solid var(--ink);background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);
+    position:relative;z-index:10;transition:background-color .3s ease, color .3s ease, border-color .3s ease;
+  }
+  .process-badge.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .process-card h3{transition:color .3s ease;}
+  .process-card.active h3{color:var(--accent);}
+  #processLineBlueDesktop, #processLineBlueMobile{transition:width .1s linear, height .1s linear;}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ 頁面閱讀進度指示器 ============ -->
+<div id="reading-progress-bar" aria-hidden="true"></div>
+
+<!-- ============ 頁面載入動效 ============ -->
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-mark"></div>
+  <div class="loader-track"><div class="loader-bar"></div></div>
+  <span class="loader-label">Loading</span>
+</div>
+<script src="assets/js/loader.js"></script>
+<script>
+(function () {
+  var bar = document.getElementById('reading-progress-bar');
+  if (!bar) return;
+  var ticking = false;
+  function updateBar() {
+    var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    var progress = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+    progress = Math.min(100, Math.max(0, progress));
+    bar.style.width = progress + '%';
+    ticking = false;
+  }
+  function onScroll() {
+    if (!ticking) { requestAnimationFrame(updateBar); ticking = true; }
+  }
+  function onResize() { updateBar(); }
+  updateBar();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize);
+  window.addEventListener('load', updateBar);
+})();
+</script>
+
+<!-- ============ NAVIGATION ============ -->
+<header id="navbar" class="fixed top-0 left-0 w-full z-50" data-top-anchor>
+  <span id="top" class="absolute -top-1"></span>
+  <nav class="max-w-[1600px] mx-auto flex items-center justify-between px-8 md:px-16 py-8">
+    <a href="index.html" class="flex items-center">
+      <img src="assets/images/shared/logo-mark.png" alt="LT. logo" class="h-7 w-auto">
+    </a>
+    <div class="hidden md:flex items-center gap-16">
+      <a href="index.html" class="nav-link font-display text-sm tracking-wide">首頁</a>
+      <a href="works.html" class="nav-link is-active font-display text-sm tracking-wide">所有案例</a>
+      <a href="about.html" class="nav-link font-display text-sm tracking-wide">關於我</a>
+    </div>
+    <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
+      <span class="block w-6 h-px bg-[var(--ink)]"></span>
+      <span class="block w-4 h-px bg-[var(--ink)]"></span>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="md:hidden overflow-hidden max-h-0 opacity-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--line)]">
+    <div class="flex flex-col px-8 py-8 gap-8 font-display text-base">
+      <a href="index.html" class="nav-link">首頁</a>
+      <a href="works.html" class="nav-link is-active">所有案例</a>
+      <a href="about.html" class="nav-link">關於我</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO 標題區(左文、右圖) ============ -->
+<section class="relative pt-40 md:pt-56 pb-24 md:pb-32 overflow-hidden">
+  <div class="dot-grid" data-parallax="0.55" data-parallax-max="260"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+
+    <a href="works.html" class="reveal inline-flex items-center gap-3 text-sm text-[var(--ink-soft)] hover:text-[var(--accent)] transition-colors duration-300 mb-16 md:mb-24">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      回到作品總覽
+    </a>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div class="lg:order-1">
+        <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>WORK・生活服務</p>
+        <h1 class="reveal project-title mb-4 md:mb-8">遊戲橘子-發票載具 風格提案</h1>
+        <p class="reveal text-[var(--ink-soft)] leading-loose mb-16 md:mb-24" style="font-size:12pt;">
+          以財政部發票兌獎 App 為題，透過現有架構盤點、競品與類設計比較、用戶族群設定，於 7 天內產出 4 款首頁架構與 4 款視覺風格提案，並針對社群互動、對獎流程、發票存摺頁面提出具體優化方向。
+        </p>
+        <div class="reveal border-t border-[var(--line)]">
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">合作對象</p>
+            <p class="text-[var(--ink-soft)]">遊戲橘子 Gamania</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案時間</p>
+            <p class="text-[var(--ink-soft)]">2022</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">專案類型</p>
+            <p class="text-[var(--ink-soft)]">App</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
+            <p class="font-display font-bold text-base text-[var(--ink)]">負責內容</p>
+            <p class="text-[var(--ink-soft)]">設計策略、UI設計</p>
+          </div>
+        </div>
+      </div>
+      <div class="lg:order-2" data-parallax="-0.22" data-parallax-max="140">
+        <div class="reveal case-thumb contain-img aspect-[16/9] w-full">
+          <img src="assets/images/work-detail_15/work15_hero_style-overview.jpg" alt="四款視覺風格提案總覽，由左至右為風格A至風格D的App介面呈現">
+        </div>
+        <p class="reveal text-xs text-[var(--ink-faint)] mt-4">四款視覺風格提案總覽，分別對應工具型、平台型、工具型與遊戲型四種首頁架構方向。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 成果與結論（結論先行） ============ -->
+<section class="relative py-24 md:py-32" style="background:var(--surface);">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot" style="background:var(--accent);"></span><span style="color:var(--accent);">成果與結論</span></p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        在 7 天的快速提案時程內（估工 42 小時），從現有產品的架構盤點與用戶研究出發，收斂出 4 款首頁架構、4 款視覺風格提案，並針對社群互動、對獎流程、發票存摺頁面提出 3 項具體優化方向。
+      </p>
+    </div>
+
+    <div class="reveal stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-10 sm:gap-20">
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="7" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">天</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">完整提案時程</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="4" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">款</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">首頁架構提案</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="4" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">款</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">視覺風格提案</p>
+        </div>
+      </div>
+      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
+      <div class="flex items-end gap-3">
+        <span class="stat-number font-display font-black leading-none" data-target="3" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <div class="pb-2">
+          <p class="font-display text-sm text-[var(--ink-soft)]">項</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">流程優化方案</p>
+        </div>
+      </div>
+    </div>
+    <p class="reveal font-mono text-xs text-[var(--ink-faint)] mt-8">＊本提案為 7 天快速設計練習，聚焦架構梳理與視覺風格方向探索，尚未經真實用戶測試驗證。</p>
+  </div>
+</section>
+
+<!-- ============ 本專案重點 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <div class="lg:order-1">
+        <p class="reveal text-[var(--ink)] leading-loose" style="font-size:12pt;">
+          財政部發票兌獎 App 顯示儲存在各載具中的雲端發票，具備線上對獎、快速對獎等功能，也能設定獎金的入帳帳戶，完成中獎即入帳的體驗。本提案在此基礎上訂立兩項目標：<span class="font-semibold" style="color:var(--accent);">提供發票收納，協助用戶建立習慣、提升 App 開啟率</span>；以及<span class="font-semibold" style="color:var(--accent);">加入社群功能</span>，讓蒐集發票這件事更有互動與分享的意義。
+        </p>
+      </div>
+      <div class="lg:order-2">
+        <div class="reveal case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_context_app-screens.jpg" alt="財政部發票兌獎App現有畫面，包含手機條碼頁與發票存摺列表頁">
+        </div>
+        <p class="reveal text-xs text-[var(--ink-faint)]">現有 App 的手機條碼頁與發票存摺列表頁，是本次提案盤點的起點。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16"><div class="border-t border-[var(--line)]"></div></div>
+
+<!-- ============ 大標：如何開始？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何開始？</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ 提案規劃與分析 > 時程安排 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>時程安排</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      提案時程僅 8 天，因此將現況盤點與研究蒐集集中於前段，把架構整理、wireframe 與色彩計畫的決策提前，讓後段能有充足時間完成 mockup 製作與簡報整理。
+    </p>
+    <div class="reveal overflow-x-auto">
+      <table class="info-table" style="min-width:900px;">
+        <thead><tr><th>階段</th><th>工作項目</th></tr></thead>
+        <tbody>
+          <tr><td class="num">D1</td><td>收到題目／基本資料研究／文獻、參考資料蒐集</td></tr>
+          <tr><td class="num">D2</td><td>簡報規劃／視覺風格蒐集／目標用戶設定</td></tr>
+          <tr><td class="num">D3</td><td>架構整理／簡報預排</td></tr>
+          <tr><td class="num">D4</td><td>wireframe 規劃／訂定色彩計畫</td></tr>
+          <tr><td class="num">D5</td><td>上機 wireframe／mockup 製作</td></tr>
+          <tr><td class="num">D6</td><td>mockup 製作／簡報調整</td></tr>
+          <tr><td class="num">D7</td><td>簡報製作／Figma 交付檔案整理</td></tr>
+          <tr><td class="num">D8</td><td>交付檔案</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ============ 本專案設計流程 ============ -->
+    <div class="relative mt-16 lg:mt-24 lg:min-h-[180vh]" id="processPinWrapper">
+    <div class="lg:sticky lg:top-0 lg:h-screen lg:flex lg:flex-col lg:justify-center">
+    <div class="mb-16 md:mb-24">
+      <p class="reveal eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案設計流程</p>
+      <p class="reveal text-[var(--ink)] leading-loose max-w-2xl" style="font-size:12pt;">
+        本專案為 7 天快速設計提案，從現有產品的架構盤點與實際操作出發，交叉比對競品亮點與市場問卷數據收斂用戶輪廓，訂立優化目標後，同步展開首頁架構與流程優化的方案發想，最終延伸出對應的視覺風格提案。
+      </p>
+    </div>
+
+    <div class="relative" id="processTrack">
+      <div id="processLineGrayMobile" class="lg:hidden absolute left-4 top-4 bottom-4 w-px bg-[var(--line)]"></div>
+      <div id="processLineBlueMobile" class="lg:hidden absolute left-4 top-4 w-px bg-[var(--accent)]" style="height:0px;"></div>
+
+      <div id="processLineGrayDesktop" class="hidden lg:block absolute top-4 left-0 w-full h-px bg-[var(--line)]"></div>
+      <div id="processLineBlueDesktop" class="hidden lg:block absolute top-4 left-0 h-px bg-[var(--accent)]" style="width:0px;"></div>
+
+      <div class="flex flex-col gap-8 lg:grid lg:grid-cols-5 lg:gap-x-4 lg:gap-y-0">
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">01</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">現況盤點</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">拆解現有 App 的資訊架構，透過實際操作盤點出六大體驗問題方向。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">02</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">探索研究</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">蒐集競品亮點與類設計比較，交叉比對問卷數據，收斂三組目標用戶輪廓。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">03</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">訂立目標</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">定義發票收納習慣養成與社群加值兩大目標，收斂為三大優化方向。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">04</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">架構規劃</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">提出 4 款首頁架構 wireframe，並同步展開社群、對獎、存摺頁面的流程優化。</p>
+          </div>
+        </div>
+        <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
+          <div class="process-badge">05</div>
+          <div class="lg:mt-8">
+            <h3 class="font-display font-semibold text-base mb-2">視覺提案</h3>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">依意象關鍵字發展 4 款視覺風格，完成畫面總覽並整理交付檔案。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 現有產品架構與體驗盤點 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>現有產品架構與體驗盤點</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      藉由現有文件梳理產品架構，並透過實際操作盤點功能與體驗的用戶問題，梳理出操作便利、介面理解、介面一致、避免錯誤、簡易學習、操作引導六點優化方向，共同作為後續架構與流程優化的判斷依據。
+    </p>
+
+    <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-4">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_research_existing-ia.jpg" alt="財政部發票兌獎App現有產品資訊架構圖，標註首頁、發票存摺、對獎專區等重點功能與內容列表">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">現有產品的完整資訊架構，並標註出重點功能、狀態、內容列表與流程等關鍵區塊。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_research_ux-issues-table.jpg" alt="功能與體驗問題盤點表格，列出頁面位置、問題說明與對應的優化議題分類">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">逐頁盤點現有 App 的功能與體驗問題，並依議題分類標註對應的優化方向。</p>
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mt-16 md:mt-24">
+      <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-lg mb-1">六大功能模組</h4><p class="text-[var(--ink-soft)] leading-relaxed">首頁、發票存摺、對獎專區、我要領獎、捐贈專區、系統設定皆從首頁展開，構成現有產品的主要骨架，也是逐頁盤點問題的範圍依據。</p></div></div>
+      <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-lg mb-1">依議題分類收斂</h4><p class="text-[var(--ink-soft)] leading-relaxed">將實際操作發現的問題依六大方向分類標註，讓架構與流程優化有明確的判斷依據。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 探索可能性－競品相關亮點 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>探索可能性－競品相關亮點</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      參考四款發票／記帳相關產品的差異化亮點，作為後續架構與功能發想的靈感來源。
+    </p>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_research_competitor-highlights.jpg" alt="競品相關亮點比較，包含發票怪獸、發票存摺、水滴發票、雲端發票四款產品">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">發票怪獸主打遊戲化設計、發票存摺主打集點與優惠機制、水滴發票主打 AI 智能技術、雲端發票主打社群評價。</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8">
+        <div class="numbered-item"><span class="numbered-badge">1</span><div><h4 class="font-display font-semibold text-base mb-1">發票怪獸</h4><p class="text-sm text-[var(--ink-soft)] leading-relaxed">遊戲化設計，發票養怪獸、怪獸可升級。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">2</span><div><h4 class="font-display font-semibold text-base mb-1">發票存摺</h4><p class="text-sm text-[var(--ink-soft)] leading-relaxed">集點、優惠機制，集點兌禮、每日任務。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">3</span><div><h4 class="font-display font-semibold text-base mb-1">水滴發票</h4><p class="text-sm text-[var(--ink-soft)] leading-relaxed">AI 智能技術，AI 理財、自動記帳功能。</p></div></div>
+        <div class="numbered-item"><span class="numbered-badge">4</span><div><h4 class="font-display font-semibold text-base mb-1">雲端發票</h4><p class="text-sm text-[var(--ink-soft)] leading-relaxed">社群評價，即時回饋、商家合作。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 類設計比較－功能相似的產品 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>類設計比較－功能相似的產品</p>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      藉由 Barcode 類與列表呈現類的參考產品，探索現行風格趨勢、功能編排與視覺設計的可能性。
+    </p>
+
+    <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-4">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_research_similar-design-barcode.jpg" alt="Barcode類的類似功能產品參考截圖">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">Barcode 類參考產品，聚焦條碼／點數卡的呈現方式。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_research_similar-design-list.jpg" alt="列表呈現類的類似功能產品參考截圖">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">列表呈現類參考產品，聚焦資料列表與卡片式編排。</p>
+      </div>
+    </div>
+
+    <div class="reveal max-w-3xl mt-16 md:mt-24">
+      <p class="text-[var(--ink-soft)] leading-relaxed text-sm">兩類參考產品共同作為視覺發展的靈感基礎，預期本次 App 將以「簡潔、輕快」與「專業、現代」兩大方向發展視覺。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 目標用戶設定 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>目標用戶設定</p>
+    <div class="reveal max-w-3xl mb-16 md:mb-24">
+      <p class="governing-line">
+        根據財政資訊中心與互動網的資料，雲端帳戶用戶年齡層介於 18 歲到 55 歲之間。由於題目未設定具體用戶，提案中參考問卷數據，設定三類具消費潛力、對數位產品較熟悉的族群，並分別標記出各自的產品調性座標（感性／理性、專業／休閒），作為後續風格提案的依據。
+      </p>
+    </div>
+
+    <div class="reveal case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_15/work15_research_market-survey.jpg" alt="雲端發票使用意願調查問卷分析報告，有效樣本1809份，年齡分布圖">
+    </div>
+    <p class="reveal text-xs text-[var(--ink-faint)] mb-16 md:mb-24">調查期間 2018.05.29～2018.06.30，有效樣本 1,809 份，30 代用戶占比最高達 48%。</p>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div class="persona-card text-center" style="background:#F2A87C;border:1px solid #E39566;">
+        <img src="assets/images/work-detail_15/work15_research_persona-a-student.jpg" alt="熱情大學生" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;border:2px solid rgba(255,255,255,.5);">
+        <h4 class="font-display font-semibold text-lg mb-1" style="color:#fff;">熱情大學生（22）</h4>
+        <p class="text-sm mb-4" style="color:rgba(255,255,255,.9);">省錢、關心環保、喜愛可愛小物</p>
+        <div class="mx-auto" style="max-width:180px;">
+          <svg viewBox="0 0 160 160" width="100%">
+            <line x1="40" y1="80" x2="120" y2="80" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="rgba(255,255,255,.7)" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="rgba(255,255,255,.7)" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="rgba(255,255,255,.7)" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="rgba(255,255,255,.7)" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="94" cy="103" r="6" fill="#26D07C" stroke="#fff" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="persona-card text-center" style="background:#1C2333;border:1px solid #2B3550;">
+        <img src="assets/images/work-detail_15/work15_research_persona-b-office.jpg" alt="白領上班族" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;border:2px solid rgba(255,255,255,.5);">
+        <h4 class="font-display font-semibold text-lg mb-1" style="color:#fff;">白領上班族（34）</h4>
+        <p class="text-sm mb-4" style="color:rgba(255,255,255,.85);">偶而健忘、關心新事物、追求效率</p>
+        <div class="mx-auto" style="max-width:180px;">
+          <svg viewBox="0 0 160 160" width="100%">
+            <line x1="40" y1="80" x2="120" y2="80" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="rgba(255,255,255,.55)" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="rgba(255,255,255,.55)" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="rgba(255,255,255,.55)" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="rgba(255,255,255,.55)" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="94" cy="71" r="6" fill="#26D07C" stroke="#1C2333" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="persona-card text-center" style="background:#2B4A45;border:1px solid #3C6059;">
+        <img src="assets/images/work-detail_15/work15_research_persona-c-dad.jpg" alt="新手好爸爸" class="rounded-full mx-auto mb-4" style="width:96px;height:96px;object-fit:cover;border:2px solid rgba(255,255,255,.5);">
+        <h4 class="font-display font-semibold text-lg mb-1" style="color:#fff;">新手好爸爸（40）</h4>
+        <p class="text-sm mb-4" style="color:rgba(255,255,255,.85);">舒壓、療癒、屬於自己的小時光</p>
+        <div class="mx-auto" style="max-width:180px;">
+          <svg viewBox="0 0 160 160" width="100%">
+            <line x1="40" y1="80" x2="120" y2="80" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+            <line x1="80" y1="30" x2="80" y2="130" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+            <text x="80" y="20" font-size="11" fill="rgba(255,255,255,.6)" text-anchor="middle" font-family="IBM Plex Mono">專業</text>
+            <text x="80" y="145" font-size="11" fill="rgba(255,255,255,.6)" text-anchor="middle" font-family="IBM Plex Mono">休閒</text>
+            <text x="8" y="84" font-size="11" fill="rgba(255,255,255,.6)" font-family="IBM Plex Mono">感性</text>
+            <text x="152" y="84" font-size="11" fill="rgba(255,255,255,.6)" text-anchor="end" font-family="IBM Plex Mono">理性</text>
+            <circle cx="62" cy="120" r="6" fill="#26D07C" stroke="#2B4A45" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 訂立目標 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-6"><span class="eyebrow-dot"></span>訂立目標</p>
+    <div class="reveal max-w-3xl mb-12 md:mb-16">
+      <p class="governing-line">
+        綜合現有問題盤點與用戶輪廓，收斂為兩項核心目標，作為後續首頁架構、視覺提案與流程優化的判斷依據。
+      </p>
+    </div>
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">01</span>
+          <h3 class="font-display font-semibold text-xl text-white">收納習慣養成</h3>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>提供發票收納，協助用戶建立習慣</li>
+          <li>提升 App 開啟率</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-6" style="background:linear-gradient(to bottom right, #00DDCD, #00ADEC);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-xs font-bold flex items-center justify-center rounded-full flex-shrink-0" style="width:28px;height:28px;border:1.5px solid rgba(255,255,255,0.7);color:#fff;">02</span>
+          <h3 class="font-display font-semibold text-xl text-white">社群加值</h3>
+        </div>
+        <ul class="text-white/70 list-disc pl-5 space-y-1">
+          <li>加入社群功能</li>
+          <li>強化用戶黏著與互動誘因</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal mt-16 md:mt-24 pt-8 md:pt-12 border-t border-[var(--line)]">
+      <p class="text-[var(--ink-soft)] leading-relaxed text-sm max-w-3xl mb-6">為落實上述兩項目標，後續將從首頁架構、視覺提案與流程優化三個面向、共 5 個方案具體展開：</p>
+      <div class="flex flex-wrap gap-3">
+        <span class="tag-pill font-mono text-xs px-4 py-2 rounded-full">S01・首頁架構</span>
+        <span class="tag-pill font-mono text-xs px-4 py-2 rounded-full">S02・視覺提案</span>
+        <span class="tag-pill font-mono text-xs px-4 py-2 rounded-full">S03・社群互動機制發想</span>
+        <span class="tag-pill font-mono text-xs px-4 py-2 rounded-full">S04・對獎功能優化</span>
+        <span class="tag-pill font-mono text-xs px-4 py-2 rounded-full">S05・發票存摺頁面優化</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 大標：如何落地？ ============ -->
+<section class="relative pt-20 md:pt-28 pb-4 overflow-hidden">
+  <div class="divider-bg-dots" data-parallax="0.8" data-parallax-max="320"></div>
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 relative z-10">
+    <span class="title-line-wrap">
+      <h2 class="project-title reveal-scale">如何落地？</h2>
+      <span class="title-underline"></span>
+    </span>
+  </div>
+</section>
+
+<!-- ============ S01 首頁架構 ============ -->
+<section class="relative pt-24 md:pt-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-6 mb-10 md:mb-14">
+      <div class="section-badge">S01</div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <h3 class="subsection-title">首頁架構</h3>
+        <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">資訊架構</span>
+      </div>
+    </div>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      以「將重要資訊提至首頁、用戶不需點擊即可獲得資訊」為共同前提，提出四款首頁架構取向：工具型、平台型、工具型（記帳導向）與遊戲型，各自對應不同的開發成本與體驗投入程度。
+    </p>
+    <div class="reveal case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_15/work15_s01_home-architecture-overview.jpg" alt="四款首頁架構總覽：A工具型、B平台型、C工具型、D遊戲型">
+    </div>
+    <p class="reveal text-xs text-[var(--ink-faint)] mb-16 md:mb-24">四款首頁架構總覽，由左至右依序為 A 工具型、B 平台型、C 工具型（記帳導向）、D 遊戲型。</p>
+  </div>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div>
+        <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>A・工具型</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed text-sm">以原有 App 為基礎，在既有架構下重新拉皮，降低開發成本，並保留前一版的使用邏輯。強調將各服務最重要的資訊在首頁呈現，用戶不需點擊即可獲得資訊。</p>
+      </div>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s01_home-architecture-a.jpg" alt="首頁架構A工具型特點說明，標註四項設計重點">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div class="lg:order-2">
+        <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>B・平台型</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed text-sm">整合服務平台，透過點數與徽章增加 App 價值。將重點資訊、生活功能移往首頁，保留向下、向右繼續擴充的空間，並引入點數、勳章、任務系統，營造用戶蒐集發票時的成就感。</p>
+      </div>
+      <div class="lg:order-1 case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s01_home-architecture-b.jpg" alt="首頁架構B平台型特點說明，標註三項設計重點">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div>
+        <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>C・工具型（記帳導向）</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed text-sm">以「記帳」為出發點，強調協助用戶快速完成任務，提升 App 實用性。考量未來功能結合至集團 App 的情境，只顯示用戶當下使用情境所需資訊，核心在於提升用戶記帳、收納發票的效率。</p>
+      </div>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s01_home-architecture-c.jpg" alt="首頁架構C工具型特點說明，標註三項設計重點">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div class="lg:order-2">
+        <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>D・遊戲型</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed text-sm">以遊戲化形式設計發票蒐集行為，吸引用戶高頻使用，並藉由遊戲內容達到社群連結的目的。透過蒐集、養成提升用戶黏著度，並利用佈置自己島嶼與拜訪朋友島嶼達成社交目的。</p>
+      </div>
+      <div class="lg:order-1 case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s01_home-architecture-d.jpg" alt="首頁架構D遊戲型特點說明，標註五項設計重點">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16 mt-24 md:mt-32">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ S02 視覺提案 ============ -->
+<section class="relative pt-24 md:pt-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-6 mb-10 md:mb-14">
+      <div class="section-badge">S02</div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <h3 class="subsection-title">視覺提案</h3>
+        <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">視覺設計</span>
+      </div>
+    </div>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      預計提出四款不同取向的視覺風格，但無論是何種風格，基礎架構與重點特色都是共用的，並預期在相同的限制下探索不同的可能性。
+    </p>
+
+    <div class="reveal mb-4">
+      <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>產品意象－關鍵字發想</p>
+      <p class="text-[var(--ink)] text-[12pt] leading-loose max-w-2xl mb-8">
+        本階段收錄產品的核心意象關鍵字，後續將依此發展出 4 款不同視覺取向的風格提案（風格 A／B／C／D），並在統一的核心重點下探索不同的可能性。主色調使用 <span class="font-mono">#26D07C</span>。
+      </p>
+
+      <div class="mb-6">
+        <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-3">各提案共同重點</p>
+        <div class="flex flex-wrap gap-2 mb-3">
+          <span class="font-mono text-xs px-4 py-2 rounded-full font-semibold" style="background:var(--accent);color:#fff;">資訊清楚</span>
+          <span class="font-mono text-xs px-4 py-2 rounded-full font-semibold" style="background:var(--accent);color:#fff;">清楚易用</span>
+          <span class="font-mono text-xs px-4 py-2 rounded-full font-semibold" style="background:var(--accent);color:#fff;">層級明確</span>
+        </div>
+        <p class="text-sm text-[var(--ink-soft)]">無論何種風格，均基於上述三項共同重點發展；下列關鍵字將分化為四組提案，於後續章節結合色彩計畫呈現。</p>
+      </div>
+
+      <div class="rounded-2xl p-6 mb-16 md:mb-24" style="background:#f5f5f6;">
+        <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-3">意象關鍵字池</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#c9c9cd;border:1px solid #b3b3b8;"></span>人味的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#c9c9cd;border:1px solid #b3b3b8;"></span>安心的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#c9c9cd;border:1px solid #b3b3b8;"></span>親切的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#c9c9cd;border:1px solid #b3b3b8;"></span>自然的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#c9c9cd;border:1px solid #b3b3b8;"></span>溫柔的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#c9c9cd;border:1px solid #b3b3b8;"></span>柔和的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#222226;"></span>男性的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#222226;"></span>信任的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#222226;"></span>科技的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#222226;"></span>有效率</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#26D07C;"></span>清爽的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#26D07C;"></span>現代的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#26D07C;"></span>智慧的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#26D07C;"></span>幽默的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#26D07C;"></span>童趣的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#26D07C;"></span>成熟的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F5D547;"></span>生命力</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F5D547;"></span>無壓力</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F5D547;"></span>可愛的</span>
+          <span class="tag-pill font-mono text-xs pl-3 pr-4 py-2 rounded-full bg-white inline-flex items-center gap-2"><span class="rounded-full flex-shrink-0" style="width:8px;height:8px;background:#F5D547;"></span>遊戲的</span>
+        </div>
+        <div class="flex flex-wrap gap-4 mt-4 pt-4 border-t border-[var(--line)]">
+          <span class="inline-flex items-center gap-2 text-xs text-[var(--ink-faint)] font-mono"><span class="rounded-full" style="width:8px;height:8px;background:#c9c9cd;border:1px solid #b3b3b8;"></span>風格 A・工具型</span>
+          <span class="inline-flex items-center gap-2 text-xs text-[var(--ink-faint)] font-mono"><span class="rounded-full" style="width:8px;height:8px;background:#222226;"></span>風格 B・平台型</span>
+          <span class="inline-flex items-center gap-2 text-xs text-[var(--ink-faint)] font-mono"><span class="rounded-full" style="width:8px;height:8px;background:#26D07C;"></span>風格 C・工具型</span>
+          <span class="inline-flex items-center gap-2 text-xs text-[var(--ink-faint)] font-mono"><span class="rounded-full" style="width:8px;height:8px;background:#F5D547;"></span>風格 D・遊戲型</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_15/work15_s02_visual-color-style.jpg" alt="風格A至D的色彩計畫與意象關鍵字設定">
+    </div>
+    <p class="reveal text-xs text-[var(--ink-faint)] mb-16 md:mb-24">四款風格各自的色彩計畫與意象關鍵字，共同重點為資訊清楚、清楚易用、層級明確。</p>
+  </div>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal mb-16 md:mb-24">
+      <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>風格 A</p>
+      <p class="text-[var(--ink-soft)] leading-relaxed text-sm max-w-2xl mb-6">本風格延續現有產品架構，保留側邊欄功能，但內容重新編排；依用戶情境加入新功能，在不大幅更動產品的前提下提升使用體驗；將重要資訊提至首頁，並利用板塊式設計讓首頁更為清爽、易於點擊。</p>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s02_style-a.jpg" alt="風格A介面標註說明，含四項重點編號">
+      </div>
+    </div>
+
+    <div class="reveal mb-16 md:mb-24">
+      <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>風格 B</p>
+      <p class="text-[var(--ink-soft)] leading-relaxed text-sm max-w-2xl mb-6">透過深色配色增加專業感與現代感；提供「其他服務」區塊因應未來擴充；透過點數回饋讓發票蒐集行為更有意義；勳章與任務系統讓 App 多了一種與社群連結的可能性；消費紀錄分析同時也能協助公司蒐集用戶消費資訊。</p>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s02_style-b.jpg" alt="風格B介面標註說明，含五項重點編號">
+      </div>
+    </div>
+
+    <div class="reveal mb-16 md:mb-24">
+      <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>風格 C</p>
+      <p class="text-[var(--ink-soft)] leading-relaxed text-sm max-w-2xl mb-6">考量未來發票功能加入，沿用現有主視覺強調一致的使用體驗；採用明快、清爽的配色，讓用戶使用時更為輕鬆無負擔；規劃分析功能同時為用戶與公司增加產品附加價值；並考量主次資訊編排，降低用戶閱讀負擔。</p>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s02_style-c.jpg" alt="風格C介面標註說明，含四項重點編號">
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p class="eyebrow mb-4"><span class="eyebrow-dot"></span>風格 D</p>
+      <p class="text-[var(--ink-soft)] leading-relaxed text-sm max-w-2xl mb-6">透過點數回饋讓發票蒐集行為更有意義，召喚用戶更常使用；用戶可透過發票養成自己的島嶼，並提供不同主題元件打造獨特風貌；透過邀請、拜訪行為讓用戶在 App 上也能互動；同時考量開啟遊戲時仍能快速新增發票，提供掃描與手動輸入快捷按鈕。</p>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s02_style-d.jpg" alt="風格D介面標註說明，含五項重點編號">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16 mt-24 md:mt-32">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ S03 社群互動機制發想 ============ -->
+<section class="relative pt-24 md:pt-32 pb-24 md:pb-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-6 mb-10 md:mb-14">
+      <div class="section-badge">S03</div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <h3 class="subsection-title">社群互動機制發想</h3>
+        <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">體驗優化</span>
+      </div>
+    </div>
+
+    <blockquote class="reveal border-l-2 pl-6 md:pl-8 max-w-3xl mb-16 md:mb-24" style="border-color:var(--accent);">
+      <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
+        從資料蒐集與競品參考可發現，「蒐集發票」為目的性強烈的功能，用戶通常在刷完載具後便關閉 App，甚至不開啟 App 直接用 widget 掃描完成任務，因此較難如同真正的社群工具具有一定召喚能力，但本提案仍提供三種能與社群功能產生連結的方式。
+      </p>
+    </blockquote>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div>
+        <div class="numbered-item mb-4"><span class="numbered-badge">1</span><h4 class="font-display font-semibold text-lg">點數、勳章與轉贈</h4></div>
+        <p class="text-[var(--ink-soft)] leading-relaxed text-sm pl-14">利用點數、完成任務、勳章蒐集的形式，讓用戶可以透過轉點或分享的行為與朋友圈連結。</p>
+      </div>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s03_community-points.jpg" alt="社群互動機制一：利用點數、任務與勳章蒐集與朋友圈連結">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mb-16 md:mb-24">
+      <div class="lg:order-2">
+        <div class="numbered-item mb-4"><span class="numbered-badge">2</span><h4 class="font-display font-semibold text-lg">店家評價與評論系統</h4></div>
+        <p class="text-[var(--ink-soft)] leading-relaxed text-sm pl-14">利用發票資訊，建立該店家的評價＆評論系統，不同用戶可以透過該系統留下訊息，且因為要有發票才能評論，因此能提升評價真實性。</p>
+      </div>
+      <div class="lg:order-1 case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s03_community-review.jpg" alt="社群互動機制二：利用發票資訊建立店家評價與評論系統">
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+      <div>
+        <div class="numbered-item mb-4"><span class="numbered-badge">3</span><h4 class="font-display font-semibold text-lg">遊戲化島嶼社交</h4></div>
+        <p class="text-[var(--ink-soft)] leading-relaxed text-sm pl-14">以遊戲化來轉化蒐集發票的行為，賦予日常行為的有趣性與意義。用戶透過蒐集發票逐步建立起自己的島嶼，並透過邀請、拜訪的形式與社群完成互動的行為。</p>
+      </div>
+      <div class="case-thumb contain-img aspect-[16/9] w-full">
+        <img src="assets/images/work-detail_15/work15_s03_community-island.jpg" alt="社群互動機制三：以遊戲化島嶼建立與朋友互動的社交行為">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ S04 對獎功能優化 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-6 mb-10 md:mb-14">
+      <div class="section-badge">S04</div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <h3 class="subsection-title">對獎功能優化</h3>
+        <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">流程優化</span>
+        <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">後三碼對獎</span>
+      </div>
+    </div>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      重新梳理後三碼對獎的資訊架構，讓 Call to action 更加明確，並提供「炫耀」功能增加用戶的社交可能性。
+    </p>
+
+    <div class="reveal case-thumb contain-img aspect-[16/9] w-full mb-4">
+      <img src="assets/images/work-detail_15/work15_s04_claim-flow.jpg" alt="後三碼對獎現有流程與優化後流程對照">
+    </div>
+    <p class="reveal text-xs text-[var(--ink-faint)] mb-16 md:mb-24">左側為現有流程，右側為優化後流程；優化後流程支援前期、當期、兩期一起對三種對獎方式，並提供炫耀一番的分享功能。</p>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
+      <div class="rounded-2xl p-8" style="background:#f2f2f4;">
+        <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">現有流程問題</p>
+        <ul class="space-y-3 text-[var(--ink-soft)] text-sm leading-relaxed">
+          <li>1. 資訊量過多，干擾用戶理解。</li>
+          <li>2. Call to action 不明確，降低使用效率。</li>
+          <li>3. 相關功能未整合，操作動線混亂。</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-8" style="background:var(--accent);">
+        <p class="font-mono text-xs tracking-wide mb-4" style="color:rgba(255,255,255,.75);">優化方向</p>
+        <ul class="space-y-3 text-sm leading-relaxed" style="color:#fff;">
+          <li>1. 重新梳理資訊架構，明確區分功能、資訊。</li>
+          <li>2. Call to action 明確，用戶能清楚知道下一步要做什麼。</li>
+          <li>3. 依用戶情境出發，將不重要的資訊收合在下一層。</li>
+          <li>4. 提供「炫耀」功能，增加用戶的社交可能性。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ S05 發票存摺頁面優化 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex items-center gap-6 mb-10 md:mb-14">
+      <div class="section-badge">S05</div>
+      <div class="flex items-center gap-4 flex-wrap">
+        <h3 class="subsection-title">發票存摺頁面優化</h3>
+        <span class="tag-pill font-mono text-xs px-3 py-1 rounded-full">流程優化</span>
+      </div>
+    </div>
+    <p class="reveal governing-line max-w-3xl mb-16 md:mb-24">
+      重新梳理發票存摺頁面的資訊結構，提升易讀性，並新增消費分析功能協助用戶整理帳務。
+    </p>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-4">
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_s05_invoice-storage-before.jpg" alt="發票存摺頁面現有畫面">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">現有畫面，左上方導覽列與發票列表混雜，資訊不易閱讀。</p>
+      </div>
+      <div>
+        <div class="case-thumb contain-img aspect-[16/9] w-full mb-4">
+          <img src="assets/images/work-detail_15/work15_s05_invoice-storage-after.jpg" alt="發票存摺頁面優化後畫面">
+        </div>
+        <p class="text-xs text-[var(--ink-faint)]">優化後畫面，新增消費分析入口，並將掃描輸入、手動輸入收納至右下角「+」按鈕中。</p>
+      </div>
+    </div>
+
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 mt-16 md:mt-24">
+      <div class="rounded-2xl p-8" style="background:#f2f2f4;">
+        <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">現有畫面問題</p>
+        <ul class="space-y-3 text-[var(--ink-soft)] text-sm leading-relaxed">
+          <li>1. 左上方導覽列造成用戶操作失誤。</li>
+          <li>2. 發票列表未整理，閱讀不易。</li>
+          <li>3. 功能、資訊區塊混雜，用戶難以理解。</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl p-8" style="background:var(--accent);">
+        <p class="font-mono text-xs tracking-wide mb-4" style="color:rgba(255,255,255,.75);">優化方向</p>
+        <ul class="space-y-3 text-sm leading-relaxed" style="color:#fff;">
+          <li>1. 重點在資訊呈現，重新梳理資訊結構，提升易讀性。</li>
+          <li>2. 新增「消費分析」功能，協助用戶整理帳務。</li>
+          <li>3. 將「掃描輸入」、「手動輸入」收納至右下「+」中，提升操作體驗，同時不影響原本架構。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+</div>
+
+<!-- ============ 重點畫面總覽 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <p class="reveal eyebrow mb-8"><span class="eyebrow-dot"></span>重點畫面總覽</p>
+    <div class="reveal case-thumb contain-img aspect-[16/9] w-full">
+      <img src="assets/images/work-detail_15/work15_overview_key-screens.jpg" onerror="this.style.display='none'" alt="四款風格提案重點畫面總覽">
+    </div>
+  </div>
+</section>
+
+<div class="max-w-[1600px] mx-auto px-8 md:px-16">
+  <div class="border-t border-[var(--line)]"></div>
+  <div class="flex justify-center" style="margin-top:48pt;">
+    <img src="assets/images/shared/logo-mark-divider.png" alt="Kai Logo" style="width:42.5px;height:24px;">
+  </div>
+</div>
+
+<!-- ============ 上一個 / 下一個案例 ============ -->
+<section class="relative py-24 md:py-32">
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16">
+    <div class="reveal flex flex-col sm:flex-row gap-6 justify-between mb-20 md:mb-40">
+      <a href="work-detail_14.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4">上一個案例</p>
+          <div class="flex items-center justify-between gap-4">
+            <span class="case-nav-arrow flex-shrink-0" style="transform:scaleX(-1);"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <h3 class="font-display font-semibold text-lg">上一個案例</h3>
+          </div>
+        </div>
+      </a>
+      <a href="work-detail_16.html" class="case-nav-card group relative overflow-hidden block rounded-2xl bg-[var(--surface)] p-6 md:p-8 w-full sm:w-auto sm:min-w-[360px]">
+        <div class="card-dot-grid"></div>
+        <div class="relative z-10">
+          <p class="font-mono text-xs text-[var(--ink-faint)] tracking-wide mb-4 text-right">下一個案例</p>
+          <div class="flex items-center justify-between gap-4 flex-row-reverse">
+            <h3 class="font-display font-semibold text-lg">下一個案例</h3>
+            <span class="case-nav-arrow flex-shrink-0"><svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-6">
+      <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        返回列表
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="mailto:rekaileon1125@gmail.com" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+        合作邀約
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative overflow-hidden bg-[var(--ink)] text-white">
+  <a href="#top" class="page-top-link hidden md:flex flex-col items-center gap-4 absolute right-8 md:right-16 top-16">
+    <span class="page-top-line w-px h-16 bg-white/20"></span>
+    <span class="vertical-text font-mono text-[10px] tracking-[0.3em] text-white/50">PAGE TOP</span>
+  </a>
+
+  <div class="max-w-[1600px] mx-auto px-8 md:px-16 pt-12 pb-8">
+    <div class="flex flex-col sm:flex-row gap-8 sm:gap-24 mb-12 md:mb-24">
+
+      <div class="flex flex-col gap-1">
+        <img src="assets/images/shared/logo-mark-white.png" alt="Logo" class="h-7 w-auto self-start" style="margin-bottom:4pt;">
+        <span class="font-display font-semibold text-white">
+          <span class="text-lg">曾翊凱</span>
+        </span>
+        <p class="font-display text-sm text-white/60">個人作品集</p>
+      </div>
+
+      <div class="flex flex-col gap-6 font-display text-sm">
+        <a href="index.html" class="text-white/70 hover:text-white transition-colors duration-300">首頁</a>
+        <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
+        <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
+
+        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          合作邀約
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
+      <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  let menuOpen = false;
+  function closeMobileMenu(instant) {
+    menuOpen = false;
+    if (instant) {
+      mobileMenu.style.transition = 'none';
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      void mobileMenu.offsetHeight;
+      mobileMenu.style.transition = '';
+    } else {
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+    }
+    navbar.classList.remove('menu-open');
+  }
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    if (menuOpen) {
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      navbar.classList.add('menu-open');
+    } else {
+      closeMobileMenu();
+    }
+  });
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => closeMobileMenu());
+  });
+
+  // Navbar auto-hide on scroll / show on scroll-stop
+  (function () {
+    const TOP_THRESHOLD = 50;
+    const STOP_DELAY = 300;
+    let stopTimer = null;
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+
+      if (y < TOP_THRESHOLD) {
+        clearTimeout(stopTimer);
+        navbar.classList.remove('navbar-hidden');
+        return;
+      }
+
+      navbar.classList.add('navbar-hidden');
+      if (menuOpen) closeMobileMenu(true);
+
+      clearTimeout(stopTimer);
+      stopTimer = setTimeout(() => {
+        navbar.classList.remove('navbar-hidden');
+      }, STOP_DELAY);
+    }, { passive: true });
+  })();
+
+  function animateCount(el, target, duration = 900) {
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll('.stats-row').forEach(row => {
+    const statNumbers = row.querySelectorAll('.stat-number');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          statNumbers.forEach(el => animateCount(el, parseInt(el.dataset.target, 10)));
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
+    statsObserver.observe(row);
+  });
+
+  // Process line: fill with scroll position (reversible), highlight badges as the line reaches them
+  (function () {
+    const track = document.getElementById('processTrack');
+    const pinWrapper = document.getElementById('processPinWrapper');
+    if (!track) return;
+
+    const grayDesktop = document.getElementById('processLineGrayDesktop');
+    const blueDesktop = document.getElementById('processLineBlueDesktop');
+    const grayMobile = document.getElementById('processLineGrayMobile');
+    const blueMobile = document.getElementById('processLineBlueMobile');
+    const badges = track.querySelectorAll('.process-badge');
+
+    let badgeThresholds = [];
+
+    function measureBadgeThresholds() {
+      const trackRect = track.getBoundingClientRect();
+      const isDesktop = window.innerWidth >= 1024;
+      badgeThresholds = Array.from(badges).map(badge => {
+        const badgeRect = badge.getBoundingClientRect();
+        if (isDesktop) {
+          const lineWidth = grayDesktop ? grayDesktop.offsetWidth : trackRect.width;
+          return lineWidth > 0 ? (badgeRect.left - trackRect.left) / lineWidth : 0;
+        } else {
+          const lineHeight = grayMobile ? grayMobile.offsetHeight : trackRect.height;
+          return lineHeight > 0 ? (badgeRect.top - trackRect.top) / lineHeight : 0;
+        }
+      });
+    }
+
+    function updateProcessLine() {
+      const isDesktop = window.innerWidth >= 1024;
+      const vh = window.innerHeight;
+      let progress;
+
+      if (isDesktop && pinWrapper) {
+        const wrapRect = pinWrapper.getBoundingClientRect();
+        const scrollable = wrapRect.height - vh;
+        progress = scrollable > 0 ? (-wrapRect.top) / scrollable : 1;
+      } else {
+        const rect = track.getBoundingClientRect();
+        progress = (vh / 2 - rect.top) / rect.height;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+
+      if (grayDesktop && blueDesktop) {
+        blueDesktop.style.width = (grayDesktop.offsetWidth * progress) + 'px';
+      }
+      if (grayMobile && blueMobile) {
+        blueMobile.style.height = (grayMobile.offsetHeight * progress) + 'px';
+      }
+
+      badges.forEach((badge, i) => {
+        const threshold = badgeThresholds[i] !== undefined ? badgeThresholds[i] : i / (badges.length - 1);
+        const card = badge.closest('.process-card');
+        if (progress >= threshold - 0.002) {
+          badge.classList.add('active');
+          if (card) card.classList.add('active');
+        } else {
+          badge.classList.remove('active');
+          if (card) card.classList.remove('active');
+        }
+      });
+    }
+
+    function handleResize() {
+      measureBadgeThresholds();
+      updateProcessLine();
+    }
+
+    let processScrollTicking = false;
+    window.addEventListener('scroll', function () {
+      if (!processScrollTicking) {
+        processScrollTicking = true;
+        requestAnimationFrame(function () {
+          updateProcessLine();
+          processScrollTicking = false;
+        });
+      }
+    }, { passive: true });
+    window.addEventListener('resize', handleResize);
+    measureBadgeThresholds();
+    updateProcessLine();
+  })();
+
+  // ============ 滾動視差 & 進場顯現／大標底線 ============
+  (function () {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+    const parallaxEls = document.querySelectorAll('[data-parallax]');
+    const underlineEls = Array.from(document.querySelectorAll('.title-underline')).map(el => ({
+      el,
+      wrap: el.closest('.title-line-wrap')
+    }));
+
+    if (parallaxEls.length || underlineEls.length) {
+      let ticking = false;
+      const clamp = (v, max) => Math.max(-max, Math.min(max, v));
+      const updateScrollFx = () => {
+        const vh = window.innerHeight;
+        parallaxEls.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const factor = parseFloat(el.dataset.parallax) || 0.15;
+          const max = parseFloat(el.dataset.parallaxMax) || 400;
+          const offset = clamp((rect.top + rect.height / 2 - vh / 2) * factor, max);
+          el.style.transform = `translate3d(0, ${offset}px, 0)`;
+        });
+        underlineEls.forEach(({ el, wrap }) => {
+          const target = wrap || el;
+          const rect = target.getBoundingClientRect();
+          const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * 0.55)));
+          el.style.transform = `scaleX(${progress})`;
+        });
+        ticking = false;
+      };
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+    }
+  })();
+</script>
+
+</body>
+</html>
