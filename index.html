@@ -455,6 +455,11 @@
           走入真實情境，<br>從敏捷探索到跨團隊對齊。<br><br>我擅長以設計思維為核心，<br>在策略導向與落地執行之間，<br>用直覺且體貼的體驗，<br>為使用者與商業創造更多可能。
         </p>
       </div>
+
+      <div id="manifestoDivider" class="mt-10 md:mt-14 flex items-center gap-4" style="clip-path:inset(0 100% 0 0);">
+        <div class="h-px flex-1" style="background:var(--line);"></div>
+        <img src="assets/images/about/logo-mark-divider.png" alt="" class="h-5 w-auto flex-shrink-0" loading="lazy" decoding="async">
+      </div>
     </div>
   </div>
   </section>
@@ -562,35 +567,35 @@
           <div class="process-badge">01</div>
           <div class="md:mt-8">
             <h3 class="font-display font-semibold text-lg mb-4">探索</h3>
-            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">評估專案限制並靈活導入適切的研究方法（如用戶訪談、數據分析、易用性測試或市場文獻調研），在執行前精準挖掘問題本質，以利錨定核心方向。</p>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">導入適切的研究方法，挖掘痛點與專案限制，錨定核心問題。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
           <div class="process-badge">02</div>
           <div class="md:mt-8">
             <h3 class="font-display font-semibold text-lg mb-4">定義</h3>
-            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">收斂質化與量化洞察，釐清核心問題與設計原則，先定義出產品的成功指標再聚焦目標。</p>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">收斂質化與量化洞察，確立設計原則與衡量指標，聚焦產品目標。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
           <div class="process-badge">03</div>
           <div class="md:mt-8">
             <h3 class="font-display font-semibold text-lg mb-4">發展</h3>
-            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">運用線框稿與互動原型，快速探索多種體驗解法，以利在概念階段驗證可行性。</p>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">透過線框稿與互動原型快速發散解法，及早驗證概念可行性。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
           <div class="process-badge">04</div>
           <div class="md:mt-8">
             <h3 class="font-display font-semibold text-lg mb-4">產出</h3>
-            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">完成高保真視覺與微互動細節，交付完整設計系統與開發規格，確保設計能被工程端精準落地。</p>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">完善高保真視覺與設計系統規範，確保工程端高效率、精準落地。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 md:block md:gap-0">
           <div class="process-badge">05</div>
           <div class="md:mt-8">
             <h3 class="font-display font-semibold text-lg mb-4">驗證</h3>
-            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">導入易用性測試與實際數據回饋，持續迭代優化產品細節，先解決當前體驗中斷點再規劃後續功能拉新。</p>
+            <p class="text-sm text-[var(--ink-soft)] leading-relaxed">結合測試與數據回饋持續迭代，修復體驗斷點並推動功能演進。</p>
           </div>
         </div>
       </div>
@@ -1085,10 +1090,12 @@
       const card = document.getElementById('manifestoCard');
       const linesWrap = document.getElementById('manifestoLines');
       const paraWrap = document.getElementById('manifestoParaWrap');
+      const divider = document.getElementById('manifestoDivider');
       if (!section || !card || !linesWrap || !paraWrap) return;
 
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         paraWrap.style.opacity = '1';
+        if (divider) divider.style.clipPath = 'inset(0 0 0 0)';
         return;
       }
 
@@ -1131,6 +1138,16 @@
 
         paraWrap.style.opacity = paraPhase;
         paraWrap.style.transform = 'translateY(' + ((1 - paraPhase) * 16).toFixed(1) + 'px)';
+
+        // 走入真實情境的文案淡入完成後,接續讓下方線段+logo 由左至右出現
+        // 用「原本進度區間結束的那個點」當作新的起點,繼續往下捲才會觸發,不佔用前面已經調好的節奏
+        if (divider) {
+          const lineStartY = endY; // 承接上面文案淡入結束的那個捲動位置
+          const lineEndY = vh * -0.55;
+          const lineRaw = (lineStartY - rect.top) / (lineStartY - lineEndY);
+          const lineProgress = Math.min(Math.max(lineRaw, 0), 1);
+          divider.style.clipPath = 'inset(0 ' + ((1 - lineProgress) * 100).toFixed(1) + '% 0 0)';
+        }
 
         ticking = false;
       }
