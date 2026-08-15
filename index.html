@@ -50,7 +50,7 @@
   .section-title{
     font-family:'Poppins','Noto Sans TC',sans-serif;
     font-weight:900;
-    font-size:clamp(2.5rem, 18vw, 15rem);
+    font-size:clamp(1.25rem, 9vw, 7.5rem);
     line-height:0.95;
     letter-spacing:-0.02em;
     white-space:nowrap;
@@ -153,12 +153,10 @@
 
   /* ---- Work cards ---- */
   .work-card{
-    transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease, border-color .5s ease;
+    transition:transform .5s cubic-bezier(.2,.7,.2,1);
   }
   .work-card:hover{
     transform:translateY(-6px);
-    box-shadow:0 24px 48px -20px rgba(17,17,19,.22);
-    border-color:#d4d4d9;
   }
   .work-thumb{overflow:hidden;position:relative;}
   .work-thumb-inner{transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease;}
@@ -186,6 +184,50 @@
   }
   .tag-pill{border:1px solid var(--line);color:var(--ink-soft);transition:border-color .35s ease, color .35s ease;}
   .work-card:hover .tag-pill{border-color:var(--accent);color:var(--accent);}
+  /* 精選作品雙欄交錯:右欄整體往下錯位,做出編輯式雙欄的不對齊感。僅桌機/平板 2 欄版型套用 */
+  @media (min-width:768px){
+    #worksFeaturedGrid > :nth-child(even){
+      margin-top:64px;
+    }
+    /* 左欄(GoSmart-共享車 → GoSmart-2.0首頁改版 → TVBS)彼此間距加大 */
+    #worksFeaturedGrid > :nth-child(3){
+      margin-top:96px;
+    }
+    #worksFeaturedGrid > :nth-child(5){
+      margin-top:96px;
+    }
+    /* TVBS → Dozze 之間原本間距偏長,收窄 */
+    #worksFeaturedGrid > :nth-child(7){
+      margin-top:-48px;
+    }
+  }
+  /* 精選作品手機版:單數卡偏左、偶數卡偏右,交錯呈現(純排版,無動態)
+     兩側都保留與螢幕邊緣的間距,只是其中一側間距較大、較小,做出偏移感
+     文字內容跟著各自圖片的左右緣對齊,不再使用固定的頁面邊距 */
+  @media (max-width:767px){
+    #worksFeaturedGrid > a:nth-child(odd) > .work-thumb{
+      margin-left:20px;
+      margin-right:20vw;
+      border-radius:1rem;
+    }
+    #worksFeaturedGrid > a:nth-child(odd) > div:last-child{
+      margin-left:20px;
+      margin-right:20vw;
+      padding-left:0;
+      padding-right:0;
+    }
+    #worksFeaturedGrid > a:nth-child(even) > .work-thumb{
+      margin-left:20vw;
+      margin-right:20px;
+      border-radius:1rem;
+    }
+    #worksFeaturedGrid > a:nth-child(even) > div:last-child{
+      margin-left:20vw;
+      margin-right:20px;
+      padding-left:0;
+      padding-right:0;
+    }
+  }
 
   /* ---- 案例類型 badge（縮圖左上角，跟年份 badge 對稱） ---- */
   .mode-badge{
@@ -560,17 +602,17 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 items-start">
+    <div id="worksFeaturedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-8 items-start -mx-8 md:mx-auto md:max-w-[1024px]">
 
-      <a href="work-detail_01.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis ux-planning">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="work-detail_01.html" class="work-card group block" data-type="mode-a" data-category="design-strategy research-analysis ux-planning">
+        <div class="work-thumb aspect-[3/4] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-carshare-service-design-cover.jpg" alt="GoSmart-共享車 創新服務設計縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2026</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜在實務限制下完整執行服務設計流程，推動創新提案落地實際上線</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-共享車 創新服務設計</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">在既有業務與技術限制下執行完整設計流程。提出10大創新服務提案且過半實際上線，成功優化核心租借體驗。</p>
@@ -582,15 +624,15 @@
         </div>
       </a>
 
-      <a href="work-detail_11.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="ux-planning design-system">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="work-detail_11.html" class="work-card group block" data-type="mode-b" data-category="ux-planning design-system">
+        <div class="work-thumb aspect-[4/3] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-membership-design-system-cover.jpg" alt="GoSmart-會員與視覺元件系統縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2025</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜建構高擴展性視覺規範，統一多端會員體驗</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-會員與視覺元件系統</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">統一多端產品的視覺語言，為會員系統建構具高擴展性與一致性的設計系統。</p>
@@ -601,15 +643,15 @@
         </div>
       </a>
 
-      <a href="work-detail_04.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="design-strategy information-architecture ux-planning ui-design">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="work-detail_04.html" class="work-card group block" data-type="mode-b" data-category="design-strategy information-architecture ux-planning ui-design">
+        <div class="work-thumb aspect-[3/2] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/gosmart-2-0-homepage-redesign-cover.jpg" alt="GoSmart-2.0首頁改版縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜重構首頁資訊架構，創造高效且直覺的全新租車體驗</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">GoSmart-2.0首頁改版</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">全面重構首頁資訊架構，為大眾用戶帶來直覺的操作體驗，大幅提升日常租車效率。</p>
@@ -622,15 +664,15 @@
         </div>
       </a>
 
-      <a href="works.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="information-architecture ux-planning design-system">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="works.html" class="work-card group block" data-type="mode-b" data-category="information-architecture ux-planning design-system">
+        <div class="work-thumb aspect-[3/2] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/shenma-fleet-dispatch-app-cover.jpg" alt="神馬維運 — 企業級營業車輛調度管理 APP縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">智慧移動｜導入任務導向調度邏輯，建構高擴充性的企業維運系統</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">神馬維運-企業級營業車輛調度管理 APP</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">針對營業同仁調度流程導入「任務化」邏輯，打造具備高度可擴充性的專業企業級管理工具。</p>
@@ -642,15 +684,15 @@
         </div>
       </a>
 
-      <a href="work-detail_02.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis ux-planning ui-design">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="work-detail_02.html" class="work-card group block" data-type="mode-a" data-category="design-strategy research-analysis ux-planning ui-design">
+        <div class="work-thumb aspect-[3/2] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/tvbs-news-redesign-cover.jpg" alt="TVBS-數位新聞媒體 改版提案縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2023</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">新聞媒體｜順應大眾數位閱聽習慣，在密集資訊中開創流暢動線</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">TVBS-數位新聞媒體 改版提案</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">順應大眾數位閱聽習慣，在密集的新聞資訊中開創流暢動線，規劃符合當前閱讀習慣的數位體驗。</p>
@@ -663,15 +705,15 @@
         </div>
       </a>
 
-      <a href="work-detail_03.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy ui-design">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="work-detail_03.html" class="work-card group block" data-type="mode-a" data-category="design-strategy ui-design">
+        <div class="work-thumb aspect-[3/4] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/biomedic-aiot-sports-app-cover.jpg" alt="博晶醫電-AIoT運動APP 風格提案縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2020</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜結合生理監測與初階跑者痛點，打造具引導感的運動習慣</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">博晶醫電-AIoT運動APP 風格提案</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">將生理監測結合初階跑者痛點，打造具引導感的介面，陪伴用戶建立運動習慣並看見自我進步。</p>
@@ -682,15 +724,15 @@
         </div>
       </a>
 
-      <a href="work-detail_05.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-a" data-category="design-strategy research-analysis information-architecture project-management ui-design">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="work-detail_05.html" class="work-card group block" data-type="mode-a" data-category="design-strategy research-analysis information-architecture project-management ui-design">
+        <div class="work-thumb aspect-[4/5] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/dozze-sleep-tracking-app-cover.jpg" alt="Dozze — 智能睡眠監測 APP縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-a"><span class="mode-badge-dot"></span>深度案例</div>
           <div class="work-year-badge">2019</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">醫療科技｜跨界協作硬體團隊，獨立規劃線上產品核心功能與亮點</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">Dozze-軟硬整合智能睡眠 APP</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">與硬體團隊跨界協作，獨立承擔專案管理，自主規劃線上產品核心功能與亮點，展現獨立推進實力。</p>
@@ -704,15 +746,15 @@
         </div>
       </a>
 
-      <a href="work-detail_06.html" class="work-card group block rounded-2xl border border-[var(--line)] bg-[var(--surface)] overflow-hidden" data-type="mode-b" data-category="design-strategy ux-planning ui-design project-management">
-        <div class="work-thumb aspect-[16/9] bg-[var(--bg)]">
+      <a href="work-detail_06.html" class="work-card group block" data-type="mode-b" data-category="design-strategy ux-planning ui-design project-management">
+        <div class="work-thumb aspect-[4/3] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/capital-wealth-management-website-cover.jpg" alt="群益證券-財富管理部 官方網站改版縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
           <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
-        <div class="p-6">
+        <div class="pt-6 md:pt-8 px-8 md:px-0">
           <p class="text-xs text-[var(--accent)] font-medium mb-2 break-words">金融科技｜在限制下兼顧管理與設計，重組功能架構以建立專業信任感</p>
           <h3 class="font-display font-semibold text-lg mb-2 break-words">群益證券-財富管理部 官方網站改版</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">在既有框架限制下兼顧專案管理與設計，重構官方網站功能架構，建立專業且具信任感的品牌形象。</p>
@@ -1166,6 +1208,76 @@
       });
     } catch (err) {
       console.error('section title reveal error:', err);
+    }
+  })();
+
+  // 精選作品卡片捲動視差:左欄慢、右欄快,讓每張卡片捲動時以不同速率移動
+  // 只在 2 欄版型(md, >=768px)套用,手機單欄維持原樣不做視差
+  (function () {
+    try {
+      const grid = document.getElementById('worksFeaturedGrid');
+      if (!grid) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const items = Array.from(grid.children);
+      if (!items.length) return;
+
+      const colSpeed = [0.005, 0.09]; // 左欄慢、右欄快
+      const mq = window.matchMedia('(min-width:768px)');
+      let active = false;
+      let ticking = false;
+
+      function update() {
+        const rect = grid.getBoundingClientRect();
+        const scrolled = -rect.top; // 已捲過網格頂端的距離
+        items.forEach((el, i) => {
+          const speed = colSpeed[i % 2];
+          const offsetY = scrolled * speed;
+          el.style.transform = `translate3d(0, ${offsetY.toFixed(1)}px, 0)`;
+        });
+        ticking = false;
+      }
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      }
+      function clearTransforms() {
+        items.forEach(el => { el.style.transform = ''; });
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && mq.matches) {
+            window.addEventListener('scroll', onScroll, { passive: true });
+            update();
+          } else {
+            window.removeEventListener('scroll', onScroll);
+          }
+        });
+      }, { threshold: 0 });
+
+      function syncBreakpoint() {
+        if (mq.matches) {
+          if (!active) {
+            active = true;
+            items.forEach(el => { el.style.willChange = 'transform'; });
+            io.observe(grid);
+          }
+        } else {
+          if (active) {
+            active = false;
+            io.unobserve(grid);
+            window.removeEventListener('scroll', onScroll);
+            clearTransforms();
+          }
+        }
+      }
+      mq.addEventListener('change', syncBreakpoint);
+      syncBreakpoint();
+    } catch (err) {
+      console.error('featured works parallax error:', err);
     }
   })();
 
