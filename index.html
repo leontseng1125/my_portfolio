@@ -607,7 +607,7 @@
       </div>
     </div>
 
-    <div id="worksFeaturedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-8 items-start -mx-8 md:mx-auto md:max-w-[1024px] overflow-x-hidden">
+    <div id="worksFeaturedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-8 items-start -mx-8 md:mx-auto md:max-w-[1024px]">
 
       <a href="work-detail_01.html" class="work-card group block" data-type="mode-a" data-category="design-strategy research-analysis ux-planning">
         <div class="work-thumb aspect-[3/4] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
@@ -1292,6 +1292,8 @@
   // 精選作品卡片手機版進場效果:卡片在畫面底部 1/3 以下時偏向置中,
   // 捲動到接近底部 1/3 那條線時,才「歸位」回原本左右交錯的偏移位置
   // 只在手機寬度(<768px)套用,桌機 2 欄版型不受影響
+  // 注意:這裡刻意不對 #worksFeaturedGrid 加任何 overflow-x:hidden,
+  // 避免重蹈之前的覆轍(該屬性會讓 Safari 強制把 overflow-y 算成 auto,顯示出不必要的捲軸)
   (function () {
     try {
       const grid = document.getElementById('worksFeaturedGrid');
