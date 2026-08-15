@@ -138,6 +138,7 @@
     transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
   }
   .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+  #worksBottomCta:hover{transform:none;}
 
   /* ---- Scroll cue ---- */
   @keyframes scrollCue{
@@ -188,6 +189,10 @@
   @media (min-width:768px){
     #worksFeaturedGrid > :nth-child(even){
       margin-top:64px;
+    }
+    /* 右欄第一張卡(GoSmart-會員與視覺元件系統)起始位置再往下,約落在左欄第一張卡圖片的一半高度 */
+    #worksFeaturedGrid > :nth-child(2){
+      margin-top:328px;
     }
     /* 左欄(GoSmart-共享車 → GoSmart-2.0首頁改版 → TVBS)彼此間距加大 */
     #worksFeaturedGrid > :nth-child(3){
@@ -602,7 +607,7 @@
       </div>
     </div>
 
-    <div id="worksFeaturedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-8 items-start -mx-8 md:mx-auto md:max-w-[1024px]">
+    <div id="worksFeaturedGrid" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 md:gap-x-10 gap-y-12 md:gap-y-8 items-start -mx-8 md:mx-auto md:max-w-[1024px] overflow-x-hidden">
 
       <a href="work-detail_01.html" class="work-card group block" data-type="mode-a" data-category="design-strategy research-analysis ux-planning">
         <div class="work-thumb aspect-[3/4] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
@@ -770,7 +775,7 @@
     </div>
 
     <div class="flex justify-center mt-20 md:mt-40">
-      <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
+      <a href="works.html" id="worksBottomCta" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
         看所有案例
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -1223,6 +1228,7 @@
       if (!items.length) return;
 
       const colSpeed = [0.005, 0.09]; // 左欄慢、右欄快
+      const maxOffset = 160; // 位移上限,避免捲動距離過長時位移量無限累加
       const mq = window.matchMedia('(min-width:768px)');
       let active = false;
       let ticking = false;
@@ -1232,7 +1238,8 @@
         const scrolled = -rect.top; // 已捲過網格頂端的距離
         items.forEach((el, i) => {
           const speed = colSpeed[i % 2];
-          const offsetY = scrolled * speed;
+          let offsetY = scrolled * speed;
+          offsetY = Math.min(Math.max(offsetY, -maxOffset), maxOffset);
           el.style.transform = `translate3d(0, ${offsetY.toFixed(1)}px, 0)`;
         });
         ticking = false;
@@ -1254,6 +1261,7 @@
             update();
           } else {
             window.removeEventListener('scroll', onScroll);
+            clearTransforms(); // 離開視窗時歸零,避免殘留位移飄到其他區塊
           }
         });
       }, { threshold: 0 });
@@ -1281,6 +1289,67 @@
     }
   })();
 
+  // 精選作品卡片手機版進場效果:卡片在畫面底部 1/3 以下時偏向置中,
+  // 捲動到接近底部 1/3 那條線時,才「歸位」回原本左右交錯的偏移位置
+  // 只在手機寬度(<768px)套用,桌機 2 欄版型不受影響
+  (function () {
+    try {
+      const grid = document.getElementById('worksFeaturedGrid');
+      if (!grid) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const items = Array.from(grid.children);
+      if (!items.length) return;
+
+      const mq = window.matchMedia('(max-width:767px)');
+      let io = null;
+
+      function centerOffset(isOdd) {
+        // 手機版邊距是 margin-left:20px / margin-right:20vw(單數卡,偶數卡相反)
+        // 置中位移量 = 兩側邊距差的一半,單數卡往右移、偶數卡往左移
+        const diff = (window.innerWidth * 0.20) - 20;
+        const half = diff / 2;
+        return isOdd ? half : -half;
+      }
+
+      function setup() {
+        items.forEach((el, i) => {
+          const isOdd = (i % 2 === 0); // 陣列 0-based,index 0,2,4,6 對應 CSS 的 :nth-child(odd)
+          el.style.transform = `translateX(${centerOffset(isOdd).toFixed(1)}px)`;
+        });
+
+        io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const el = entry.target;
+            const idx = items.indexOf(el);
+            const isOdd = (idx % 2 === 0);
+            if (entry.isIntersecting) {
+              el.style.transform = ''; // 回到 CSS margin 定義的原本左右交錯位置
+            } else {
+              el.style.transform = `translateX(${centerOffset(isOdd).toFixed(1)}px)`;
+            }
+          });
+        }, { root: null, rootMargin: '0px 0px -33% 0px', threshold: 0 });
+
+        items.forEach(el => io.observe(el));
+      }
+
+      function teardown() {
+        if (io) { io.disconnect(); io = null; }
+        items.forEach(el => { el.style.transform = ''; });
+      }
+
+      function sync() {
+        teardown();
+        if (mq.matches) setup();
+      }
+      mq.addEventListener('change', sync);
+      sync();
+    } catch (err) {
+      console.error('mobile card center-reveal error:', err);
+    }
+  })();
+
   // Hero 裝飾層視差：前景(圓點) 移動快，背景(mesh 光暈) 移動慢，營造層次感
   // 僅在該區塊進入視窗時才監聽 scroll，離開視窗自動停止，避免不必要的效能耗損
   (function () {
@@ -1291,10 +1360,11 @@
       if (!heroSection) return;
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+      const dotSpeeds = [0.18, 0.24, 0.6]; // 前景圓點各自的速度;第三顆(藍點)加快
       const layers = [
         { el: meshEl, speed: 0.12 },                       // 背景光暈:最慢
         ...Array.from(heroSection.querySelectorAll('.dot-grid-accent')).map((el, i) => ({
-          el, speed: 0.18 + i * 0.06                        // 前景圓點:較快,每顆速度略有差異增加層次
+          el, speed: dotSpeeds[i] !== undefined ? dotSpeeds[i] : 0.18 + i * 0.06
         })),
       ].filter(l => l.el);
       if (!layers.length) return;
