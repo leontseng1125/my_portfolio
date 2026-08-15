@@ -28,12 +28,13 @@
     --accent:#0468AF;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth; overflow-x:hidden;}
+  html{scroll-behavior:smooth; overflow-x:hidden; touch-action:pan-y;}
   body{
     font-family:'Noto Sans TC',sans-serif;
     background:var(--bg);
     color:var(--ink);
     -webkit-font-smoothing:antialiased;
+    touch-action:pan-y;
   }
   .font-display{font-family:'Poppins','Noto Sans TC',sans-serif;}
   .font-mono{font-family:'IBM Plex Mono',monospace;}
@@ -160,7 +161,10 @@
     transform:translateY(-6px);
   }
   .work-thumb{overflow:hidden;position:relative;}
-  .work-thumb-inner{transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease;}
+  .work-thumb-inner{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .7s ease;
+  }
   .work-card:hover .work-thumb-inner{transform:scale(1.06);filter:brightness(1.04);}
   .work-thumb-overlay{
     position:absolute;inset:0;
@@ -210,6 +214,12 @@
      兩側都保留與螢幕邊緣的間距,只是其中一側間距較大、較小,做出偏移感
      文字內容跟著各自圖片的左右緣對齊,不再使用固定的頁面邊距 */
   @media (max-width:767px){
+    /* 進場置中效果的位移是套用在這兩個子元素上(見下方 JS),補上 transition 讓歸位動作平滑過渡,
+       不然狀態切換會是瞬間跳過去、看起來像動效沒有作用 */
+    #worksFeaturedGrid > a > .work-thumb,
+    #worksFeaturedGrid > a > div:last-child{
+      transition:transform .5s cubic-bezier(.2,.7,.2,1);
+    }
     #worksFeaturedGrid > a:nth-child(odd) > .work-thumb{
       margin-left:20px;
       margin-right:20vw;
@@ -1317,7 +1327,13 @@
       function setup() {
         items.forEach((el, i) => {
           const isOdd = (i % 2 === 0); // 陣列 0-based,index 0,2,4,6 對應 CSS 的 :nth-child(odd)
-          el.style.transform = `translateX(${centerOffset(isOdd).toFixed(1)}px)`;
+          const offset = `${centerOffset(isOdd).toFixed(1)}px`;
+          // 位移套用在卡片「內部」的圖片跟文字區塊上,不是套用在 .work-card 外層本身——
+          // 因為左右交錯的 margin 是設在這兩個子元素上,.work-card 本身其實是撐滿螢幕寬度、
+          // 沒有邊距的隱形外框,對它整個做 translateX 會讓卡片直接被推出螢幕外造成真正的水平溢出
+          Array.from(el.children).forEach(child => {
+            child.style.transform = `translateX(${offset})`;
+          });
         });
 
         io = new IntersectionObserver((entries) => {
@@ -1325,11 +1341,10 @@
             const el = entry.target;
             const idx = items.indexOf(el);
             const isOdd = (idx % 2 === 0);
-            if (entry.isIntersecting) {
-              el.style.transform = ''; // 回到 CSS margin 定義的原本左右交錯位置
-            } else {
-              el.style.transform = `translateX(${centerOffset(isOdd).toFixed(1)}px)`;
-            }
+            const offset = entry.isIntersecting ? '' : `translateX(${centerOffset(isOdd).toFixed(1)}px)`;
+            Array.from(el.children).forEach(child => {
+              child.style.transform = offset; // 回到 CSS margin 定義的原本左右交錯位置
+            });
           });
         }, { root: null, rootMargin: '0px 0px -33% 0px', threshold: 0 });
 
@@ -1338,7 +1353,9 @@
 
       function teardown() {
         if (io) { io.disconnect(); io = null; }
-        items.forEach(el => { el.style.transform = ''; });
+        items.forEach(el => {
+          Array.from(el.children).forEach(child => { child.style.transform = ''; });
+        });
       }
 
       function sync() {
