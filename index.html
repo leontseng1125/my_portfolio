@@ -230,6 +230,15 @@
     white-space:nowrap;
   }
   #manifestoLines{overflow:hidden;}
+  /* 逐字淡入用:每個字包成 span,初始透明,由 JS 依滾動進度設定 opacity */
+  .mc-char{
+    display:inline-block;
+    opacity:0;
+  }
+  #manifestoParaWrap{
+    opacity:0;
+    transition:opacity .08s linear, transform .08s linear;
+  }
 
   /* ---- Accent CTA button (footer) ---- */
   .btn-accent{
@@ -379,12 +388,12 @@
         <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--accent);">
           而是用設計思考打破框架，
         </p>
-        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
+        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--ink);">
           為產品探索更多可能性。
         </p>
       </div>
 
-      <div class="mt-16 max-w-2xl">
+      <div id="manifestoParaWrap" class="mt-16 max-w-2xl">
         <p class="text-[var(--ink-soft)] leading-loose" style="font-size:12pt;">
           走入真實情境，<br>從敏捷探索到跨團隊對齊。<br><br>我擅長以設計思維為核心，<br>在策略導向與落地執行之間，<br>用直覺且體貼的體驗，<br>為使用者與商業創造更多可能。
         </p>
@@ -399,7 +408,7 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="mb-8 md:mb-16">
       <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>About</p>
-      <h2 class="section-title">關於我</h2>
+      <h2 class="section-title" data-char-reveal>關於我</h2>
     </div>
 
     <div class="stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-8 sm:gap-24 mb-8 md:mb-16">
@@ -474,7 +483,7 @@
     <div class="md:sticky md:top-0 md:h-screen md:flex md:flex-col md:justify-center">
     <div class="mb-20 md:mb-16">
       <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>設計脈絡</p>
-      <h2 class="section-title mb-8 md:mb-16">工作流程</h2>
+      <h2 class="section-title mb-8 md:mb-16" data-char-reveal>工作流程</h2>
       <p class="text-[var(--ink-soft)] max-w-md leading-loose" style="font-size:12pt;">
         我能因應時間與專案需求，<br>靈活彈性調整自己的設計流程。<br><br>以下流程為條件允許時的完整實踐：
       </p>
@@ -539,7 +548,7 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <div class="mb-20 md:mb-40">
       <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>精選作品</p>
-      <h2 class="section-title mb-8 md:mb-16">案例分享</h2>
+      <h2 class="section-title mb-8 md:mb-16" data-char-reveal>案例分享</h2>
       <p class="text-[var(--ink-soft)] max-w-md leading-loose" style="font-size:12pt;">
         以數據與研究為基石，<br>以技術落地為邊界。<br><br>我擅長在洞察與實務間找到最佳平衡，<br>將複雜需求轉化為用戶有感、商業可行的產品體驗。
       </p>
@@ -733,7 +742,7 @@
 
   <div class="relative max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>合作邀約</p>
-    <h2 class="section-title mb-12 md:mb-24">聯繫我</h2>
+    <h2 class="section-title mb-12 md:mb-24" data-char-reveal>聯繫我</h2>
 
     <div class="max-w-lg mb-20 md:mb-40">
       <p class="text-[var(--ink-soft)] leading-loose" style="font-size:12pt;">
@@ -1009,6 +1018,155 @@
       document.fonts.ready.then(fitLines);
     }
     fitLines();
+  })();
+
+  // 設計理念文案:標題逐字淡入,完成後接續讓下方整段文案淡入
+  // 兩者都跟著捲動進度連動(可前進也可倒退),不使用「只觸發一次」的方式
+  (function () {
+    try {
+      const section = document.getElementById('manifestoSection');
+      const card = document.getElementById('manifestoCard');
+      const linesWrap = document.getElementById('manifestoLines');
+      const paraWrap = document.getElementById('manifestoParaWrap');
+      if (!section || !card || !linesWrap || !paraWrap) return;
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        paraWrap.style.opacity = '1';
+        return;
+      }
+
+      // 把每一行文字拆成逐字 span,之後依滾動進度個別控制透明度
+      const chars = [];
+      linesWrap.querySelectorAll('.manifesto-line').forEach(function (line) {
+        const text = line.textContent.trim();
+        line.textContent = '';
+        Array.from(text).forEach(function (ch) {
+          const span = document.createElement('span');
+          span.className = 'mc-char';
+          span.textContent = ch;
+          line.appendChild(span);
+          chars.push(span);
+        });
+      });
+      const total = chars.length;
+      if (!total) return;
+
+      let ticking = false;
+      function update() {
+        const vh = window.innerHeight;
+        const rect = card.getBoundingClientRect();
+
+        // 進度視窗:卡片從畫面 50% 高處進場開始,捲到卡片頂端接近畫面 15% 處視為完成
+        const startY = vh * 0.5;
+        const endY = vh * 0.02;
+        const raw = (startY - rect.top) / (startY - endY);
+        const progress = Math.min(Math.max(raw, 0), 1);
+
+        // 前 50% 進度:逐字淡入標題;50%~72% 為停頓區(需再多滑一點,不會馬上接文案);72%~100% 整段文案淡入
+        const charPhase = Math.min(progress / 0.5, 1);
+        const paraPhase = Math.min(Math.max((progress - 0.72) / 0.28, 0), 1);
+
+        const overlap = 1; // 逐字直接出現(不做柔和交疊淡出),每個字幾乎是瞬間 0→100
+        for (let i = 0; i < total; i++) {
+          const o = Math.min(Math.max((charPhase * total - i) / overlap, 0), 1);
+          chars[i].style.opacity = o;
+        }
+
+        paraWrap.style.opacity = paraPhase;
+        paraWrap.style.transform = 'translateY(' + ((1 - paraPhase) * 16).toFixed(1) + 'px)';
+
+        ticking = false;
+      }
+      function onScroll() {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      }
+
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            window.addEventListener('scroll', onScroll, { passive: true });
+            update();
+          } else {
+            window.removeEventListener('scroll', onScroll);
+          }
+        });
+      }, { threshold: 0 });
+      io.observe(section);
+
+      update();
+    } catch (err) {
+      console.error('manifesto text reveal error:', err);
+    }
+  })();
+
+  // 各大標題(關於我 / 工作流程 / 案例分享 / 聯繫我)逐字直接出現
+  // 每個標題各自獨立偵測,捲入視窗時依捲動進度逐字顯現,回捲則反向消失
+  (function () {
+    try {
+      const titles = document.querySelectorAll('[data-char-reveal]');
+      if (!titles.length) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      titles.forEach(function (title) {
+        const text = title.textContent.trim();
+        title.textContent = '';
+        const chars = [];
+        Array.from(text).forEach(function (ch) {
+          const span = document.createElement('span');
+          span.className = 'mc-char';
+          span.textContent = ch;
+          if (reduceMotion) span.style.opacity = '1';
+          title.appendChild(span);
+          chars.push(span);
+        });
+        const total = chars.length;
+        if (!total || reduceMotion) return;
+
+        let ticking = false;
+        function update() {
+          const vh = window.innerHeight;
+          const rect = title.getBoundingClientRect();
+
+          // 進度視窗:標題從畫面 80% 高處進場開始,捲到畫面 40% 高處視為完成
+          const startY = vh * 0.8;
+          const endY = vh * 0.4;
+          const raw = (startY - rect.top) / (startY - endY);
+          const progress = Math.min(Math.max(raw, 0), 1);
+
+          const overlap = 1; // 逐字直接出現,不做柔和交疊
+          for (let i = 0; i < total; i++) {
+            chars[i].style.opacity = Math.min(Math.max((progress * total - i) / overlap, 0), 1);
+          }
+          ticking = false;
+        }
+        function onScroll() {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        }
+
+        const io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              window.addEventListener('scroll', onScroll, { passive: true });
+              update();
+            } else {
+              window.removeEventListener('scroll', onScroll);
+            }
+          });
+        }, { threshold: 0 });
+        io.observe(title);
+
+        update();
+      });
+    } catch (err) {
+      console.error('section title reveal error:', err);
+    }
   })();
 
   // Hero 裝飾層視差：前景(圓點) 移動快，背景(mesh 光暈) 移動慢，營造層次感
