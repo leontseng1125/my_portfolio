@@ -1139,14 +1139,14 @@
         paraWrap.style.opacity = paraPhase;
         paraWrap.style.transform = 'translateY(' + ((1 - paraPhase) * 16).toFixed(1) + 'px)';
 
-        // 走入真實情境的文案淡入完成後,接續讓下方線段+logo 由左至右出現
-        // 用「原本進度區間結束的那個點」當作新的起點,繼續往下捲才會觸發,不佔用前面已經調好的節奏
+        // 線段+logo 承接文案淡入完成的捲動位置繼續往下算,給它自己足夠長的捲動距離
+        // (獨立於 paraPhase 本身很窄的區間),才會有明顯的「滑動出現」動效感
         if (divider) {
-          const lineStartY = endY; // 承接上面文案淡入結束的那個捲動位置
-          const lineEndY = vh * -0.55;
-          const lineRaw = (lineStartY - rect.top) / (lineStartY - lineEndY);
-          const lineProgress = Math.min(Math.max(lineRaw, 0), 1);
-          divider.style.clipPath = 'inset(0 ' + ((1 - lineProgress) * 100).toFixed(1) + '% 0 0)';
+          const dividerStartY = endY; // 從文案動畫結束的那個捲動位置開始接續
+          const dividerEndY = vh * -0.2;
+          const dividerRaw = (dividerStartY - rect.top) / (dividerStartY - dividerEndY);
+          const dividerPhase = Math.min(Math.max(dividerRaw, 0), 1);
+          divider.style.clipPath = 'inset(0 ' + ((1 - dividerPhase) * 100).toFixed(1) + '% 0 0)';
         }
 
         ticking = false;
