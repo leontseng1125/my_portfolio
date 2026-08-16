@@ -354,6 +354,77 @@
     width:40px;height:40px;border-radius:9999px;flex-shrink:0;
     border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
   }
+
+  /* ---- Still Life marquee (三段式跑馬燈) ---- */
+  .marquee-stage{
+    position:relative;
+    padding:60px 0;
+    overflow:hidden;
+  }
+  .marquee-row{
+    position:relative;
+    display:flex;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  .marquee-track{
+    display:flex;
+    align-items:center;
+    flex-shrink:0;
+    will-change:transform;
+  }
+  .marquee-track.marquee-ltr{ animation:marqueeScrollRight 26s linear infinite; }
+  .marquee-track.marquee-rtl{ animation:marqueeScrollLeft 26s linear infinite; }
+  @keyframes marqueeScrollLeft{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @keyframes marqueeScrollRight{
+    from{transform:translateX(-50%);}
+    to{transform:translateX(0);}
+  }
+  .marquee-img-row{
+    height:160px;
+    margin:6px 0;
+    position:relative;
+    z-index:1;
+  }
+  .marquee-img-row .marquee-track{ gap:12px; padding:0 6px; }
+  .marquee-tile{
+    width:284px;
+    height:160px;
+    border-radius:4px;
+    flex-shrink:0;
+    background-size:cover;
+    background-position:center;
+  }
+  .marquee-text-row{
+    height:150px;
+    margin:-53px 0;
+    position:relative;
+    z-index:2;
+  }
+  .marquee-text-row .marquee-track{ gap:0.4em; }
+  .marquee-outline-word{
+    font-family:'Poppins','Noto Sans TC',sans-serif;
+    font-size:150px;
+    font-weight:900;
+    line-height:1;
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--ink);
+    opacity:0.9;
+    padding-right:0.4em;
+    letter-spacing:-0.01em;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{ animation:none !important; }
+  }
+  @media (max-width:768px){
+    .marquee-img-row{ height:100px; }
+    .marquee-tile{ width:178px; height:100px; }
+    .marquee-text-row{ height:90px; margin:-33px 0; }
+    .marquee-outline-word{ font-size:90px; }
+  }
 </style>
 </head>
 <body class="antialiased">
@@ -841,6 +912,58 @@
       </div>
     </div>
   </div>
+</section>
+
+<!-- ============ Still Life 跑馬燈 ============ -->
+<section class="marquee-stage">
+
+  <div class="marquee-row marquee-img-row">
+    <div class="marquee-track marquee-ltr">
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/11.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/12.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/13.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/14.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/15.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/16.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/11.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/12.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/13.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/14.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/15.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/16.jpg');"></div>
+    </div>
+  </div>
+
+  <div class="marquee-row marquee-text-row">
+    <div class="marquee-track marquee-rtl">
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+      <span class="marquee-outline-word">Still&nbsp;Life&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="marquee-row marquee-img-row">
+    <div class="marquee-track marquee-ltr" style="animation-duration:32s;">
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/21.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/22.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/23.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/24.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/25.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/26.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/21.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/22.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/23.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/24.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/25.jpg');"></div>
+      <div class="marquee-tile" style="background-image:url('assets/images/still-life/26.jpg');"></div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ============ FOOTER ============ -->
