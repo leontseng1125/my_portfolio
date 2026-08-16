@@ -279,6 +279,26 @@
     white-space:normal;
   }
   .hero-title br{content:'';}
+  /* 打字機動態替換效果:「探索更多」後面輪播不同詞彙 */
+  .tw-word{
+    display:inline-block;
+    color:var(--accent);
+    white-space:nowrap;
+  }
+  .tw-cursor{
+    display:inline-block;
+    margin-left:2px;
+    color:var(--accent);
+    font-weight:400;
+    animation:tw-blink 1s step-end infinite;
+  }
+  @keyframes tw-blink{
+    0%, 49%{opacity:1;}
+    50%, 100%{opacity:0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .tw-cursor{animation:none; opacity:1;}
+  }
   .manifesto-title{
     font-size:clamp(2rem, 6vw, 4.5rem);
     line-height:1.35;
@@ -400,7 +420,7 @@
     <div class="sticky top-1/2 -translate-y-1/2">
       <div class="max-w-[1600px] w-full mx-auto px-8 md:px-16 pb-6 md:pb-8">
         <h1 class="hero-title font-display font-black tracking-tight">
-          用設計思考，<br><span class="block" style="height:0.5em;"></span><span style="color:var(--accent);">探索更多可能性</span>
+          用設計思考，<br><span class="block" style="height:0.5em;"></span><span style="color:var(--accent);">探索更多<span class="tw-word" id="twWord"></span><span class="tw-cursor">|</span></span>
         </h1>
       </div>
     </div>
@@ -1527,6 +1547,59 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+</script>
+
+<script>
+  // 打字機動態替換效果:hero 標題「探索更多」後面輪播不同詞彙
+  (function () {
+    // 詞彙清單:之後要新增／刪減輪播詞彙,直接改這個陣列即可
+    const WORDS = ["可能性", "商業模式", "美好體驗", "創新解方"];
+
+    const el = document.getElementById('twWord');
+    if (!el) return;
+
+    const START_DELAY   = 500;   // 頁面載入後,開始打字前的停留時間 (ms)
+    const TYPE_SPEED    = 120;   // 每個字輸入間隔 (ms)
+    const HOLD_DURATION = 1200;  // 打完字後停留時間 (ms)
+    const DELETE_SPEED  = 70;    // 每個字刪除間隔 (ms)
+    const GAP_DURATION  = 300;   // 刪完到開始打下一個詞之間的停留 (ms)
+
+    let wordIndex = 0;
+    let charIndex = 0;
+
+    function typeStep() {
+      const word = WORDS[wordIndex];
+      charIndex++;
+      el.textContent = word.slice(0, charIndex);
+
+      if (charIndex < word.length) {
+        setTimeout(typeStep, TYPE_SPEED);
+      } else {
+        setTimeout(deleteStep, HOLD_DURATION);
+      }
+    }
+
+    function deleteStep() {
+      const word = WORDS[wordIndex];
+      charIndex--;
+      el.textContent = word.slice(0, charIndex);
+
+      if (charIndex > 0) {
+        setTimeout(deleteStep, DELETE_SPEED);
+      } else {
+        wordIndex = (wordIndex + 1) % WORDS.length;
+        setTimeout(typeStep, GAP_DURATION);
+      }
+    }
+
+    // 頁面載入時先顯示底線佔位符,停留 START_DELAY 後開始打字
+    el.textContent = '___';
+    setTimeout(function () {
+      el.textContent = '';
+      charIndex = 0;
+      typeStep();
+    }, START_DELAY);
+  })();
 </script>
 </body>
 </html>
