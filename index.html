@@ -261,6 +261,25 @@
   }
   .tag-pill{border:1px solid var(--line);color:var(--ink-soft);transition:border-color .35s ease, color .35s ease;}
   .work-card:hover .tag-pill{border-color:var(--accent);color:var(--accent);}
+
+  /* ---- 鎖定卡片（尚未開放案例，不可點擊）---- */
+  .work-card.is-pending{cursor:default;}
+  .work-card.is-pending:hover{transform:none;}
+  .work-card.is-pending:hover .work-thumb-inner{transform:none;filter:none;}
+  .work-card.is-pending .work-thumb-overlay{display:none;}
+  .work-card.is-pending .work-arrow{display:none;}
+  .work-card.is-pending:hover .tag-pill{border-color:var(--line);color:var(--ink-soft);}
+  .work-thumb-overlay-pending{
+    position:absolute;inset:0;background:rgba(11,11,12,0.2);
+    opacity:0;transition:opacity .4s ease;
+  }
+  .work-card.is-pending:hover .work-thumb-overlay-pending{opacity:1;}
+  .status-pill-pending{
+    display:inline-flex;align-items:center;gap:5px;
+    border:1px solid #c0392b;color:#c0392b;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;font-weight:500;
+  }
+  .status-pill-pending svg{flex-shrink:0;}
   /* 精選作品雙欄交錯:右欄整體往下錯位,做出編輯式雙欄的不對齊感。僅桌機/平板 2 欄版型套用 */
   @media (min-width:768px){
     #worksFeaturedGrid > :nth-child(even){
@@ -288,27 +307,27 @@
   @media (max-width:767px){
     /* 進場置中效果的位移是套用在這兩個子元素上(見下方 JS),補上 transition 讓歸位動作平滑過渡,
        不然狀態切換會是瞬間跳過去、看起來像動效沒有作用 */
-    #worksFeaturedGrid > a > .work-thumb,
-    #worksFeaturedGrid > a > div:last-child{
+    #worksFeaturedGrid > .work-card > .work-thumb,
+    #worksFeaturedGrid > .work-card > div:last-child{
       transition:transform .5s cubic-bezier(.2,.7,.2,1);
     }
-    #worksFeaturedGrid > a:nth-child(odd) > .work-thumb{
+    #worksFeaturedGrid > .work-card:nth-child(odd) > .work-thumb{
       margin-left:20px;
       margin-right:20vw;
       border-radius:1rem;
     }
-    #worksFeaturedGrid > a:nth-child(odd) > div:last-child{
+    #worksFeaturedGrid > .work-card:nth-child(odd) > div:last-child{
       margin-left:20px;
       margin-right:20vw;
       padding-left:0;
       padding-right:0;
     }
-    #worksFeaturedGrid > a:nth-child(even) > .work-thumb{
+    #worksFeaturedGrid > .work-card:nth-child(even) > .work-thumb{
       margin-left:20vw;
       margin-right:20px;
       border-radius:1rem;
     }
-    #worksFeaturedGrid > a:nth-child(even) > div:last-child{
+    #worksFeaturedGrid > .work-card:nth-child(even) > div:last-child{
       margin-left:20vw;
       margin-right:20px;
       padding-left:0;
@@ -898,10 +917,11 @@
         </div>
       </a>
 
-      <a href="works.html" class="work-card group block" data-type="mode-b" data-category="information-architecture ux-planning design-system">
+      <div class="work-card is-pending group block" data-status="pending" data-type="mode-b" data-category="information-architecture ux-planning design-system">
         <div class="work-thumb aspect-[3/2] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
           <img class="work-thumb-inner w-full h-full object-cover" src="assets/images/index/shenma-fleet-dispatch-app-cover.jpg" alt="神馬維運 — 企業級營業車輛調度管理 APP縮圖" loading="lazy" decoding="async" width="800" height="450">
           <div class="work-thumb-overlay"></div>
+          <div class="work-thumb-overlay-pending"></div>
           <div class="mode-badge mode-b"><span class="mode-badge-dot"></span>聚焦解法</div>
           <div class="work-year-badge">2024</div>
           <div class="work-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="#111113" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -911,12 +931,13 @@
           <h3 class="font-display font-semibold text-lg mb-2 break-words">神馬維運-企業級營業車輛調度管理 APP</h3>
           <p class="text-sm text-[var(--ink-soft)] leading-relaxed mb-4 break-words">針對營業同仁調度流程導入「任務化」邏輯，打造具備高度可擴充性的專業企業級管理工具。</p>
           <div class="flex flex-wrap gap-2">
+            <span class="status-pill-pending px-4 py-2 rounded-full"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3.5" y="7" width="9" height="6.5" rx="1.2" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V4.8C5.5 3.25 6.62 2 8 2C9.38 2 10.5 3.25 10.5 4.8V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>檔案鎖定中</span>
             <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="information-architecture">資訊架構</span>
             <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="ux-planning">UX規劃</span>
             <span class="tag-pill font-mono text-[11px] px-4 py-2 rounded-full" data-tag="design-system">Design system</span>
           </div>
         </div>
-      </a>
+      </div>
 
       <a href="work-detail_02.html" class="work-card group block" data-type="mode-a" data-category="design-strategy research-analysis ux-planning ui-design">
         <div class="work-thumb aspect-[3/2] bg-[var(--bg)] rounded-none md:rounded-2xl overflow-hidden">
