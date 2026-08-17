@@ -131,15 +131,87 @@
   /* ---- Buttons ---- */
   .btn-primary{
     background:var(--ink);color:#fff;
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, background-color .35s ease;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, color .5s ease;
   }
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(17,17,19,.35);}
   .btn-outline{
     border:1px solid var(--ink);color:var(--ink);
-    transition:background-color .35s ease, color .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);
+    transition:color .5s ease, transform .35s cubic-bezier(.2,.8,.2,1), border-color .5s ease;
   }
-  .btn-outline:hover{background:var(--ink);color:#fff;transform:translateY(-2px);}
+  .btn-outline:hover{color:#fff;transform:translateY(-2px);border-color:transparent;}
   #worksBottomCta:hover{transform:none;}
+
+  /* ---- Button hover micro-interaction: 顏色柔和過渡至漸層 + 白色底線 + 箭頭滑出滑入 ---- */
+  .btn-primary, .btn-outline, .btn-accent, .btn-cta-white{
+    position:relative;
+    isolation:isolate;
+  }
+  .btn-primary::before, .btn-outline::before, .btn-accent::before, .btn-cta-white::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:linear-gradient(to right, #00DDFF, #0BA3EF);
+    opacity:0;
+    transition:opacity .55s cubic-bezier(.4,0,.2,1);
+    z-index:-1;
+    pointer-events:none;
+  }
+  .btn-primary:hover::before, .btn-outline:hover::before, .btn-accent:hover::before, .btn-cta-white:hover::before{
+    opacity:1;
+  }
+  .btn-cta-white:hover{color:#fff;}
+
+  .btn-label{
+    position:relative;
+    display:inline-block;
+    padding-bottom:2px;
+  }
+  .btn-label::after{
+    content:'';
+    position:absolute;left:0;right:0;bottom:0;
+    height:1px;
+    background:#fff;
+    transform:scaleX(0);
+    transform-origin:left center;
+    transition:transform .45s cubic-bezier(.22,.8,.2,1);
+  }
+  .btn-primary:hover .btn-label::after,
+  .btn-outline:hover .btn-label::after,
+  .btn-accent:hover .btn-label::after,
+  .btn-cta-white:hover .btn-label::after{
+    transform:scaleX(1);
+  }
+
+  .btn-arrow-mask{
+    position:relative;
+    display:inline-block;
+    width:16px;height:16px;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .btn-arrow-row{
+    display:flex;
+    align-items:center;
+    transform:translateX(-24px);
+    transition:transform .45s cubic-bezier(.22,.8,.2,1);
+  }
+  .btn-arrow-row svg{
+    width:16px;height:16px;
+    flex:0 0 16px;
+    margin-right:8px;
+  }
+  .btn-arrow-row svg:last-child{margin-right:0;}
+  .btn-primary:hover .btn-arrow-row,
+  .btn-outline:hover .btn-arrow-row,
+  .btn-accent:hover .btn-arrow-row,
+  .btn-cta-white:hover .btn-arrow-row{
+    transform:translateX(0);
+  }
+  /* footer「合作邀約」按鈕的箭頭為 14px,遮罩與位移量需對應縮小 */
+  .btn-cta-white .btn-arrow-mask{width:14px;height:14px;}
+  .btn-cta-white .btn-arrow-row{transform:translateX(-22px);}
+  .btn-cta-white .btn-arrow-row svg{width:14px;height:14px;flex:0 0 14px;}
 
   /* ---- Scroll cue ---- */
   @keyframes scrollCue{
@@ -562,12 +634,18 @@
 
       <div class="flex flex-wrap items-center gap-6 flex-shrink-0">
         <a href="works.html" class="btn-primary font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
-          看所有案例
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="btn-label">看所有案例</span>
+          <span class="btn-arrow-mask"><span class="btn-arrow-row">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span></span>
         </a>
         <a href="about.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
-          前往履歷
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="btn-label">前往履歷</span>
+          <span class="btn-arrow-mask"><span class="btn-arrow-row">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span></span>
         </a>
       </div>
     </div>
@@ -660,8 +738,11 @@
 
     <div>
       <a href="about.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
-        前往履歷
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="btn-label">前往履歷</span>
+        <span class="btn-arrow-mask"><span class="btn-arrow-row">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span></span>
       </a>
     </div>
   </div>
@@ -746,8 +827,11 @@
       </p>
       <div class="mt-8 md:mt-12">
         <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
-          看所有案例
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="btn-label">看所有案例</span>
+          <span class="btn-arrow-mask"><span class="btn-arrow-row">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span></span>
         </a>
       </div>
     </div>
@@ -921,8 +1005,11 @@
 
     <div class="flex justify-center mt-20 md:mt-40">
       <a href="works.html" id="worksBottomCta" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
-        看所有案例
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="btn-label">看所有案例</span>
+        <span class="btn-arrow-mask"><span class="btn-arrow-row">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span></span>
       </a>
     </div>
   </div>
@@ -1028,9 +1115,12 @@
         <a href="works.html" class="text-white/70 hover:text-white transition-colors duration-300">所有案例</a>
         <a href="about.html" class="text-white/70 hover:text-white transition-colors duration-300">關於我</a>
 
-        <a href="mailto:rekaileon1125@gmail.com" class="bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
-          合作邀約
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a href="mailto:rekaileon1125@gmail.com" class="btn-cta-white bg-white text-[var(--ink)] font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3 self-start mt-2 transition-transform duration-300 hover:-translate-y-0.5">
+          <span class="btn-label">合作邀約</span>
+          <span class="btn-arrow-mask"><span class="btn-arrow-row">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span></span>
         </a>
       </div>
     </div>
