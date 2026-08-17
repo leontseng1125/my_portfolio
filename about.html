@@ -190,6 +190,55 @@
   @media (min-width:768px){.exp-panel{margin-left:232px;}}
   .exp-panel-inner{padding-bottom:28px;display:flex;flex-direction:column;gap:2px;}
 
+  /* ---- Stat data grid (設計經歷／數位產品 數據) ---- */
+  .stat-grid-a{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line);}
+  .stat-cell-a{padding:32px 24px 32px 0;border-bottom:1px solid var(--line);min-width:0;overflow:hidden;}
+  .stat-cell-a:nth-child(odd){padding-left:0;border-right:1px solid var(--line);padding-right:24px;}
+  .stat-cell-a:nth-child(even){padding-left:24px;}
+  @media (min-width:768px){
+    .stat-cell-a{padding-right:32px;}
+    .stat-cell-a:nth-child(odd){padding-right:40px;}
+    .stat-cell-a:nth-child(even){padding-left:40px;}
+  }
+  /* 數位產品：桌面版收成一行四欄 */
+  @media (min-width:768px){
+    .stat-grid-4{grid-template-columns:repeat(4,1fr);}
+    .stat-grid-4 .stat-cell-a{
+      padding-left:32px;padding-right:32px;
+      border-right:1px solid var(--line);
+    }
+    .stat-grid-4 .stat-cell-a:first-child{padding-left:0;}
+    .stat-grid-4 .stat-cell-a:last-child{border-right:none;padding-right:0;}
+  }
+  .stat-idx{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);letter-spacing:.05em;margin:0 0 10px;}
+  .stat-label-a{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:500;font-size:13px;color:var(--ink-soft);margin:0 0 12px;}
+  @media (min-width:768px){.stat-label-a{font-size:14px;}}
+  .stat-number-a{
+    font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:800;
+    font-size:clamp(2.4rem,11vw,4.2rem);color:var(--ink);margin:0;
+    display:flex;align-items:flex-end;flex-wrap:wrap;gap:0.15em;line-height:1;
+  }
+  .stat-number-a .unit{font-size:0.32em;font-weight:600;color:var(--ink-faint);}
+  .stat-note-a{font-family:'Noto Sans TC',sans-serif;font-size:12px;color:var(--ink-faint);margin:12px 0 0;}
+  .num-plus-wrap{position:relative;display:inline-block;}
+  .plus-mark{position:absolute;top:-0.05em;right:-0.55em;font-size:0.3em;font-weight:600;color:var(--ink-faint);line-height:1;}
+
+  /* ---- Odometer 數字滾輪 ---- */
+  .odo{display:inline-flex;line-height:1;max-width:100%;}
+  .odo-digit{
+    display:inline-block;overflow:hidden;line-height:1;
+    position:relative;isolation:isolate;
+    transform:translateZ(0);-webkit-transform:translateZ(0);
+    -webkit-mask-image:-webkit-radial-gradient(white, black);
+  }
+  .odo-strip{
+    display:flex;flex-direction:column;
+    transform:translateY(0);-webkit-transform:translateY(0);
+    transition:transform 1.05s cubic-bezier(.16,1,.3,1);
+    will-change:transform;
+  }
+  .odo-static{display:inline-block;}
+
   /* ---- Project timeline row ---- */
   .tl-row{display:grid;grid-template-columns:1fr;gap:16px;padding:32px 0;border-bottom:1px solid var(--line);}
   @media (min-width:768px){.tl-row{grid-template-columns:200px 1fr;gap:32px;}}
@@ -406,66 +455,41 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-8 md:mb-16 reveal"><span class="eyebrow-dot"></span>設計經歷</p>
 
-    <div class="stats-row-1 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-8 sm:gap-24 mb-16 md:mb-24 reveal">
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="11" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">年</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">數位產品設計經歷</p>
-        </div>
+    <div class="stat-grid-a mb-16 md:mb-24" data-stat-group>
+      <div class="stat-cell-a">
+        <p class="stat-idx reveal">01</p>
+        <p class="stat-label-a reveal" style="transition-delay:.06s;">數位產品設計經歷</p>
+        <p class="stat-number-a reveal" style="transition-delay:.12s;color:var(--accent);"><span class="odo" data-value="11"></span><span class="unit">年</span></p>
       </div>
-
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="40" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">餘檔</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">主責設計師</p>
-        </div>
+      <div class="stat-cell-a">
+        <p class="stat-idx reveal">02</p>
+        <p class="stat-label-a reveal" style="transition-delay:.06s;">主責設計師</p>
+        <p class="stat-number-a reveal" style="transition-delay:.12s;color:var(--accent);"><span class="num-plus-wrap"><span class="odo" data-value="40"></span><span class="plus-mark">+</span></span><span class="unit">餘檔</span></p>
       </div>
-
     </div>
 
     <p class="eyebrow mb-8 md:mb-16 reveal"><span class="eyebrow-dot"></span>數位產品</p>
 
-    <div class="stats-row-2 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-8 sm:gap-24 reveal">
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="10" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--ink);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">檔</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">IOT 軟硬整合</p>
-        </div>
+    <div class="stat-grid-a stat-grid-4" data-stat-group>
+      <div class="stat-cell-a">
+        <p class="stat-idx reveal">03</p>
+        <p class="stat-label-a reveal" style="transition-delay:.06s;">IOT 軟硬整合</p>
+        <p class="stat-number-a reveal" style="transition-delay:.12s;"><span class="odo" data-value="10"></span><span class="unit">檔</span></p>
       </div>
-
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="10" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--ink);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">檔</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">醫療類</p>
-        </div>
+      <div class="stat-cell-a">
+        <p class="stat-idx reveal">04</p>
+        <p class="stat-label-a reveal" style="transition-delay:.06s;">醫療類</p>
+        <p class="stat-number-a reveal" style="transition-delay:.12s;"><span class="odo" data-value="10"></span><span class="unit">檔</span></p>
       </div>
-
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="7" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--ink);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">檔</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">生活服務類</p>
-        </div>
+      <div class="stat-cell-a">
+        <p class="stat-idx reveal">05</p>
+        <p class="stat-label-a reveal" style="transition-delay:.06s;">生活服務類</p>
+        <p class="stat-number-a reveal" style="transition-delay:.12s;"><span class="odo" data-value="7"></span><span class="unit">檔</span></p>
       </div>
-
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="2" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--ink);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">檔</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">金融科技</p>
-        </div>
+      <div class="stat-cell-a">
+        <p class="stat-idx reveal">06</p>
+        <p class="stat-label-a reveal" style="transition-delay:.06s;">金融科技</p>
+        <p class="stat-number-a reveal" style="transition-delay:.12s;"><span class="odo" data-value="2"></span><span class="unit">檔</span></p>
       </div>
     </div>
   </div>
@@ -834,36 +858,75 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
   revealEls.forEach(el => io.observe(el));
 
-  // Count-up animation for stat numbers
-  function animateCount(el, target, duration = 700) {
-    const start = performance.now();
-    function step(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target);
-      if (progress < 1) {
-        requestAnimationFrame(step);
+  // 數字滾輪（老虎機式翻牌）：設計經歷／數位產品 數據
+  function buildOdometer(el) {
+    const target = el.getAttribute('data-value');
+    const fontSize = parseFloat(getComputedStyle(el.parentElement).fontSize);
+    el.innerHTML = '';
+    const digitEls = [];
+    for (let i = 0; i < target.length; i++) {
+      const ch = target[i];
+      if (/[0-9]/.test(ch)) {
+        const digitWrap = document.createElement('span');
+        digitWrap.className = 'odo-digit';
+        digitWrap.style.height = fontSize + 'px';
+        digitWrap.style.width = (fontSize * 0.64) + 'px';
+        if (digitEls.length > 0) {
+          digitWrap.style.marginLeft = '-' + (fontSize * 0.09) + 'px';
+        }
+        const strip = document.createElement('span');
+        strip.className = 'odo-strip';
+        const sequence = [];
+        for (let loop = 0; loop < 2; loop++) {
+          for (let d = 0; d <= 9; d++) sequence.push(d);
+        }
+        sequence.push(parseInt(ch, 10));
+        sequence.forEach(num => {
+          const row = document.createElement('span');
+          row.style.height = fontSize + 'px';
+          row.style.lineHeight = fontSize + 'px';
+          row.style.display = 'block';
+          row.style.textAlign = 'center';
+          row.style.fontVariantNumeric = 'tabular-nums';
+          row.textContent = num;
+          strip.appendChild(row);
+        });
+        digitWrap.appendChild(strip);
+        el.appendChild(digitWrap);
+        digitEls.push({ strip, rowHeight: fontSize, finalIndex: sequence.length - 1 });
       } else {
-        el.textContent = target;
+        const staticEl = document.createElement('span');
+        staticEl.className = 'odo-static';
+        staticEl.textContent = ch;
+        el.appendChild(staticEl);
       }
     }
-    requestAnimationFrame(step);
+    el._digits = digitEls;
   }
 
-  document.querySelectorAll('.stats-row-1, .stats-row-2').forEach(row => {
-    const statNumbers = row.querySelectorAll('.stat-number');
+  function playOdometer(el, extraDelay) {
+    if (!el._digits) return;
+    el._digits.forEach((dg, i) => {
+      dg.strip.style.transitionDelay = (extraDelay + i * 0.09) + 's';
+      requestAnimationFrame(() => {
+        dg.strip.style.transform = 'translateY(-' + (dg.finalIndex * dg.rowHeight) + 'px)';
+      });
+    });
+  }
+
+  document.querySelectorAll('.odo').forEach(buildOdometer);
+
+  document.querySelectorAll('[data-stat-group]').forEach(group => {
+    const odos = group.querySelectorAll('.odo');
     const statsObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          statNumbers.forEach(el => {
-            const target = parseInt(el.dataset.target, 10);
-            animateCount(el, target);
-          });
+          odos.forEach(o => playOdometer(o, 0.32));
           statsObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0, rootMargin: '0px 0px -34% 0px' });
-    statsObserver.observe(row);
+    statsObserver.observe(group);
   });
 </script>
 
