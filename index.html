@@ -424,6 +424,63 @@
     .marquee-text-row{ height:90px; margin:-33px 0; }
     .marquee-outline-word{ font-size:90px; }
   }
+
+  /* ---- Stat data grid（關於我 數據，與 about.html 同款） ---- */
+  .stat-grid-a{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line);}
+  .stat-cell-a{padding:32px 24px 32px 0;border-bottom:1px solid var(--line);min-width:0;overflow:hidden;}
+  .stat-cell-a:nth-child(odd){padding-left:0;border-right:1px solid var(--line);padding-right:24px;}
+  .stat-cell-a:nth-child(even){padding-left:24px;}
+  @media (min-width:768px){
+    .stat-cell-a{padding-right:32px;}
+    .stat-cell-a:nth-child(odd){padding-right:40px;}
+    .stat-cell-a:nth-child(even){padding-left:40px;}
+  }
+  @media (min-width:768px){
+    .stat-grid-4{grid-template-columns:repeat(4,1fr);}
+    .stat-grid-4 .stat-cell-a{
+      padding-left:32px;padding-right:32px;
+      border-right:1px solid var(--line);
+    }
+    .stat-grid-4 .stat-cell-a:first-child{padding-left:0;}
+    .stat-grid-4 .stat-cell-a:last-child{border-right:none;padding-right:0;}
+  }
+  .stat-idx{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);letter-spacing:.05em;margin:0 0 10px;}
+  .stat-label-a{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:500;font-size:13px;color:var(--ink-soft);margin:0 0 12px;}
+  @media (min-width:768px){.stat-label-a{font-size:14px;}}
+  .stat-number-a{
+    font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:800;
+    font-size:clamp(2.4rem,11vw,4.2rem);color:var(--ink);margin:0;
+    display:flex;align-items:flex-end;flex-wrap:wrap;gap:0.15em;line-height:1;
+  }
+  .stat-number-a .unit{font-size:0.32em;font-weight:600;color:var(--ink-faint);}
+  .num-plus-wrap{position:relative;display:inline-block;}
+  .plus-mark{position:absolute;top:-0.05em;right:-0.55em;font-size:0.3em;font-weight:600;color:var(--ink-faint);line-height:1;}
+
+  /* ---- Odometer 數字滾輪 ---- */
+  .odo{display:inline-flex;line-height:1;max-width:100%;}
+  .odo-digit{
+    display:inline-block;overflow:hidden;line-height:1;
+    position:relative;isolation:isolate;
+    transform:translateZ(0);-webkit-transform:translateZ(0);
+    -webkit-mask-image:-webkit-radial-gradient(white, black);
+  }
+  .odo-strip{
+    display:flex;flex-direction:column;
+    transform:translateY(0);-webkit-transform:translateY(0);
+    transition:transform 1.05s cubic-bezier(.16,1,.3,1);
+    will-change:transform;
+  }
+  .odo-static{display:inline-block;}
+
+  /* ---- Stat 區塊獨立的進場動效（不影響其他區塊） ---- */
+  .stat-reveal{opacity:0;transform:translateY(22px);transition:opacity .65s cubic-bezier(.16,.8,.24,1),transform .65s cubic-bezier(.16,.8,.24,1);}
+  .stat-grid-a.is-inview .stat-reveal{opacity:1;transform:translateY(0);}
+  .stat-d0{transition-delay:0s;}
+  .stat-d1{transition-delay:.06s;}
+  .stat-d2{transition-delay:.12s;}
+  @media (prefers-reduced-motion: reduce){
+    .stat-reveal{transition:none;opacity:1;transform:none;}
+  }
 </style>
 </head>
 <body class="antialiased">
@@ -563,47 +620,30 @@
       <h2 class="section-title" data-char-reveal>關於我</h2>
     </div>
 
-    <div class="stats-row flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-8 sm:gap-24 mb-8 md:mb-16">
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="11" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">年</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">數位產品設計經歷</p>
-        </div>
+    <div class="stat-grid-a stat-grid-4 mb-4 md:mb-8" data-stat-group>
+      <div class="stat-cell-a">
+        <p class="stat-idx stat-reveal stat-d0">01</p>
+        <p class="stat-label-a stat-reveal stat-d1">數位產品設計經歷</p>
+        <p class="stat-number-a stat-reveal stat-d2" style="color:var(--accent);"><span class="odo" data-value="11"></span><span class="unit">年</span></p>
       </div>
-
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="80" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">檔</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">參與專案數</p>
-        </div>
+      <div class="stat-cell-a">
+        <p class="stat-idx stat-reveal stat-d0">02</p>
+        <p class="stat-label-a stat-reveal stat-d1">參與專案數</p>
+        <p class="stat-number-a stat-reveal stat-d2" style="color:var(--accent);"><span class="odo" data-value="80"></span><span class="unit">檔</span></p>
       </div>
-
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-
-      <div class="flex items-end gap-4">
-        <span class="stat-number font-display font-black leading-none" data-target="18" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">款</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">上線產品</p>
-        </div>
+      <div class="stat-cell-a">
+        <p class="stat-idx stat-reveal stat-d0">03</p>
+        <p class="stat-label-a stat-reveal stat-d1">上線產品</p>
+        <p class="stat-number-a stat-reveal stat-d2" style="color:var(--accent);"><span class="odo" data-value="18"></span><span class="unit">款</span></p>
       </div>
-
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-
-      <div class="flex items-end gap-4">
-        <span class="font-display font-black leading-none" style="font-size:clamp(3.5rem,8vw,6.5rem);color:var(--accent);">∞</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">無限量</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">探索好奇心</p>
-        </div>
+      <div class="stat-cell-a">
+        <p class="stat-idx stat-reveal stat-d0">04</p>
+        <p class="stat-label-a stat-reveal stat-d1">探索好奇心</p>
+        <p class="stat-number-a stat-reveal stat-d2" style="color:var(--accent);"><span class="odo-static">∞</span><span class="unit">無限量</span></p>
       </div>
     </div>
 
-    <div class="mb-3 md:mb-6 border-t border-[var(--line)]">
+    <div class="mb-3 md:mb-6">
       <div class="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-4 md:py-8 border-b border-[var(--line)]">
         <p class="font-display font-bold text-base text-[var(--ink)]">五專</p>
         <p class="text-[var(--ink-soft)]">明志科技大學 工業設計系</p>
@@ -1628,38 +1668,77 @@
     }
   })();
 
-  // Count-up animation for stat numbers
-  function animateCount(el, target, duration = 700) {
-    const start = performance.now();
-    function step(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target);
-      if (progress < 1) {
-        requestAnimationFrame(step);
+  // 數字滾輪（老虎機式翻牌）：關於我 數據，與 about.html 同款
+  function buildOdometer(el) {
+    const target = el.getAttribute('data-value');
+    const fontSize = parseFloat(getComputedStyle(el.parentElement).fontSize);
+    el.innerHTML = '';
+    const digitEls = [];
+    for (let i = 0; i < target.length; i++) {
+      const ch = target[i];
+      if (/[0-9]/.test(ch)) {
+        const digitWrap = document.createElement('span');
+        digitWrap.className = 'odo-digit';
+        digitWrap.style.height = fontSize + 'px';
+        digitWrap.style.width = (fontSize * 0.64) + 'px';
+        if (digitEls.length > 0) {
+          digitWrap.style.marginLeft = '-' + (fontSize * 0.09) + 'px';
+        }
+        const strip = document.createElement('span');
+        strip.className = 'odo-strip';
+        const sequence = [];
+        for (let loop = 0; loop < 2; loop++) {
+          for (let d = 0; d <= 9; d++) sequence.push(d);
+        }
+        sequence.push(parseInt(ch, 10));
+        sequence.forEach(num => {
+          const row = document.createElement('span');
+          row.style.height = fontSize + 'px';
+          row.style.lineHeight = fontSize + 'px';
+          row.style.display = 'block';
+          row.style.textAlign = 'center';
+          row.style.fontVariantNumeric = 'tabular-nums';
+          row.textContent = num;
+          strip.appendChild(row);
+        });
+        digitWrap.appendChild(strip);
+        el.appendChild(digitWrap);
+        digitEls.push({ strip, rowHeight: fontSize, finalIndex: sequence.length - 1 });
       } else {
-        el.textContent = target;
+        const staticEl = document.createElement('span');
+        staticEl.className = 'odo-static';
+        staticEl.textContent = ch;
+        el.appendChild(staticEl);
       }
     }
-    requestAnimationFrame(step);
+    el._digits = digitEls;
   }
 
-  const statsRow = document.querySelector('.stats-row');
-  if (statsRow) {
-    const statNumbers = statsRow.querySelectorAll('.stat-number');
+  function playOdometer(el, extraDelay) {
+    if (!el._digits) return;
+    el._digits.forEach((dg, i) => {
+      dg.strip.style.transitionDelay = (extraDelay + i * 0.09) + 's';
+      requestAnimationFrame(() => {
+        dg.strip.style.transform = 'translateY(-' + (dg.finalIndex * dg.rowHeight) + 'px)';
+      });
+    });
+  }
+
+  document.querySelectorAll('.stat-grid-a[data-stat-group] .odo').forEach(buildOdometer);
+
+  document.querySelectorAll('.stat-grid-a[data-stat-group]').forEach(group => {
+    const odos = group.querySelectorAll('.odo');
     const statsObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          statNumbers.forEach(el => {
-            const target = parseInt(el.dataset.target, 10);
-            animateCount(el, target);
-          });
+          group.classList.add('is-inview');
+          odos.forEach(o => playOdometer(o, 0.32));
           statsObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0, rootMargin: '0px 0px -33% 0px' });
-    statsObserver.observe(statsRow);
-  }
+    statsObserver.observe(group);
+  });
 </script>
 
 <script>
