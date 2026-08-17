@@ -210,6 +210,16 @@
     .stat-grid-4 .stat-cell-a:first-child{padding-left:0;}
     .stat-grid-4 .stat-cell-a:last-child{border-right:none;padding-right:0;}
   }
+  /* 產品經歷(合併後,共6項):手機沿用預設2欄流動(共3行);
+     桌面版以4欄格線呈現,第一行2項各跨2欄(=2欄),第二行4項各佔1欄(=4欄) */
+  @media (min-width:768px){
+    .stat-grid-merged{grid-template-columns:repeat(4,1fr);}
+    .stat-grid-merged .stat-cell-a{padding-left:32px;padding-right:32px;border-right:1px solid var(--line);}
+    .stat-grid-merged .stat-cell-a:nth-child(1){grid-column:span 2;padding-left:0;}
+    .stat-grid-merged .stat-cell-a:nth-child(2){grid-column:span 2;border-right:none;padding-right:0;}
+    .stat-grid-merged .stat-cell-a:nth-child(3){grid-column:span 1;padding-left:0;}
+    .stat-grid-merged .stat-cell-a:nth-child(6){grid-column:span 1;border-right:none;padding-right:0;}
+  }
   .stat-idx{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-faint);letter-spacing:.05em;margin:0 0 10px;}
   .stat-label-a{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:500;font-size:13px;color:var(--ink-soft);margin:0 0 12px;}
   @media (min-width:768px){.stat-label-a{font-size:14px;}}
@@ -450,12 +460,12 @@
   </div>
 </section>
 
-<!-- ============ 設計經歷 ／ 數位產品 數據 ============ -->
+<!-- ============ 產品經歷 數據 ============ -->
 <section class="relative py-12 md:py-16">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
-    <p class="eyebrow mb-8 md:mb-16 reveal"><span class="eyebrow-dot"></span>設計經歷</p>
+    <p class="eyebrow mb-8 md:mb-16 reveal"><span class="eyebrow-dot"></span>產品經歷</p>
 
-    <div class="stat-grid-a mb-16 md:mb-24" data-stat-group>
+    <div class="stat-grid-a stat-grid-merged" data-stat-group>
       <div class="stat-cell-a">
         <p class="stat-idx reveal">01</p>
         <p class="stat-label-a reveal" style="transition-delay:.06s;">數位產品設計經歷</p>
@@ -466,11 +476,6 @@
         <p class="stat-label-a reveal" style="transition-delay:.06s;">主責設計師</p>
         <p class="stat-number-a reveal" style="transition-delay:.12s;color:var(--accent);"><span class="num-plus-wrap"><span class="odo" data-value="50"></span><span class="plus-mark">+</span></span><span class="unit">檔</span></p>
       </div>
-    </div>
-
-    <p class="eyebrow mb-8 md:mb-16 reveal"><span class="eyebrow-dot"></span>數位產品</p>
-
-    <div class="stat-grid-a stat-grid-4" data-stat-group>
       <div class="stat-cell-a">
         <p class="stat-idx reveal">03</p>
         <p class="stat-label-a reveal" style="transition-delay:.06s;">IOT 軟硬整合</p>
