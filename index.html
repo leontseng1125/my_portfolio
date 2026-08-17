@@ -1359,7 +1359,8 @@
   })();
 
   // 各大標題(關於我 / 工作流程 / 案例分享 / 聯繫我)逐字直接出現
-  // 每個標題各自獨立偵測,捲入視窗時依捲動進度逐字顯現,回捲則反向消失
+  // 每個標題各自獨立偵測,捲入視窗時依捲動進度逐字顯現;完整顯現後即鎖定,
+  // 之後無論往下或往回捲動皆維持完整顯示,只播放一次
   (function () {
     try {
       const titles = document.querySelectorAll('[data-char-reveal]');
@@ -1383,6 +1384,7 @@
         if (!total || reduceMotion) return;
 
         let ticking = false;
+        let completed = false; // 動效完成後鎖定,不再因回捲而改變
         function update() {
           const vh = window.innerHeight;
           const rect = title.getBoundingClientRect();
@@ -1397,9 +1399,17 @@
           for (let i = 0; i < total; i++) {
             chars[i].style.opacity = Math.min(Math.max((progress * total - i) / overlap, 0), 1);
           }
+
+          if (progress >= 1) {
+            // 已完整顯現,結束偵測,之後捲動(包含回捲)不再變動
+            completed = true;
+            window.removeEventListener('scroll', onScroll);
+            io.unobserve(title);
+          }
           ticking = false;
         }
         function onScroll() {
+          if (completed) return;
           if (!ticking) {
             ticking = true;
             requestAnimationFrame(update);
@@ -1408,6 +1418,7 @@
 
         const io = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
+            if (completed) return;
             if (entry.isIntersecting) {
               window.addEventListener('scroll', onScroll, { passive: true });
               update();
