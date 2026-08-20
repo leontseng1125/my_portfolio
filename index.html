@@ -686,17 +686,17 @@
         <p class="manifesto-line manifesto-title font-display font-bold tracking-tight text-[var(--ink)]">
           好的設計不止於視覺的驚豔，
         </p>
-        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--ink);" data-highlight="在既有框架下利用設計思考">
-          而是在既有框架下利用設計思考，
+        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--accent);">
+          而是用設計思考打破框架，
         </p>
-        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--ink);" data-highlight="探索更多可能性">
+        <p class="manifesto-line manifesto-title font-display font-bold tracking-tight" style="color:var(--ink);">
           為產品探索更多可能性。
         </p>
       </div>
 
       <div id="manifestoParaWrap" class="mt-16 max-w-2xl">
         <p class="text-[var(--ink-soft)] leading-loose" style="font-size:12pt;">
-          用有憑有據的設計，<br>推動兼具體驗與效率的產品落地。<br><br>擅長依據資源靈活調配研究方法，<br>在商業目標、使用者需求與開發時程間取得最佳平衡，<br>打造直覺且體貼的數位體驗。
+          走入真實情境，<br>從敏捷探索到跨團隊對齊。<br><br>我擅長以設計思維為核心，<br>在策略導向與落地執行之間，<br>用直覺且體貼的體驗，<br>為使用者與商業創造更多可能。
         </p>
       </div>
 
@@ -842,7 +842,7 @@
       <p class="eyebrow mb-8 md:mb-16"><span class="eyebrow-dot"></span>精選作品</p>
       <h2 class="section-title mb-8 md:mb-16" data-char-reveal>案例分享</h2>
       <p class="text-[var(--ink-soft)] max-w-md leading-loose" style="font-size:12pt;">
-        以數據與研究為基石，<br>以技術落地為邊界。<br><br>我擅長在洞察與實務間找到最佳平衡，<br>將複雜需求轉化為用戶有感、商業可行的產品體驗。
+        <strong class="font-bold text-[var(--ink)]">兼顧洞察依據與技術可行性。</strong><br><br>以下收錄我如何將複雜的商業與用戶需求，<br>轉化為直覺、有感且能精準落地的具體方案。
       </p>
       <div class="mt-8 md:mt-12">
         <a href="works.html" class="btn-outline font-display text-sm font-medium px-8 py-4 rounded-full inline-flex items-center gap-3">
@@ -1388,17 +1388,11 @@
       const chars = [];
       linesWrap.querySelectorAll('.manifesto-line').forEach(function (line) {
         const text = line.textContent.trim();
-        const highlight = line.getAttribute('data-highlight') || '';
-        const hlStart = highlight ? text.indexOf(highlight) : -1;
-        const hlEnd = hlStart >= 0 ? hlStart + highlight.length : -1;
         line.textContent = '';
-        Array.from(text).forEach(function (ch, i) {
+        Array.from(text).forEach(function (ch) {
           const span = document.createElement('span');
           span.className = 'mc-char';
           span.textContent = ch;
-          if (hlStart >= 0 && i >= hlStart && i < hlEnd) {
-            span.style.color = 'var(--accent)';
-          }
           line.appendChild(span);
           chars.push(span);
         });
