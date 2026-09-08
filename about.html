@@ -383,6 +383,7 @@
       <a href="index.html" class="nav-link font-display text-sm tracking-wide">首頁</a>
       <a href="works.html" class="nav-link font-display text-sm tracking-wide">所有案例</a>
       <a href="about.html" class="nav-link is-active font-display text-sm tracking-wide">關於我</a>
+      <button type="button" class="zen-trigger-dot" aria-label="靜心模式" title="靜心模式"></button>
     </div>
 
     <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center gap-2 items-end">
@@ -396,6 +397,9 @@
       <a href="index.html" class="nav-link">首頁</a>
       <a href="works.html" class="nav-link">所有案例</a>
       <a href="about.html" class="nav-link is-active">關於我</a>
+      <button type="button" id="zenTriggerMobile" class="flex items-center gap-3 font-mono text-xs text-[var(--ink-soft)] tracking-wide" aria-label="靜心模式">
+        <span class="w-2 h-2 rounded-full" style="background:var(--accent);opacity:.5;"></span> 靜心模式
+      </button>
     </div>
   </div>
 </header>
@@ -859,6 +863,7 @@
 
     <div class="pt-4 md:pt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center gap-8">
       <p class="font-mono text-xs text-white/50 tracking-wide">© 2026 LEON TSENG. ALL RIGHTS RESERVED.</p>
+      <button type="button" id="specModeToggle" class="font-mono text-[10px] text-white/25 hover:text-white/70 tracking-wide transition-colors duration-300 sm:ml-auto" aria-label="切換 Spec 模式" title="Spec Mode">1440 × AUTO</button>
     </div>
   </div>
 </footer>
@@ -1113,5 +1118,215 @@
     });
   });
 </script>
+
+<!-- ============ 互動彩蛋：Zen Mode 全螢幕層 ============ -->
+<div id="zenOverlay" class="fixed inset-0 z-[99999] bg-[var(--bg)]/95 backdrop-blur-2xl opacity-0 pointer-events-none transition-opacity duration-700 flex flex-col items-center justify-center p-6 text-center select-none">
+  <div class="relative flex items-center justify-center w-48 h-48 mb-8">
+    <div class="zen-aura-outer absolute w-36 h-36 rounded-full" style="background:rgba(4,104,175,.15);"></div>
+    <div class="zen-aura-inner absolute w-20 h-20 rounded-full" style="background:rgba(4,104,175,.3);"></div>
+    <div class="zen-core w-4 h-4 rounded-full" style="background:var(--accent);"></div>
+  </div>
+  <p class="font-display font-medium text-xl text-[var(--ink)] tracking-widest mb-3">好的設計需要留白，人也是。</p>
+  <p id="zenBreathText" class="font-mono text-xs text-[var(--ink-soft)] tracking-wider">吸氣 (Inhale)...</p>
+  <button id="zenClose" type="button" class="mt-12 text-xs font-mono tracking-widest text-[var(--ink-faint)] hover:text-[var(--ink)] border-b border-transparent hover:border-current pb-1 transition-all">
+    [ 點擊任意處或按 ESC 退出 ]
+  </button>
+</div>
+
+<!-- ============ 互動彩蛋：Spec Mode HUD ============ -->
+<div id="specHud" class="fixed bottom-6 right-6 z-[99998] bg-[var(--ink)] text-white px-4 py-3 rounded-xl font-mono text-xs shadow-2xl flex items-center gap-3 translate-y-24 opacity-0 pointer-events-none transition-all duration-400">
+  <span class="w-2 h-2 rounded-full bg-emerald-400 spec-hud-ping"></span>
+  <span>SPEC / BLUEPRINT MODE ACTIVE (ESC to exit)</span>
+</div>
+
+<style>
+  /* ---- 彩蛋一：原子化幾何碎屑爆發 ---- */
+  .geo-particle{
+    position:fixed; left:0; top:0; pointer-events:none; z-index:999999; will-change:transform,opacity;
+    animation:geoBurst .52s cubic-bezier(.12,.9,.25,1) forwards;
+  }
+  .geo-dot{border-radius:9999px;}
+  .geo-square{border-radius:1.5px;}
+  .geo-cross{background:transparent !important;}
+  .geo-cross::before,.geo-cross::after{content:'';position:absolute;background:currentColor;}
+  .geo-cross::before{left:50%;top:0;bottom:0;width:1.5px;transform:translateX(-50%);}
+  .geo-cross::after{top:50%;left:0;right:0;height:1.5px;transform:translateY(-50%);}
+  .geo-diamond{border-radius:1px;}
+  @keyframes geoBurst{
+    0%{opacity:1;transform:translate(-50%,-50%) translate(0,0) scale(1) rotate(var(--tilt,0deg));}
+    100%{opacity:0;transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) scale(.1) rotate(calc(var(--tilt,0deg) + var(--rot)));}
+  }
+  .geo-center-ring{
+    position:fixed;left:0;top:0;width:10px;height:10px;border-radius:9999px;border:1.5px solid var(--accent);
+    pointer-events:none;z-index:999999;transform:translate(-50%,-50%);
+    animation:geoRingPop .35s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  @keyframes geoRingPop{
+    0%{transform:translate(-50%,-50%) scale(.2);opacity:1;}
+    100%{transform:translate(-50%,-50%) scale(3);opacity:0;}
+  }
+
+  /* ---- 彩蛋二：Spec / Wireframe Mode ---- */
+  body.spec-mode{
+    background-image:
+      linear-gradient(to right, rgba(4,104,175,.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(4,104,175,.08) 1px, transparent 1px) !important;
+    background-size:8px 8px !important;
+  }
+  body.spec-mode *{outline:1px dashed rgba(4,104,175,.3) !important;}
+  body.spec-mode header,
+  body.spec-mode footer,
+  body.spec-mode .work-card,
+  body.spec-mode section{outline:1.5px solid rgba(225,29,72,.6) !important;}
+  body.spec-mode #specHud{transform:translateY(0);opacity:1;pointer-events:auto;}
+  .spec-hud-ping{animation:specHudPing 1.4s cubic-bezier(0,0,.2,1) infinite;}
+  @keyframes specHudPing{75%,100%{transform:scale(1.8);opacity:0;}}
+
+  /* ---- 彩蛋四：Zen Mode 呼吸光環 ---- */
+  #zenOverlay.is-active{opacity:1;pointer-events:auto;}
+  @keyframes zenPulseOuter{0%,100%{transform:scale(.85);opacity:.25;}50%{transform:scale(1.75);opacity:.85;}}
+  @keyframes zenPulseInner{0%,100%{transform:scale(.9);opacity:.4;}50%{transform:scale(1.4);opacity:.95;}}
+  #zenOverlay.is-active .zen-aura-outer{animation:zenPulseOuter 8s ease-in-out infinite;}
+  #zenOverlay.is-active .zen-aura-inner{animation:zenPulseInner 8s ease-in-out infinite;}
+
+  /* ---- 無障礙：降低動態偏好 ---- */
+  @media (prefers-reduced-motion: reduce){
+    .geo-particle,.geo-center-ring{animation:none !important; display:none !important;}
+    .spec-hud-ping{animation:none !important;}
+    #zenOverlay.is-active .zen-aura-outer,
+    #zenOverlay.is-active .zen-aura-inner{animation:none !important;}
+    #zenOverlay{transition:none !important;}
+  }
+
+  /* ---- Navbar 靜心觸發點 ---- */
+  .zen-trigger-dot{
+    width:8px;height:8px;border-radius:9999px;background:var(--accent);opacity:.35;
+    border:none;padding:0;cursor:pointer;transition:opacity .3s ease, transform .3s ease;
+  }
+  .zen-trigger-dot:hover{opacity:.9;transform:scale(1.35);}
+</style>
+
+<script>
+(function(){
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- 1. 原子化幾何碎屑點擊爆發 ---- */
+  const GEO_COLORS = ['#0468AF', '#00DDFF', '#111113'];
+  const GEO_SHAPES = ['dot', 'square', 'cross', 'diamond'];
+
+  window.addEventListener('pointerdown', function (e) {
+    if (prefersReducedMotion) return;
+    const zenOverlay = document.getElementById('zenOverlay');
+    if (zenOverlay && zenOverlay.classList.contains('is-active')) return;
+    const sel = window.getSelection();
+    if (sel && sel.toString().length > 0) return;
+
+    const x = e.clientX, y = e.clientY;
+    if (typeof x !== 'number' || typeof y !== 'number') return;
+
+    const ring = document.createElement('div');
+    ring.className = 'geo-center-ring';
+    ring.style.left = x + 'px'; ring.style.top = y + 'px';
+    document.body.appendChild(ring);
+    setTimeout(() => ring.remove(), 360);
+
+    const count = 6 + Math.floor(Math.random() * 3); // 6~8 顆
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      const shape = GEO_SHAPES[Math.floor(Math.random() * GEO_SHAPES.length)];
+      const color = GEO_COLORS[Math.floor(Math.random() * GEO_COLORS.length)];
+      p.className = `geo-particle geo-${shape}`;
+      p.style.left = x + 'px'; p.style.top = y + 'px';
+
+      const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.4 - 0.2);
+      const dist = 30 + Math.random() * 25; // 30~55px
+      p.style.setProperty('--tx', `${(Math.cos(angle) * dist).toFixed(1)}px`);
+      p.style.setProperty('--ty', `${(Math.sin(angle) * dist).toFixed(1)}px`);
+      p.style.setProperty('--rot', Math.floor(Math.random() * 360 - 180) + 'deg');
+      if (shape === 'diamond') p.style.setProperty('--tilt', '45deg');
+
+      const sz = 3 + Math.floor(Math.random() * 3); // 3~5px
+      p.style.width = sz + 'px'; p.style.height = sz + 'px';
+
+      if (shape === 'cross') {
+        p.style.color = color;
+      } else if (shape === 'square' && Math.random() > 0.5) {
+        p.style.border = `1px solid ${color}`; p.style.background = 'transparent';
+      } else {
+        p.style.background = color;
+      }
+
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 540);
+    }
+  }, { passive: true });
+
+  /* ---- 2. Console 徵才通訊錄 ---- */
+  const art = `
+  __    ____  _____  _  _   ____  ___  ____  _  _   ___ 
+ (  )  (  __)(  _  )( \\( ) (_  _)/ __)(  __)( \\( ) / __)
+  )(__  ) _)  )(_)(  )  (    )(  \\__ \\ ) _)  )  ( ( (_ \\
+ (____)(____)(_____)(_)\\_)  (__) (___/(____)(_)\\_) \\___/
+  `;
+  console.log(`%c${art}`, 'color:#0468AF; font-weight:bold;');
+  console.log('%c👀 發現後台了！看來你也是個重視細節與結構的夥伴。', 'color:#0468AF; font-weight:bold; font-size:13px; line-height:1.6;');
+  console.log('%c我是 曾翊凱 Leon Tseng ｜ Senior Product Designer', 'font-size:14px; font-weight:bold; color:#111113;');
+  console.log('專注於以「設計思考」探索可能性，致力打造具商業價值與順暢體驗的產品。');
+  console.log('%c📬 合作邀約：%c rekaileon1125@gmail.com', 'background:#e6e6e9; padding:2px 6px; border-radius:4px; font-weight:bold;', 'color:#0468AF; text-decoration:underline;');
+
+  /* ---- 3. Konami Code → Spec Mode ---- */
+  const KONAMI = ['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'];
+  let konamiIndex = 0;
+  function toggleSpecMode(){ document.body.classList.toggle('spec-mode'); }
+  window.addEventListener('keydown', function (e) {
+    const key = e.key.toLowerCase();
+    if (key === 'escape') {
+      document.body.classList.remove('spec-mode');
+      konamiIndex = 0;
+      return;
+    }
+    if (key === KONAMI[konamiIndex]) {
+      konamiIndex++;
+      if (konamiIndex === KONAMI.length) { toggleSpecMode(); konamiIndex = 0; }
+    } else {
+      konamiIndex = (key === KONAMI[0]) ? 1 : 0;
+    }
+  });
+  const specModeToggle = document.getElementById('specModeToggle');
+  if (specModeToggle) specModeToggle.addEventListener('click', toggleSpecMode);
+
+  /* ---- 4. Zen Mode ---- */
+  const zenOverlay = document.getElementById('zenOverlay');
+  const breathText = document.getElementById('zenBreathText');
+  let breathTimer = null;
+
+  function startBreathCycle(){
+    let isInhale = true;
+    breathText.textContent = '吸氣 (Inhale)...';
+    breathTimer = setInterval(() => {
+      isInhale = !isInhale;
+      breathText.textContent = isInhale ? '吸氣 (Inhale)...' : '吐氣 (Exhale)...';
+    }, 4000);
+  }
+  function openZen(){
+    zenOverlay.classList.add('is-active');
+    startBreathCycle();
+  }
+  function closeZen(){
+    zenOverlay.classList.remove('is-active');
+    clearInterval(breathTimer);
+    breathTimer = null;
+  }
+
+  document.querySelectorAll('.zen-trigger-dot, #zenTriggerMobile').forEach(function (btn) {
+    btn.addEventListener('click', openZen);
+  });
+  zenOverlay.addEventListener('click', closeZen);
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && zenOverlay.classList.contains('is-active')) closeZen();
+  });
+})();
+</script>
+
 </body>
 </html>
