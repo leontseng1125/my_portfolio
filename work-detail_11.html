@@ -51,6 +51,7 @@
   .project-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:900;font-size:clamp(2rem, 6.5vw, 5.5rem);line-height:1.05;letter-spacing:-0.02em;}
   .subsection-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.75rem, 4vw, 3rem);line-height:1.15;letter-spacing:-0.01em;}
   .statement-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.4rem, 4vw, 2.75rem);line-height:1.4;letter-spacing:-0.01em;color:var(--accent);}
+  .hl{color:var(--accent);}
   .governing-line{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);line-height:1.5;letter-spacing:-0.01em;}
 
   #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease, transform .35s ease;}
@@ -264,7 +265,7 @@
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot" style="background:var(--accent);"></span><span style="color:var(--accent);">成果與結論</span></p>
     <div class="max-w-3xl mb-16 md:mb-24">
       <p class="governing-line">
-        本專案為 GoSmart 建立一套跨服務的會員等級識別系統，統一定義銅、銀、金、黑四種鑰匙身份的視覺語言與互動邏輯，並將對應權益完整整合進共享車與日租兩大服務的預訂流程，讓會員體驗第一次在不同服務別之間保持一致。
+        本專案為 GoSmart 建立一套<span class="hl">跨服務會員等級系統</span>，統一定義銅、銀、金、黑四種鑰匙身份的視覺語言與互動邏輯，並<span class="hl">將對應權益整合進共享、日租兩大服務的預訂流程</span>，讓會員在不同服務別之間的體驗保持一致。
       </p>
     </div>
 
@@ -273,7 +274,7 @@
         <span class="stat-number font-display font-black leading-none" data-target="4" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
         <div class="pb-2">
           <p class="font-display text-sm text-[var(--ink-soft)]">種</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">鑰匙會員身份狀態</p>
+          <p class="font-display font-bold text-base text-[var(--ink)]">會員身份</p>
         </div>
       </div>
       <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
@@ -282,14 +283,6 @@
         <div class="pb-2">
           <p class="font-display text-sm text-[var(--ink-soft)]">項</p>
           <p class="font-display font-bold text-base text-[var(--ink)]">服務流程完整整合</p>
-        </div>
-      </div>
-      <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
-      <div class="flex items-end gap-3">
-        <span class="stat-number font-display font-black leading-none" data-target="94" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
-        <div class="pb-2">
-          <p class="font-display text-sm text-[var(--ink-soft)]">%</p>
-          <p class="font-display font-bold text-base text-[var(--ink)]">行銷單位提案滿意度</p>
         </div>
       </div>
     </div>  </div>
@@ -301,7 +294,7 @@
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>本專案重點</p>
     <div class="max-w-2xl">
       <p class="text-[var(--ink)] leading-loose" style="font-size:12pt;">
-        格上 GoSmart 雖然原先就有會員系統，但過去並未針對會員分級進行深入的企劃與運營，各服務線也沒有依會員身份呈現差異化的內容。這次由行銷單位規劃導入銅、銀、金、黑四級會員制度後，這個任務的難處不在於新增一個「會員頁面」，而是要讓等級識別滲透進共享車、日租等既有服務的每一個操作環節。我在專案中扮演不同服務別團隊之間的溝通橋樑，逐一釐清共享車、日租等各服務別在會員識別、權益顯示、操作互動上各自會遇到的狀況，再收斂成一套可共用的識別系統與整合原則，最後落地到實際畫面。
+        格上 GoSmart 雖然已有會員系統，但過去未針對會員分級進行深入的企劃與運營，各服務別也沒有會員內容。本案例的挑戰不在於只是新增一個「會員頁」，而是要讓等級規則套用到共享、日租等既有服務的操作環節。我在專案中<span class="hl">負責不同服務別團隊之間的溝通橋樑</span>，逐一盤點各服務別在會員識別、權益顯示、操作互動上各自會遇到的狀況，再收斂成一套可共用的識別系統與整合原則，最後落地到實際畫面中。
       </p>
     </div>
   </div>
@@ -344,7 +337,7 @@
           <div class="process-badge">01</div>
           <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">盤點各服務現況</h3>
-            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">檢視共享車、日租、App 帳戶頁等既有介面，釐清哪些畫面需要納入會員身份呈現。</p>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">檢視共享、日租、App 帳戶頁等既有介面，釐清需要納入會員身份呈現的畫面。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
@@ -358,13 +351,13 @@
           <div class="process-badge">03</div>
           <div class="lg:mt-8">
             <h3 class="font-display font-semibold text-base mb-2">訂定各服務別整合原則</h3>
-            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">與共享車、日租團隊逐一討論會員權益在各自流程中的顯示時機與互動方式。</p>
+            <p class="text-xs text-[var(--ink-soft)] leading-relaxed">與共享、日租團隊討論會員權益在各自流程中的顯示時機與互動方式。</p>
           </div>
         </div>
         <div class="process-card relative flex items-start gap-6 lg:block lg:gap-0">
           <div class="process-badge">04</div>
           <div class="lg:mt-8">
-            <h3 class="font-display font-semibold text-base mb-2">逐一設計落地</h3>
+            <h3 class="font-display font-semibold text-base mb-2">設計落地</h3>
             <p class="text-xs text-[var(--ink-soft)] leading-relaxed">依原則產出各服務別的實際畫面，並持續與各單位確認可行性與一致性。</p>
           </div>
         </div>
@@ -380,7 +373,7 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計挑戰</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      會員識別橫跨行銷單位定義的四種鑰匙等級，也橫跨共享車、日租等既有服務，這個任務的核心不是新增一個畫面，而是解決三個彼此牽動的挑戰。
+      這套會員體系不僅涵蓋行銷定義的四種鑰匙等級，更需深度串接共享車與日租等既有服務。因此，<span class="hl">設計核心並非單純「新增一個會員畫面」</span>，而是要克服三個環環相扣的架構挑戰：
     </p>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center">
@@ -388,13 +381,13 @@
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Bridge</p>
         <h3 class="font-display font-black text-4xl md:text-5xl my-4">跨單位協調</h3>
         <p class="text-[var(--accent)] mb-4">◆</p>
-        <p class="text-[var(--ink-soft)] leading-relaxed">在共享車、日租等不同服務別團隊之間釐清規則、對齊共識，是落地前必須先解決的溝通課題。</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">在共享、日租等不同團隊間釐清規則、對齊共識，先處理落地前的橫向溝通課題。</p>
       </div>
       <div>
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Extend</p>
         <h3 class="font-display font-black text-4xl md:text-5xl my-4">跨流程延伸</h3>
         <p class="text-[var(--accent)] mb-4">◆</p>
-        <p class="text-[var(--ink-soft)] leading-relaxed">把單一識別系統延伸進共享車、日租等既有服務的完整預訂流程，而非只是新增一個會員頁面。</p>
+        <p class="text-[var(--ink-soft)] leading-relaxed">除了新增會員頁面，更把識別系統、會員功能延伸進共享、日租等既有服務的流程中。</p>
       </div>
       <div>
         <p class="font-display font-semibold tracking-wide" style="color:var(--accent);">Consistency</p>
@@ -424,7 +417,7 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>訂立目標</p>
     <p class="governing-line max-w-3xl mb-10 md:mb-12">
-      GoSmart 過去雖然已有會員系統，但沒有深入規劃會員分級的實際運營，帳戶頁、好康專區、共享車與日租流程也各自只呈現單一版本。這次由行銷單位訂定銅、銀、金、黑四級會員制度後，設計的核心目標收斂為兩個方向——建立一套跨服務共用的識別系統，並將對應權益逐一落地進既有服務流程。
+      為化解跨團隊與跨服務的整合難題，我們將設計目標收斂為兩大核心主軸—先打造一套能<span class="hl">彈性套用的跨服務識別系統</span>，再<span class="hl">將對應權益逐步落實至既有預訂流程</span>中：
     </p>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
       <div>
@@ -481,7 +474,7 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      以帳戶頁作為識別系統的核心試驗場，定義銅、銀、金、黑四種鑰匙等級各自的主色、圖騰與累計說明文字，並延伸進 App 內的好康專區，作為後續套用到其他服務的視覺基礎。
+      以 App 會員頁為系統起點，統一定義銅、銀、金、黑四種鑰匙的主色、圖騰與累計說明，並延伸至好康專區，<span class="hl">奠定後續跨服務套用的視覺基礎</span>。
     </p>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16 md:mb-24">
@@ -523,7 +516,7 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      共享車流程原本只呈現單一租金，本次在地圖、預約、方案比較頁逐一加入等級標籤與對應折抵金額，並在確認頁提供權益使用的 bottom sheet，讓用戶清楚知道自己享有哪些權益、還剩多少可用次數。
+      共享流程過去僅呈現單一價格，本次在地圖、預約與方案比較頁全面導入等級標籤與折抵金額，並於確認頁新增權益 Bottom Sheet，<span class="hl">讓用戶清楚掌握當前可享權益與剩餘折抵次數</span>。
     </p>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-16 md:mb-24">
@@ -571,7 +564,7 @@
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-6"><span class="eyebrow-dot"></span>設計說明</p>
     <p class="governing-line max-w-3xl mb-16 md:mb-24">
-      日租流程的服務節點更多，除了車輛列表頁的等級價格差異，還包含加購配件、指定地點取還車、到府／非門市取還等專屬權益，本次依訂車流程的每個步驟逐一比對，並加入對應的會員權益設定。
+      相較共享，日租服務的觸點更為繁複。除了車輛列表的等級價差，更涵蓋配件加購、指定地點與到府取還等多項進階權益。本次依訂車旅程逐一拆解節點，將對應的會員專屬權益<span class="hl">無縫整合進核心流程中</span>。
     </p>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-16 md:mb-24">
