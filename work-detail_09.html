@@ -52,6 +52,11 @@
   .subsection-title{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:700;font-size:clamp(1.75rem, 4vw, 3rem);line-height:1.15;letter-spacing:-0.01em;}
   .governing-line{font-family:'Poppins','Noto Sans TC',sans-serif;font-weight:600;font-size:clamp(1.2rem, 2.6vw, 1.7rem);line-height:1.5;letter-spacing:-0.01em;}
 
+  /* ---- 重點標示：大字只變藍、不加粗；內文小字變藍並加粗 ---- */
+  .hl{color:var(--accent);}
+  .governing-line .hl{font-weight:inherit;}
+  .hl-body{color:var(--accent);font-weight:700;}
+
   #navbar{transition:background-color .5s ease, backdrop-filter .5s ease, border-color .5s ease, transform .35s ease;}
   #navbar:hover{background-color:rgba(250,250,250,0.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
   #navbar.navbar-hidden{transform:translateY(-100%);}
@@ -220,7 +225,7 @@
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot" style="background:var(--accent);"></span><span style="color:var(--accent);">成果與結論</span></p>
     <div class="max-w-3xl mb-16 md:mb-24">
       <p class="governing-line">
-        本案例展示我主導的新版 App Logo 重塑成果。在兼顧品牌識別度與現代科技感的基礎上，不僅確立了視覺構成規範，更完整延展出上線後的 12 款應用版本。
+        本專案由我主導 GoSmart App Logo 的全新品牌重塑。在維持品牌核心識別的同時注入<span class="hl">現代數位語言</span>，不僅建立了<span class="hl">標準化的幾何規範</span>，更針對多元營運情境延展出節慶應用版本。
       </p>
     </div>
 
@@ -234,7 +239,7 @@
       </div>
       <div class="hidden sm:block w-px h-16 bg-[var(--line)]"></div>
       <div class="flex items-end gap-3">
-        <span class="stat-number font-display font-black leading-none" data-target="12" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
+        <span class="stat-number font-display font-black leading-none" data-target="16" style="font-size:clamp(3rem,7vw,5.5rem);color:var(--accent);">0</span>
         <div class="pb-2">
           <p class="font-display text-sm text-[var(--ink-soft)]">款</p>
           <p class="font-display font-bold text-base text-[var(--ink)]">上線後延伸應用</p>
@@ -298,7 +303,7 @@
 <section class="relative pb-16 md:pb-20">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>Logo 設計變體</p>
-    <p class="text-[var(--ink)] leading-loose mb-10 md:mb-12 max-w-2xl" style="font-size:12pt;">新 Logo 以「軌跡」與「無限」兩個符號構成 GO 字樣，象徵移動路徑的串連與智慧科技的產品精神；三款變體分別以白底單色、實心藍與漸層藍綠展現不同的品牌調性與辨識強度。</p>
+    <p class="text-[var(--ink)] leading-loose mb-10 md:mb-12 max-w-2xl" style="font-size:12pt;">GoSmart 專注提供科技驅動的移動解決方案，將「<span class="hl-body">行車軌跡</span>」與象徵無限可能的「<span class="hl-body">無限符號（∞）</span>」融合，鼓勵用戶隨時出發，提升日常移動效率。</p>
     <div class="case-thumb contain-img aspect-[16/9] w-full">
       <img src="assets/images/work-detail_09/work09_s02_variant-proposal.jpg" alt="GoSmart Logo三款提案，以軌跡與無限符號構成GO字樣">
     </div>
@@ -309,7 +314,7 @@
 <section class="relative pb-16 md:pb-20">
   <div class="max-w-[1600px] mx-auto px-8 md:px-16">
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>構成與尺寸呈現</p>
-    <p class="text-[var(--ink)] leading-loose mb-10 md:mb-12 max-w-2xl" style="font-size:12pt;">定義圖形角度、比例網格與最小安全空間，並列出 App Icon 在 60pt、100pt、130pt 等不同尺寸下的顯示效果，確保新 Logo 在跨平台、跨裝置環境中都能維持一致的識別度。</p>
+    <p class="text-[var(--ink)] leading-loose mb-10 md:mb-12 max-w-2xl" style="font-size:12pt;">標誌筆畫末端與轉折處統一遵循 <span class="hl-body">30 度</span>與 <span class="hl-body">150 度</span>切角規範，建立<span class="hl-body">精準俐落</span>的幾何視覺秩序，強化行進間的<span class="hl-body">速度感</span>與<span class="hl-body">前瞻意象</span>。</p>
     <div class="case-thumb contain-img aspect-[16/9] w-full">
       <img src="assets/images/work-detail_09/work09_s03_construction-spec.jpg" alt="Logo圖形角度、比例網格與各尺寸App Icon顯示效果">
     </div>
@@ -333,7 +338,7 @@
     <p class="eyebrow mb-4 md:mb-8"><span class="eyebrow-dot"></span>應用：節慶與活動版本</p>
     <p class="text-[var(--ink)] leading-loose mb-10 md:mb-12 max-w-2xl" style="font-size:12pt;">在提案初期便提出：「為使品牌年輕化，可因應母親節、周年慶、新年、球賽等節慶與活動，規劃不同Icon 變化版本」。目標是在維持核心圖形辨識度的前提下，仍保留品牌行銷所需的視覺彈性。最終成功在 Logo 上線後持續維行至現在。</p>
     <div class="case-thumb contain-img aspect-[16/9] w-full">
-      <img src="assets/images/work-detail_09/work09_s05_extended-icon-variations.jpg" alt="GoSmart Icon因應節慶、周年與活動主題推出的12款變化版本">
+      <img src="assets/images/work-detail_09/work09_s05_extended-icon-variations.jpg" alt="GoSmart Icon因應節慶、周年與活動主題推出的16款變化版本">
     </div>
   </div>
 </section>
